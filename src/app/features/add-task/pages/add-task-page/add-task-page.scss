@@ -358,6 +358,13 @@ select {
   transform: translateY(-50%);
   z-index: 3;
 }
+.subtask-item.editing-active::before {
+  content: "";
+  left: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+}
 
 .subtask-item {
   &:hover .subtaskaTool {
@@ -398,6 +405,13 @@ select {
         background-size: contain;
     }
     }
+    .subtasksListIndividually.editing-active {
+       background-color: white;
+       color: black;
+       border-bottom: #29ABE2 1px solid; 
+       border-radius: 0px;
+       padding-left: 25px;
+     }
 }
 }
         }

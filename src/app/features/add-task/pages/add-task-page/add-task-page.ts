@@ -21,6 +21,8 @@ import { CommonModule } from '@angular/common';
 })
 
 export class AddTaskPage {
+  editingIndex: number | null = null;
+
   subtasksJSON: { task: string | null | undefined }[] = [];
 
   asOfCategory:boolean = false;
@@ -117,5 +119,10 @@ inputReset() {
 
 removeSubtask(index: number) {
   this.subtasksJSON.splice(index, 1);
+}
+
+
+editSubtask(index: number) {
+  this.editingIndex = index;
 }
 }

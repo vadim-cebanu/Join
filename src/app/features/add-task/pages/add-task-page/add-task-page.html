@@ -135,13 +135,18 @@
                 </div>
                      <div class="subtasksList">
                     <div *ngFor="let subtask of subtasksJSON; let i = index">
-                    <li class="subtask-item">
+                    <li 
+                    class="subtask-item"
+                    [ngClass]="{'editing-active': editingIndex === i}"
+                    >
                         <input 
                         class="subtasksListIndividually" 
-                        [value]="subtask.task" 
-                        readonly />
+                        [value]="subtask.task"
+                        [readonly]="editingIndex !== i"
+                        [ngClass]="{'editing-active': editingIndex === i}"
+                        />
                     <div class="subtaskaTool">    
-                    <div class="editSubtasks"></div>
+                    <div class="editSubtasks" (click)="editSubtask(i)"></div>
                     <div class="removeSubtasks" (click)="removeSubtask(i)"></div>
                     </div>
                     </li>
