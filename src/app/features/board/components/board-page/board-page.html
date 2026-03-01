@@ -22,8 +22,10 @@
         </header>
         <div class="board" *ngIf="!isLoading">
           <app-board-column *ngFor="let column of columns" [title]="column.title" [tasks]="column.tasks"
-            [columnId]="column.status" [connectedDropLists]="dropListIds" (taskSelected)="selectTask($event)"
-            (addClicked)="addTask(column.status)" (taskDropped)="onTaskDropped($event)"></app-board-column>
+            [columnId]="column.status" [connectedDropLists]="dropListIds" [openMenuTaskId]="openMenuTaskId"
+            (menuToggleGlobal)="onMenuToggle($event)" (taskSelected)="selectTask($event)"
+            (addClicked)="addTask(column.status)" (taskDropped)="onTaskDropped($event)"
+            (moveTask)="onMoveTask($event)"></app-board-column>
         </div>
 
         <!-- Task Detail Dialog -->
