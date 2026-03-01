@@ -19,7 +19,7 @@ import { Supabase } from '../../../../supabase';
 })
 
 export class AddTaskPage {
-  dropdownCategory = false;
+  dropdownCategory:boolean = false;
 
   supabaseService = inject(Supabase);
 
