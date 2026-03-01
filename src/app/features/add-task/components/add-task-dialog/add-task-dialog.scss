@@ -52,9 +52,8 @@
   }
 }
 
-// From add-task-page
 span {
-    color: red;
+    color: black;
 }
 
 label {
@@ -313,7 +312,6 @@ input[type="date"] {
         }
     }
 
-    // Assigned To Dropdown Styles
     .assignedToContent {
         position: relative;
     }
@@ -346,7 +344,7 @@ input[type="date"] {
             cursor: pointer;
 
             &::placeholder {
-                color: #D1D1D1;
+                color: black;
             }
 
             &:focus::placeholder {
@@ -462,7 +460,6 @@ input[type="date"] {
         margin-top: 8px;
     }
 
-    // Subtasks Styles
     .subtaskContent {
         position: relative;
     }
@@ -666,7 +663,6 @@ input[type="date"] {
     }
 }
 
-// Responsive Design
 @media (max-width: 1024px) {
     .dialog-content {
         max-width: 900px;
@@ -858,7 +854,6 @@ input[type="date"] {
         }
     }
 
-    // Assigned dropdown adjustments
     .assigned-trigger {
         height: 44px;
         padding: 10px 16px;
@@ -882,7 +877,6 @@ input[type="date"] {
         max-height: 160px;
     }
 
-    // Edit input adjustments
     .edit-input {
         height: 44px;
         padding: 10px 16px;
