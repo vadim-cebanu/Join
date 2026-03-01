@@ -8,6 +8,8 @@
   cursor: pointer;
   box-shadow: 0 6px 20px rgba(0,0,0,.06);
   margin-bottom: 10px;
+    position: relative; 
+  overflow: visible; 
 }
 
 .badge{
@@ -19,7 +21,6 @@
   color: #fff;
   font-size: 13px;
   font-weight: 600;
-  margin-bottom: 12px;
 }
 
 .title{
@@ -95,8 +96,6 @@
   margin-left: 0;
 }
 
-
-
 .prio{
   font-size: 13px;
   color: #2A3647;
@@ -109,3 +108,64 @@
   height: 18px;
   object-fit: contain;
 }
+
+.task-card-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.menu-btn-container{
+   position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+    background:none !important;
+  border:none !important;
+}
+
+.menu-btn{
+  background:none;
+  border:none;
+  font-size:22px;
+  cursor:pointer;
+  display: none;
+}
+
+  .fab-menu {
+  position: absolute;
+  top: calc(100% + -30px);  
+  right: 15px;              
+  width: 160px;
+  background: #2A3647;
+  border-radius: 16px;
+  padding: 8px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+  z-index: 9999;
+    font-size: 14px;
+
+  }
+
+  .fab-item {
+    width: 100%;
+    border: 0;
+    background: #2A3647;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    padding: 5px 5px;
+    border-radius: 12px;
+    font-size: 15px;
+    color: white;
+    &:hover {
+      background: #4C6589;
+    }
+  }
+
+  @media screen and (max-width:1024px) {
+    .menu-btn{
+      display: block;
+    }
+  }
