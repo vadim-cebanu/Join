@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { Task, TaskPriority } from '../../models/task.model';
+import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
+import { Status, Task, TaskPriority } from '../../models/task.model';
 import { CommonModule } from '@angular/common';
 import { avatarColors } from '../../../contacts/components/contact-list/contact-list';
 import { Supabase, Contact } from '../../../../supabase';
@@ -11,7 +11,28 @@ import { Supabase, Contact } from '../../../../supabase';
   styleUrl: './task-card.scss',
 })
 export class TaskCard {
-   @Input({ required: true }) task!: Task;
+  @Input({ required: true }) task!: Task;
+  @Input() menuOpen = false;
+  @Output() menuToggle = new EventEmitter<string>();
+  @Output() moveTo = new EventEmitter<{taskId: string, status:Status}>();
+
+
+   readonly statusOptions:{ label: string, value: Status }[] = [
+    { label: 'To Do', value: 'todo' },
+    { label: 'In Progress', value: 'inProgress' },
+    { label: 'Awaiting Feedback', value: 'awaitFeedback' },
+    { label: 'Done', value: 'done' }
+  ];
+
+  get moveTargets() {
+    return this.statusOptions.filter(option => option.value !== this.task.status);
+  }
+
+    onMove(status: Status, e?: Event) {
+    e?.stopPropagation();
+    this.moveTo.emit({ taskId: this.task.id, status });
+    
+  }
 
    get doneSubtasksCount(): number {
     if (!this.task.subtasks) {
@@ -56,4 +77,13 @@ export class TaskCard {
       const index = Math.abs(hash) % avatarColors.length;
       return avatarColors[index];
     }
+
+      toggleFab(e?: Event) {
+    e?.stopPropagation();
+   this.menuToggle.emit(this.task.id); 
+  }
+
+
+
+
 }
