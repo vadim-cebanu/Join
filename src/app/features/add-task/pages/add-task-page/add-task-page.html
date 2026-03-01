@@ -125,7 +125,13 @@
                     <input formControlName="subtasks"
                            id="subtasks"
                            type="text"
-                           placeholder="Add new subtask">
+                           placeholder="Add new subtask"
+                           (input)="asOfSubtasks()">
+                           <div class="subtaskSaveReset" *ngIf="asOfCategory">
+                            <div class="subtaskReset"></div>
+                            <div class="subtaskLine"></div>
+                            <div class="subtaskSave"></div>
+                           </div>
                 </div>
 
             </div>

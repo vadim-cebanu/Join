@@ -141,6 +141,38 @@ select {
             gap: 8px;
         }
 
+        .subtaskContent{
+            position: relative;
+            .subtaskSaveReset{
+                position: absolute;
+                top: 46px;
+                left: 370px;
+                display: flex;
+                gap: 5px;
+                .subtaskReset{
+                    background-image: url(../../../../../../public/assets/icons/AddTask/closeIcon.svg);
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    background-size: contain;
+                    width: 20px;
+                    height: 20px;
+                }
+                .subtaskLine{
+                    width: 1px;
+                    height: 20px;
+                    background-color: #A8A8A8;
+                }
+                .subtaskSave{
+                    background-image: url(../../../../../../public/assets/icons/AddTask/allowIcon.svg);
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    background-size: contain;
+                    width: 20px;
+                    height: 20px;
+                }
+            }
+        }
+
         .titleInContent{
             height: 128px;
         }

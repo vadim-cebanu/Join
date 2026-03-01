@@ -7,18 +7,22 @@ import {
 } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
 import { Supabase } from '../../../../supabase';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-add-task-page',
   imports: [
     RouterOutlet,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CommonModule
   ],
   templateUrl: './add-task-page.html',
   styleUrl: './add-task-page.scss',
 })
 
 export class AddTaskPage {
+  asOfCategory:boolean = false;
+  
   dropdownCategory:boolean = false;
 
   supabaseService = inject(Supabase);
@@ -89,5 +93,10 @@ USSelction(){
     type: "User Story"
   })
   this.dropdownCategory = false;
+ }
+
+ asOfSubtasks() {
+  let value = this.taskForm.get('subtasks')?.value;
+  value && value?.length > 0 ? this.asOfCategory = true : this.asOfCategory = false;
  }
 }
