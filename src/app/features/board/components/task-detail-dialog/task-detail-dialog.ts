@@ -110,7 +110,7 @@ export class TaskDetailDialog implements OnInit {
 
   toggleContact(contact: Contact) {
     if (this.isSelected(contact)) {
-      this.selectedContacts.set(this.selectedContacts().filter(c => c.id !== contact.id));
+      this.selectedContacts.set(this.selectedContacts().filter(contacts => contacts.id !== contact.id));
     } else {
       this.selectedContacts.set([...this.selectedContacts(), contact]);
     }
@@ -153,8 +153,8 @@ export class TaskDetailDialog implements OnInit {
     this.closed.emit();
 }
 
-async toggleSubtask(subtaskId: string, done: boolean){
-  if(!this.task) return;
+async toggleSubtask(subtaskId: string, done: boolean) {
+  if (!this.task) return;
   const updatedSubtasks = this.task.subtasks!.map(sub =>
     sub.id === subtaskId ? { ...sub, done } : sub
   );

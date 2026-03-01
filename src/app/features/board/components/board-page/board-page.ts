@@ -147,6 +147,7 @@ onDocClick(): void {
     this.cdr.detectChanges();
   }
 
+
   async onTaskDropped(event: { task: Task; newStatus: Status }): Promise<void> {
     await this.taskStore.updateTask(event.task.id, { status: event.newStatus });
     await this.taskStore.loadTasks();
@@ -156,6 +157,6 @@ onDocClick(): void {
     this.openMenuTaskId = null;
     await this.taskStore.updateTask(evt.taskId, { status: evt.status });
     await this.taskStore.loadTasks();
-}
-}
 
+}
+}

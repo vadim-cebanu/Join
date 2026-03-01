@@ -21,6 +21,13 @@
         font-size: 61px;
     }
 
+    input:focus,
+    textarea:focus,
+    select:focus {
+        outline: none;
+        border: 1px solid #29ABE2;
+        box-shadow: none;
+    }
     input {
         border-radius: 10px;
         padding: 12px 21px;
@@ -43,7 +50,8 @@
     textarea {
         font-size: 20px;
         width: 440px;
-        height: 120px;
+        min-height: 120px;
+        max-height: 120px;
         padding: 12px 21px;
         border-radius: 10px;
         border-color: #D1D1D1;
@@ -59,6 +67,40 @@
         font-size: 20px;
         color: #D1D1D1;
     }
+
+.selectWrapper {
+  position: relative;
+  width: 440px;
+}
+
+select {
+  width: 100%;
+  padding: 12px 40px 12px 16px;
+  border-radius: 10px;
+
+  appearance: none;
+  font-size: 20px;
+  
+}
+
+.arrowImg {
+  position: absolute;
+  right: 16px;        
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  background: url(../../../../../../public/assets/icons/AddTask/arrow_triangle.svg) no-repeat center;
+  background-size: contain;
+  pointer-events: none; 
+}
+
+.categorySection{
+    width: 440px;
+    height: 48px;
+    border-radius: 10px;
+    border: #E60026 1px solid;
+}
 
     .mainContent {
         display: flex;
@@ -78,7 +120,14 @@
             flex-direction: column;
             justify-content: space-between;
             align-items: flex-start;
-            min-height: 100%;
+            min-height: 400px;
+        }
+
+        .rightContent{
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            gap: 20px;
         }
 
         .titleInContent,
@@ -90,6 +139,30 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
+        }
+
+        .titleInContent{
+            height: 128px;
+        }
+
+        .dueDateContent{
+            max-height: 96px;
+            min-height: 96px;
+            margin-top: 20px;
+        }
+
+        .descriptionInContent{
+            max-height: 168px;
+            min-height: 168px;
+        }
+
+        input.invalid {
+          border: 2px solid #E60026;
+        }
+
+        .if{
+            height: 25px;
+            color: #E60026;
         }
 
         .lineContent {
@@ -182,12 +255,67 @@
             }
         }
 
+.categoryContent {
+    display: flex;
+    flex-direction: column;
+    width: 440px;
+    position: relative;
+    gap: 0px;
+}
+
+.categorySelection {
+    height: 48px;
+    border: 1px solid #D1D1D1;
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 20px;
+    background-color: white;
+    cursor: pointer;
+    margin-top: 8px;
+
+
+    background-image: url('../../../../../../public/assets/icons/AddTask/arrow_triangle.svg');
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    background-size: 16px;
+    z-index: 1;
+}
+
+
+
+.categoryOptions {
+    width: 100%;
+    border: 1px solid #D1D1D1;
+    border-radius: 10px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding-top: 10px;
+
+    margin-top: -10px;
+    z-index: 0;
+
+    p {
+        padding: 12px 16px;
+        font-size: 20px;
+        border-radius: 10px;
+
+        &:hover {
+            background-color: #D1D1D1;
+        }
+    }
+}
+
+
+        }
+
         footer {
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
             max-width: 1440px - 80px;
-            margin-top: 100px;
+            margin-top: 250px;
 
             p {
                 display: flex;
@@ -260,4 +388,3 @@
             }
         }
     }
-}

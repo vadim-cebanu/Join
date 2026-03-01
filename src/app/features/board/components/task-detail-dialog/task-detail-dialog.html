@@ -176,7 +176,7 @@
                   placeholder="Select contacts to assign"
                   [value]="searchText()"
                   (input)="onSearchInput($event)"
-                  (focus)="dropdownOpen.set(true)"
+                  (click)="toggleDropdown()"
                 />
                 <img
                   src="assets/icons/arrow-drop-down.svg"
@@ -239,6 +239,7 @@
               </button>
             </div>
           </div>
+          <aside class="subtask-list">
           @for (sub of task!.subtasks; track sub.id) {
             @if (editingSubtaskId() === sub.id) {
               <div class="edit-input input">
@@ -249,7 +250,7 @@
                   [(ngModel)]="editingSubtaskTitle"
                   (keyup.enter)="saveSubtaskEdit()"
                 />
-                <button type="button" (click)="cancelSubtaskEdit()">
+                <button type="button" (click)="removeSubtask(sub.id)">
                   <img src="assets/icons/trash.svg" alt="Cancel" />
                 </button>
                 <button type="button" (click)="saveSubtaskEdit()">
@@ -268,6 +269,7 @@
               </div>
             }
           }
+          </aside>
         </div>
         <div class="edit-actions">
           <button
