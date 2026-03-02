@@ -234,6 +234,7 @@
               <button type="button" (click)="newSubtaskTitle = ''">
                 <img src="assets/icons/AddTask/clearIconDarkColor.svg" alt="Clear" />
               </button>
+              <div class="dividing-line"></div>
               <button type="button" (click)="addSubtask()">
                 <img src="assets/icons/check-grey.svg" alt="Add" />
               </button>
@@ -253,6 +254,7 @@
                 <button type="button" (click)="removeSubtask(sub.id)">
                   <img src="assets/icons/trash.svg" alt="Cancel" />
                 </button>
+                <div class="dividing-line"></div>
                 <button type="button" (click)="saveSubtaskEdit()">
                   <img src="assets/icons/check-grey.svg" alt="Confirm" />
                 </button>
@@ -264,6 +266,7 @@
                   <button type="button" (click)="openEditForm(sub.id)">
                     <img src="assets/icons/pen.svg" alt="Edit Button" />
                   </button>
+                  <div class="dividing-line"></div>
                   <button type="button" (click)="removeSubtask(sub.id); $event.stopPropagation()"><img src="assets/icons/trash.svg" alt="Delete"></button>
                 </div>
               </div>
