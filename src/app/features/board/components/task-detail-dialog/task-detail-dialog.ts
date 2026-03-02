@@ -33,7 +33,11 @@ import { TaskStore } from '../../services/task-store';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './task-detail-dialog.html',
-  styleUrl: './task-detail-dialog.scss',
+  styleUrls: [
+    './task-detail-dialog.scss',
+    './task-detail-dialog-view.scss',
+    './task-detail-dialog-edit.scss',
+  ],
 })
 export class TaskDetailDialog implements OnInit {
   @Input() task: Task | null = null;
