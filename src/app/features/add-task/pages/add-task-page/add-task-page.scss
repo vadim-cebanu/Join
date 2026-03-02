@@ -388,6 +388,8 @@ select {
         position: absolute;
         display: none;
         gap: 3px;
+        justify-content: center;
+        align-items: center;
         .editSubtasks{
         background-image: url(../../../../../../public/assets/icons/AddTask/editIcon.svg);
         width: 30px;
@@ -400,6 +402,15 @@ select {
         background-image: url(../../../../../../public/assets/icons/AddTask/trashIcon.svg);
         width: 30px;
         height: 30px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+    }
+
+    .refreshSubtasks{
+        background-image: url(../../../../../../public/assets/icons/AddTask/allowIcon.svg);
+        width: 20px;
+        height: 20px;
         background-position: center;
         background-repeat: no-repeat;
         background-size: contain;

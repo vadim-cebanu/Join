@@ -140,14 +140,20 @@
                     [ngClass]="{'editing-active': editingIndex === i}"
                     >
                         <input 
+                        #editInput
                         class="subtasksListIndividually" 
                         [value]="subtask.task"
                         [readonly]="editingIndex !== i"
                         [ngClass]="{'editing-active': editingIndex === i}"
                         />
-                    <div class="subtaskaTool">    
-                    <div class="editSubtasks" (click)="editSubtask(i)"></div>
-                    <div class="removeSubtasks" (click)="removeSubtask(i)"></div>
+                    <div class="subtaskaTool">
+                     @if(editMode){
+                        <div class="removeSubtasks" (click)="removeSubtask(i)"></div>   
+                        <div class="refreshSubtasks" (click)="refreshSubtasks(i, editInput)"></div>
+                     } @else{
+                       <div class="editSubtasks" (click)="editSubtask(i)"></div>
+                       <div class="removeSubtasks" (click)="removeSubtask(i)"></div>
+                     }      
                     </div>
                     </li>
                     </div>

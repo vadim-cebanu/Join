@@ -21,6 +21,8 @@ import { CommonModule } from '@angular/common';
 })
 
 export class AddTaskPage {
+  editMode: boolean = false;
+
   editingIndex: number | null = null;
 
   subtasksJSON: { task: string | null | undefined }[] = [];
@@ -124,5 +126,17 @@ removeSubtask(index: number) {
 
 editSubtask(index: number) {
   this.editingIndex = index;
+  this.editMode = true;
+}
+
+refreshSubtasks(index: number, input: HTMLInputElement) {
+  const newValue = input.value?.trim();
+
+  if (!newValue) return;
+
+  this.subtasksJSON[index].task = newValue;
+
+  this.editingIndex = null;
+  this.editMode = false;
 }
 }
