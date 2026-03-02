@@ -115,29 +115,35 @@
         </div>
 
         <!-- ASSIGNED TO -->
-        <div class="assignedToContent">
-          <label for="assignedTo">Assigned to</label>
-          <input
-            id="assignedTo"
-            type="text"
-            placeholder="Select contacts to assign"
-            (input)="filterContacts($event.target.value)"
-          />
-          <div>
-              <div class="assignedDropdown">
-               <div *ngFor="let contact of filteredContacts">
+          <div 
+            class="assignedToContent"
+            (focusin)="openAssignedDropdown()"
+            (focusout)="hideDropdown($event)"
+          >
+
+            <label for="assignedTo">Assigned to</label>
+
+            <input
+              id="assignedTo"
+              type="text"
+              placeholder="Select contacts to assign"
+              (input)="filterContacts($event.target.value)"
+            />
+
+            <div class="assignedDropdown" *ngIf="showAssignedDropdown">
+              <div *ngFor="let contact of filteredContacts">
                 <div class="assignedIndividually">
-                      <div
-                        class="avatar"
-                        [style.background-color]="colorAvatar(contact.name)">
-                        {{ getInitials(contact.name) }}
-                      </div>
-                      <div>{{ contact.name }}</div>
-                    </div>
+                  <div
+                    class="avatar"
+                    [style.background-color]="colorAvatar(contact.name)">
+                    {{ getInitials(contact.name) }}
                   </div>
+                  <div>{{ contact.name }}</div>
                 </div>
+              </div>
+            </div>
+
           </div>
-        </div>
 
         <!-- CATEGORY -->
         <div class="categoryContent">

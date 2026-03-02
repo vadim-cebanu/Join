@@ -26,6 +26,8 @@ export class AddTaskPage implements OnInit {
     this.getProducts();
   }
 
+  showAssignedDropdown: boolean = false;
+
   filteredContacts: any[] = [];
 
   contacts = signal<{name:string}[]>([])
@@ -202,4 +204,18 @@ export class AddTaskPage implements OnInit {
       contact.name.toLowerCase().includes(value.toLowerCase())
     );
   }
+
+  hideDropdown(event: FocusEvent) {
+  const relatedTarget = event.relatedTarget as HTMLElement;
+
+  if (!event.currentTarget || 
+      !(event.currentTarget as HTMLElement).contains(relatedTarget)) {
+    this.showAssignedDropdown = false;
+  }
+}
+
+openAssignedDropdown() {
+  this.filteredContacts = this.contacts();
+  this.showAssignedDropdown = true;
+}
 }
