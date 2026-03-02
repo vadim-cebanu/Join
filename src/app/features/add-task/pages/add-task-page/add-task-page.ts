@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { 
+import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
@@ -19,17 +19,15 @@ import { CommonModule } from '@angular/common';
   templateUrl: './add-task-page.html',
   styleUrl: './add-task-page.scss',
 })
-
 export class AddTaskPage {
-  editMode: boolean = false;
 
+  editMode: boolean = false;
   editingIndex: number | null = null;
 
   subtasksJSON: { task: string | null | undefined }[] = [];
 
-  asOfCategory:boolean = false;
-  
-  dropdownCategory:boolean = false;
+  asOfCategory: boolean = false;
+  dropdownCategory: boolean = false;
 
   supabaseService = inject(Supabase);
 
@@ -49,9 +47,7 @@ export class AddTaskPage {
     type: new FormControl('Select task category', {
       validators: [Validators.required]
     }),
-    subtasks: new FormControl('', {
-      validators: []
-    }),
+    subtasks: new FormControl('')
   });
 
   async formSubmit() {
@@ -72,71 +68,66 @@ export class AddTaskPage {
     console.log('Task erstellt:', data);
   }
 
-clearForm() {
-  this.taskForm.reset({
-    title: '',
-    description: '',
-    due_at: '',
-    priority: 'medium',
-    type: 'Select task category',
-    subtasks: ''
-  });
-  this.dropdownCategory = false;
-}
-actionDropdown(){
-  !this.dropdownCategory ? this.dropdownCategory = true : this.dropdownCategory = false 
-   }
+  clearForm() {
+    this.taskForm.reset({
+      title: '',
+      description: '',
+      due_at: '',
+      priority: 'medium',
+      type: 'Select task category',
+      subtasks: ''
+    });
+    this.dropdownCategory = false;
+  }
 
-TTSelction(){
-  this.taskForm.patchValue({
-    type: "Technical Task"
-  })
-  this.dropdownCategory = false;
- }
+  actionDropdown() {
+    this.dropdownCategory = !this.dropdownCategory;
+  }
 
-USSelction(){
-    this.taskForm.patchValue({
-    type: "User Story"
-  })
-  this.dropdownCategory = false;
- }
+  TTSelction() {
+    this.taskForm.patchValue({ type: 'Technical Task' });
+    this.dropdownCategory = false;
+  }
 
- asOfSubtasks() {
-  let value = this.taskForm.get('subtasks')?.value;
-  value && value?.length > 0 ? this.asOfCategory = true : this.asOfCategory = false;
- }
+  USSelction() {
+    this.taskForm.patchValue({ type: 'User Story' });
+    this.dropdownCategory = false;
+  }
 
- subtasksSaveJson() {
-  let value = this.taskForm.get('subtasks')?.value;
-  this.subtasksJSON.push({
-    task: value
-  })
-   this.taskForm.get('subtasks')?.setValue('');
-   this.asOfCategory = false;
- }
+  asOfSubtasks() {
+    const value = this.taskForm.get('subtasks')?.value;
+    this.asOfCategory = !!value && value.length > 0;
+  }
 
-inputReset() {
-  this.taskForm.get('subtasks')?.setValue('');
-}
+  subtasksSaveJson() {
+    const value = this.taskForm.get('subtasks')?.value;
 
-removeSubtask(index: number) {
-  this.subtasksJSON.splice(index, 1);
-}
+    this.subtasksJSON.push({ task: value });
 
+    this.taskForm.get('subtasks')?.setValue('');
+    this.asOfCategory = false;
+  }
 
-editSubtask(index: number) {
-  this.editingIndex = index;
-  this.editMode = true;
-}
+  inputReset() {
+    this.taskForm.get('subtasks')?.setValue('');
+  }
 
-refreshSubtasks(index: number, input: HTMLInputElement) {
-  const newValue = input.value?.trim();
+  removeSubtask(index: number) {
+    this.subtasksJSON.splice(index, 1);
+  }
 
-  if (!newValue) return;
+  editSubtask(index: number) {
+    this.editingIndex = index;
+    this.editMode = true;
+  }
 
-  this.subtasksJSON[index].task = newValue;
+  refreshSubtasks(index: number, input: HTMLInputElement) {
+    const newValue = input.value?.trim();
+    if (!newValue) return;
 
-  this.editingIndex = null;
-  this.editMode = false;
-}
+    this.subtasksJSON[index].task = newValue;
+
+    this.editingIndex = null;
+    this.editMode = false;
+  }
 }

@@ -1,187 +1,231 @@
 <section class="content">
-    <h2 class="mainTitle">Add Task</h2>
+  <h2 class="mainTitle">Add Task</h2>
 
-    <form [formGroup]="taskForm" 
-          class="mainContent" 
-          (ngSubmit)="formSubmit()">
+  <form
+    [formGroup]="taskForm"
+    class="mainContent"
+    (ngSubmit)="formSubmit()"
+  >
+    <div class="divContent">
 
-        <div class="divContent">
+      <!-- LEFT SIDE -->
+      <div class="leftContent">
 
-            <div class="leftContent">
-                <div class="titleInContent">
-                    <label for="title">
-                        Title<span>*</span>
-                    </label>
-                    <input formControlName="title"
-                           id="title"
-                           type="text"
-                           required
-                           placeholder="Enter a title"
-                           [class.invalid]="taskForm.get('title')?.invalid && taskForm.get('title')?.touched">
-                    @if (taskForm.get('title')?.invalid && taskForm.get('title')?.touched) {
-                            <p class="if">This field is required</p>
-                           }       
-                </div>
+        <!-- TITLE -->
+        <div class="titleInContent">
+          <label for="title">
+            Title<span>*</span>
+          </label>
 
-                <div class="descriptionInContent">
-                    <label for="description">Description</label>
-                    <textarea formControlName="description"
-                              id="description"
-                              placeholder="Enter a description">
-                    </textarea> 
-                    
-                </div>
+          <input
+            formControlName="title"
+            id="title"
+            type="text"
+            required
+            placeholder="Enter a title"
+            [class.invalid]="taskForm.get('title')?.invalid && taskForm.get('title')?.touched"
+          />
 
-                <div class="dueDateContent">
-                    <label for="dueDate">
-                        Due date<span>*</span>
-                    </label>
-                       <input formControlName="due_at"
-                              id="dueDate"
-                              type="date"
-                              [min]="today"
-                              required
-                              [class.invalid]="taskForm.get('dueDate')?.invalid && taskForm.get('dueDate')?.touched">
-                        @if (taskForm.get('dueDate')?.invalid && taskForm.get('dueDate')?.touched) {
-                            <p class="if">This field is required</p>
-                           }   
-                </div>
-
-            </div>
-
-            <span class="lineContent"></span>
-
-            <div class="rightContent">
-
-                <div class="priorityContent">
-                    <label>Priority</label>
-
-                    <div class="priorityContentElements">
-
-                        <input class="prioRadio"
-                               id="prioUrgent"
-                               type="radio"
-                               formControlName="priority"
-                               value="high">
-                        <label for="prioUrgent"
-                               class="priorityBasic priorityUrgent">
-                            High
-                            <div class="priorityUrgentIMG priorityBasicIMG"></div>
-                        </label>
-
-                        <input class="prioRadio"
-                               id="prioMedium"
-                               type="radio"
-                               formControlName="priority"
-                               value="medium">
-                        <label for="prioMedium"
-                               class="priorityBasic priorityMedium">
-                            Medium
-                            <div class="priorityMediumIMG priorityBasicIMG"></div>
-                        </label>
-
-                        <input class="prioRadio"
-                               id="prioLow"
-                               type="radio"
-                               formControlName="priority"
-                               value="low">
-                        <label for="prioLow"
-                               class="priorityBasic priorityLow">
-                            Low
-                            <div class="priorityLowIMG priorityBasicIMG"></div>
-                        </label>
-
-                    </div>
-                </div>
-
-                <div class="assignedToContent">
-                    <label for="assignedTo">Assigned to</label>
-                    <input id="assignedTo"
-                           type="text"
-                           placeholder="Select contacts to assign">
-                </div>
-
-                <div class="categoryContent" >
-                    <label for="category">
-                        Category<span>*</span>
-                    </label>
-                
-                    <input
-                        type="text"
-                        class="categorySelection"
-                        (click)="actionDropdown()"
-                        formControlName="type"
-                        readonly>
-                    @if(dropdownCategory){
-                        <div class="categoryOptions">
-                        <p (click)="TTSelction()">Technical Task</p>
-                        <p (click)="USSelction()">User Story</p>
-                    </div>
-                    }
-                </div>
-                <div class="subtask">
-                <div class="subtaskContent">
-                    <label for="subtasks">Subtasks</label>
-                    <input formControlName="subtasks"
-                           id="subtasks"
-                           type="text"
-                           placeholder="Add new subtask"
-                           (input)="asOfSubtasks()">
-                           <div class="subtaskSaveReset" *ngIf="asOfCategory">
-                            <div (click)="inputReset()" class="subtaskReset"></div>
-                            <div class="subtaskLine"></div>
-                            <div (click)="subtasksSaveJson()" class="subtaskSave"></div>
-                           </div>
-                </div>
-                     <div class="subtasksList">
-                    <div *ngFor="let subtask of subtasksJSON; let i = index">
-                    <li 
-                    class="subtask-item"
-                    [ngClass]="{'editing-active': editingIndex === i}"
-                    >
-                        <input 
-                        #editInput
-                        class="subtasksListIndividually" 
-                        [value]="subtask.task"
-                        [readonly]="editingIndex !== i"
-                        [ngClass]="{'editing-active': editingIndex === i}"
-                        />
-                    <div class="subtaskaTool">
-                     @if(editMode){
-                        <div class="removeSubtasks" (click)="removeSubtask(i)"></div>   
-                        <div class="refreshSubtasks" (click)="refreshSubtasks(i, editInput)"></div>
-                     } @else{
-                       <div class="editSubtasks" (click)="editSubtask(i)"></div>
-                       <div class="removeSubtasks" (click)="removeSubtask(i)"></div>
-                     }      
-                    </div>
-                    </li>
-                    </div>
-                    </div>
-                    </div>
-            </div>
+          @if (taskForm.get('title')?.invalid && taskForm.get('title')?.touched) {
+            <p class="if">This field is required</p>
+          }
         </div>
 
-        <footer>
-            <p>
-                <span>*</span>This field is required
-            </p>
+        <!-- DESCRIPTION -->
+        <div class="descriptionInContent">
+          <label for="description">Description</label>
 
-            <div class="btnDiv">
-                <button class="btnClear btnBasic" type="button" (click)="clearForm()">
-                    Clear
-                    <div class="btnClearIcon btnBasicIcon"></div>
-                </button>
+          <textarea
+            formControlName="description"
+            id="description"
+            placeholder="Enter a description"
+          ></textarea>
+        </div>
 
-                <button class="btnCreateTask btnBasic"
-                        type="submit">
-                    Create Task
-                    <div class="btnCreateTaskIcon btnBasicIcon"></div>
-                </button>
+        <!-- DUE DATE -->
+        <div class="dueDateContent">
+          <label for="dueDate">
+            Due date<span>*</span>
+          </label>
+
+          <input
+            formControlName="due_at"
+            id="dueDate"
+            type="date"
+            [min]="today"
+            required
+            [class.invalid]="taskForm.get('dueDate')?.invalid && taskForm.get('dueDate')?.touched"
+          />
+
+          @if (taskForm.get('dueDate')?.invalid && taskForm.get('dueDate')?.touched) {
+            <p class="if">This field is required</p>
+          }
+        </div>
+
+      </div>
+
+      <span class="lineContent"></span>
+
+      <!-- RIGHT SIDE -->
+      <div class="rightContent">
+
+        <!-- PRIORITY -->
+        <div class="priorityContent">
+          <label>Priority</label>
+
+          <div class="priorityContentElements">
+
+            <input
+              class="prioRadio"
+              id="prioUrgent"
+              type="radio"
+              formControlName="priority"
+              value="high"
+            />
+            <label for="prioUrgent" class="priorityBasic priorityUrgent">
+              High
+              <div class="priorityUrgentIMG priorityBasicIMG"></div>
+            </label>
+
+            <input
+              class="prioRadio"
+              id="prioMedium"
+              type="radio"
+              formControlName="priority"
+              value="medium"
+            />
+            <label for="prioMedium" class="priorityBasic priorityMedium">
+              Medium
+              <div class="priorityMediumIMG priorityBasicIMG"></div>
+            </label>
+
+            <input
+              class="prioRadio"
+              id="prioLow"
+              type="radio"
+              formControlName="priority"
+              value="low"
+            />
+            <label for="prioLow" class="priorityBasic priorityLow">
+              Low
+              <div class="priorityLowIMG priorityBasicIMG"></div>
+            </label>
+
+          </div>
+        </div>
+
+        <!-- ASSIGNED TO -->
+        <div class="assignedToContent">
+          <label for="assignedTo">Assigned to</label>
+          <input
+            id="assignedTo"
+            type="text"
+            placeholder="Select contacts to assign"
+          />
+        </div>
+
+        <!-- CATEGORY -->
+        <div class="categoryContent">
+          <label for="category">
+            Category<span>*</span>
+          </label>
+
+          <input
+            type="text"
+            class="categorySelection"
+            (click)="actionDropdown()"
+            formControlName="type"
+            readonly
+          />
+
+          @if (dropdownCategory) {
+            <div class="categoryOptions">
+              <p (click)="TTSelction()">Technical Task</p>
+              <p (click)="USSelction()">User Story</p>
             </div>
-        </footer>
+          }
+        </div>
 
-    </form>
+        <!-- SUBTASKS -->
+        <div class="subtask">
+          <div class="subtaskContent">
+            <label for="subtasks">Subtasks</label>
 
-    <p>{{taskForm.valid}}</p>
+            <input
+              formControlName="subtasks"
+              id="subtasks"
+              type="text"
+              placeholder="Add new subtask"
+              (input)="asOfSubtasks()"
+            />
+
+            <div class="subtaskSaveReset" *ngIf="asOfCategory">
+              <div (click)="inputReset()" class="subtaskReset"></div>
+              <div class="subtaskLine"></div>
+              <div (click)="subtasksSaveJson()" class="subtaskSave"></div>
+            </div>
+          </div>
+
+          <div class="subtasksList">
+            <div *ngFor="let subtask of subtasksJSON; let i = index">
+              <li
+                class="subtask-item"
+                [ngClass]="{ 'editing-active': editingIndex === i }"
+              >
+                <input
+                  #editInput
+                  class="subtasksListIndividually"
+                  [value]="subtask.task"
+                  [readonly]="editingIndex !== i"
+                  [ngClass]="{ 'editing-active': editingIndex === i }"
+                />
+
+                <div class="subtaskaTool">
+                  @if (editMode) {
+                    <div class="removeSubtasks" (click)="removeSubtask(i)"></div>
+                    <div class="refreshSubtasks" (click)="refreshSubtasks(i, editInput)"></div>
+                  } @else {
+                    <div class="editSubtasks" (click)="editSubtask(i)"></div>
+                    <div class="removeSubtasks" (click)="removeSubtask(i)"></div>
+                  }
+                </div>
+
+              </li>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      <p>
+        <span>*</span>This field is required
+      </p>
+
+      <div class="btnDiv">
+        <button
+          class="btnClear btnBasic"
+          type="button"
+          (click)="clearForm()"
+        >
+          Clear
+          <div class="btnClearIcon btnBasicIcon"></div>
+        </button>
+
+        <button
+          class="btnCreateTask btnBasic"
+          type="submit"
+        >
+          Create Task
+          <div class="btnCreateTaskIcon btnBasicIcon"></div>
+        </button>
+      </div>
+    </footer>
+
+  </form>
+
+  <p>{{ taskForm.valid }}</p>
 </section>
