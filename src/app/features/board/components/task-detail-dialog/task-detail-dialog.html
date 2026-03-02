@@ -260,7 +260,7 @@
                 </button>
               </div>
             } @else {
-              <div class="edit-subtask-item" (click)="openEditForm(sub.id)">
+              <div class="edit-subtask-item" (dblclick)="openEditForm(sub.id)">
                 <span>{{ sub.title }}</span>
                 <div class="edit-subtask-buttons">
                   <button type="button" (click)="openEditForm(sub.id)">
