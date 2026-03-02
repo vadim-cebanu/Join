@@ -158,23 +158,33 @@
                 </div>
 
                 <div class="categoryContent">
-
                     <label for="category">
                         Category<span>*</span>
                     </label>
 
-                    <input
-                        type="text"
-                        class="categorySelection"
-                        (click)="actionDropdown()"
-                        formControlName="type"
-                        readonly>
-                    @if(dropdownCategory){
-                        <div class="categoryOptions">
-                        <p (click)="TTSelction()">Technical Task</p>
-                        <p (click)="USSelction()">User Story</p>
+                    <div class="category-dropdown">
+                        <div class="category-trigger">
+                            <input
+                                type="text"
+                                class="categorySelection"
+                                (click)="actionDropdown()"
+                                formControlName="type"
+                                readonly>
+                            <img
+                                src="assets/icons/arrow-drop-down.svg"
+                                alt="Dropdown"
+                                class="dropdown-arrow"
+                                [class.open]="dropdownCategory"
+                                (click)="actionDropdown()"
+                            />
+                        </div>
+                        @if(dropdownCategory){
+                            <div class="categoryOptions">
+                                <p (click)="TTSelction()">Technical Task</p>
+                                <p (click)="USSelction()">User Story</p>
+                            </div>
+                        }
                     </div>
-                    }
                 </div>
 
                 <div class="subtaskContent">
