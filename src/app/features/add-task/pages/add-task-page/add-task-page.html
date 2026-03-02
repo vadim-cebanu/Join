@@ -121,7 +121,22 @@
             id="assignedTo"
             type="text"
             placeholder="Select contacts to assign"
+            (input)="filterContacts($event.target.value)"
           />
+          <div>
+              <div class="assignedDropdown">
+               <div *ngFor="let contact of filteredContacts">
+                <div class="assignedIndividually">
+                      <div
+                        class="avatar"
+                        [style.background-color]="colorAvatar(contact.name)">
+                        {{ getInitials(contact.name) }}
+                      </div>
+                      <div>{{ contact.name }}</div>
+                    </div>
+                  </div>
+                </div>
+          </div>
         </div>
 
         <!-- CATEGORY -->

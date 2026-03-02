@@ -140,6 +140,33 @@ select {
             flex-direction: column;
             gap: 8px;
         }
+        .assignedToContent{
+        .assignedDropdown{
+            border: #7AE229 1px solid;
+            max-height: 300px;
+            overflow-y: scroll;
+            .avatar{
+                width: 42px;
+                height: 42px;
+                justify-content: center;
+                display: flex;
+                align-items: center;
+                border-radius: 99px;
+                border: 2px solid white;
+                color: white;
+            }
+            .assignedIndividually{
+                gap: 12px;
+                border: 1px solid red;
+                border-radius: 10px;
+                padding: 7px 16px;
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+            }
+
+         }
+        }
 
         .subtaskContent{
             position: relative;

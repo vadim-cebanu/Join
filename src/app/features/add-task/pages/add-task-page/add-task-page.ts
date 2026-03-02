@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -7,26 +7,35 @@ import {
 } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
 import { Supabase } from '../../../../supabase';
-import { CommonModule } from '@angular/common';
+import { CommonModule, JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-add-task-page',
   imports: [
     RouterOutlet,
     ReactiveFormsModule,
-    CommonModule
+    CommonModule,
+    JsonPipe
   ],
   templateUrl: './add-task-page.html',
   styleUrl: './add-task-page.scss',
 })
-export class AddTaskPage {
+export class AddTaskPage implements OnInit {
 
+    ngOnInit() {
+    this.getProducts();
+  }
+
+  filteredContacts: any[] = [];
+
+  contacts = signal<{name:string}[]>([])
 
   editingIndex: number | null = null;
 
   subtasksJSON: { task: string | null | undefined }[] = [];
 
   asOfCategory: boolean = false;
+
   dropdownCategory: boolean = false;
 
   supabaseService = inject(Supabase);
@@ -126,5 +135,71 @@ export class AddTaskPage {
 
     this.subtasksJSON[index].task = newValue;
     this.editingIndex = null;
+  }
+
+  async getProducts() {
+   /* An dieser Stelle werden die Daten, die durch .select() von der Datenbank geholt wurden,
+   in dein Angular-Signal products hineingeschrieben. */
+  const { data, error } = await this.supabaseService.supabase
+    .from('contacts')
+    .select('name')
+    /* Begrenzen Anzeige */
+    .range(0, 10)
+    /* Begrenzen nach Werten */
+/*     .lt('count', '50')
+    .lte('count', '5') */
+
+  if (error) {
+    console.error(error)
+    return
+  }
+
+  if (!data) return
+
+  this.contacts.set(data)
+ }
+
+  getInitials(name: string): string {
+    if (!name) return '';
+
+    const parts = name.trim().split(' ');
+    
+    if (parts.length === 1) {
+      return parts[0].substring(0, 2).toUpperCase();
+    }
+
+    return (parts[0][0] + parts[1][0]).toUpperCase();
+  }
+
+      colorAvatar(name: string): string {
+      const colors: string[] = [
+        '#FF7A00',
+        '#FF5EB3',
+        '#6E52FF',
+        '#9327FF',
+        '#00BEE8',
+        '#1FD7C1',
+        '#FF745E',
+        '#FFA35E',
+        '#FC71FF',
+        '#FFC701',
+        '#0038FF',
+        '#C3FF2B'
+      ];
+
+      let hash = 0;
+
+      for (let i = 0; i < name.length; i++) {
+        hash = name.charCodeAt(i) + ((hash << 5) - hash);
+      }
+
+      const index = Math.abs(hash % colors.length);
+      return colors[index];
+      }
+
+  filterContacts(value: string) {
+    this.filteredContacts = this.contacts().filter(contact =>
+      contact.name.toLowerCase().includes(value.toLowerCase())
+    );
   }
 }
