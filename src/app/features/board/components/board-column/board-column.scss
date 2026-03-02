@@ -36,6 +36,11 @@
   border: 3px solid #42526E;
   font-weight: 700;
   cursor: pointer;
+
+  &:hover{
+    border: 3px solid #29ABE2;
+    color: #29ABE2;
+  }
 }
 
 .add-button {
