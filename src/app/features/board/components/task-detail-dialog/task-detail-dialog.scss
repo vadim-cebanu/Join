@@ -231,13 +231,17 @@ textarea.input {
   }
 
   .dropdown-arrow {
-    width: 8px;
-    height: auto;
+    padding: 8px;
+    border-radius: 50%;
     cursor: pointer;
-    transition: transform 200ms;
+    transition: transform 200ms, background-color 100ms;
 
     &.open {
       transform: rotate(180deg);
+    }
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.08);
     }
   }
 
