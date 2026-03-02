@@ -70,7 +70,7 @@ body {
     transition: 125ms;
 
     >span {
-        font-size: 20px;
+        font-size: 21px;
     }
 
     &:hover{
@@ -104,6 +104,11 @@ body {
     background: transparent;
     min-width: 0;
     cursor: pointer;
+    font-size: 20px;
+
+    &::placeholder{
+      color: #D1D1D1;
+    }
 }
 
 .search>button {
@@ -249,5 +254,9 @@ body {
 @media (max-width: 548px) {
     .board {
         grid-template-columns: repeat(1, 1fr);
+    }
+
+    .search>input {
+    font-size: 16px;
     }
 }
