@@ -557,8 +557,6 @@
       flex-direction: column;
       gap: 8px;
       margin-top: 12px;
-      max-height: 200px;
-      overflow-y: auto;
     }
 
     .edit-subtask-item {
@@ -839,10 +837,6 @@
 
     .categorySelection {
       width: 100%;
-    }
-
-    .subtask-list {
-      max-height: 150px;
     }
 
     footer {
