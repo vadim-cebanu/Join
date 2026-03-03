@@ -52,7 +52,7 @@
 
             <input class="prioRadio" id="prioUrgent" type="radio" formControlName="priority" value="high">
             <label for="prioUrgent" class="priorityBasic priorityUrgent">
-              High
+              Urgent
               <div class="priorityUrgentIMG priorityBasicIMG"></div>
             </label>
 
@@ -134,6 +134,7 @@
             <button type="button" (click)="newSubtaskTitle = ''">
               <img src="assets/icons/AddTask/clearIconDarkColor.svg" alt="Clear" />
             </button>
+            <div class="dividing-line"></div>
             <button type="button" (click)="addSubtask()">
               <img src="assets/icons/check-grey.svg" alt="Add" />
             </button>
@@ -148,6 +149,7 @@
               <button type="button" (click)="removeSubtask(sub.id)">
                 <img src="assets/icons/trash.svg" alt="Delete" />
               </button>
+              <div class="dividing-line"></div>
               <button type="button" (click)="saveSubtaskEdit()">
                 <img src="assets/icons/check-grey.svg" alt="Confirm" />
               </button>

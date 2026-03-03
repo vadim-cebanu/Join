@@ -497,6 +497,10 @@
 
       &:focus-within {
         border-color: #29abe2;
+
+        button, .dividing-line {
+          display: flex;
+        }
       }
 
       input {
@@ -514,24 +518,33 @@
         }
       }
 
+      .dividing-line {
+        display: none;
+        width: 1px;
+        height: 20px;
+        background-color: #d1d1d1;
+        flex-shrink: 0;
+      }
+
       button {
         background: none;
         border: none;
         cursor: pointer;
         padding: 4px;
-        border-radius: 4px;
-        display: flex;
+        border-radius: 50%;
+        display: none;
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
+        width: 28px;
+        height: 28px;
 
         img {
           width: 16px;
-          height: 16px;
         }
 
         &:hover {
-          background-color: #e0e0e0;
+          background-color: rgba(0, 0, 0, 0.08);
         }
       }
 
@@ -1728,8 +1741,8 @@ footer {
 }
 
  }
-      
-    
+
+
 
 
 .success-overlay {
