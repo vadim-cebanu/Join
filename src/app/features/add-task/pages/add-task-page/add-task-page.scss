@@ -508,6 +508,10 @@
 
       &:focus-within {
         border-color: #29abe2;
+
+        button {
+          visibility: visible;
+        }
       }
 
       input {
@@ -523,6 +527,7 @@
       }
 
       button {
+        visibility: hidden;
         background: none;
         border: none;
         cursor: pointer;
