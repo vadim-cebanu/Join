@@ -28,6 +28,10 @@
             (moveTask)="onMoveTask($event)"></app-board-column>
         </div>
 
+        <div class="no-results" *ngIf="!isLoading && searchQuery && !hasFilteredTasks">
+          <p>No match found!</p>
+        </div>
+
         <!-- Task Detail Dialog -->
         <div *ngIf="showTaskDetail && selectedTask" class="dialog-overlay" (click)="closeTaskDetail()">
           <div class="dialog-container" (click)="$event.stopPropagation()">

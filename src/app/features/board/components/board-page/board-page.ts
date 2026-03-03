@@ -152,6 +152,16 @@ export class BoardPage implements OnInit {
   }
 
   /**
+   * Checks if there are any tasks available after filtering.
+   * Used to show "no results" message.
+   *
+   * @returns boolean
+   */
+  get hasFilteredTasks(): boolean {
+    return this.columns.some(col => col.tasks.length > 0);
+  }
+
+  /**
    * Toggles the context menu for the given task id.
    * If the menu is already open for that task, it closes it.
    *
