@@ -1,4 +1,5 @@
 <section class="add-task-content" (click)="onBackdropClick($event)">
+  <div  class="add-task-content-container">
   <h2>Add Task</h2>
 
   <form [formGroup]="taskForm" class="mainContent" (ngSubmit)="formSubmit()">
@@ -31,7 +32,7 @@
             <input formControlName="due_at" id="dueDate" type="date" [min]="today" required
               class="input-date"
               [class.invalid]="taskForm.get('due_at')?.invalid && taskForm.get('due_at')?.touched">
-            <img class="date-icon" src="assets/icons/calender.svg" alt="Calendar" />
+          <!---  <img class="date-icon" src="assets/icons/calender.svg" alt="Calendar" /> -->
           </div>
           @if (taskForm.get('due_at')?.invalid && taskForm.get('due_at')?.touched) {
           <p class="if">This field is required</p>
@@ -196,6 +197,7 @@
 
   </form>
 <!--- <p>{{ taskForm.valid }}</p>-->
+</div>
 </section>
 
 @if (showSuccessMessage()) {
