@@ -92,6 +92,35 @@
     color: black;
   }
 
+  .input-date-wrapper {
+    position: relative;
+    max-width: 440px;
+    width: 100%;
+
+    .input-date {
+      padding-right: 44px;
+
+      &::-webkit-calendar-picker-indicator {
+        opacity: 0;
+        position: absolute;
+        right: 0;
+        width: 44px;
+        height: 100%;
+        cursor: pointer;
+      }
+    }
+
+    .date-icon {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
+      pointer-events: none;
+    }
+  }
+
   /* MAIN CONTENT LAYOUT */
   .mainContent {
     width: 100%;
@@ -519,7 +548,6 @@
 
         img {
           width: 16px;
-          height: 16px;
         }
 
         &:hover {
@@ -751,7 +779,8 @@
 
       .assigned-dropdown,
       .category-dropdown,
-      .edit-input {
+      .edit-input,
+      .input-date-wrapper {
         width: 100% !important;
         max-width: none !important;
       }
