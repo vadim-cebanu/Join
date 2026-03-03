@@ -1678,14 +1678,15 @@ footer {
         background-image: url(../../../../../../public/assets/icons/AddTask/createIconLightColor.svg);
       }
 
-      &:hover {
-        background-color: #29ABE2;
-        border: 1px solid #29ABE2;
-        box-shadow: 0px 9px 4px rgba(0, 0, 0, 0.1);
-      }
+                    &:hover {
+                        background-color: #29ABE2;
+                        border: 1px solid #29ABE2;
+                        box-shadow: 0px 9px 4px rgba(0, 0, 0, 0.1);
+                    }
+                }
+            }
+        }
     }
-  }
-}
 
 .success-overlay {
   position: fixed;

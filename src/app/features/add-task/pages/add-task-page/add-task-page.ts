@@ -4,11 +4,7 @@ import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
-  FormsModule,
-  AbstractControl,
-  ValidationErrors,
-  Validators,
-  ValidatorFn
+  Validators
 } from '@angular/forms';
 import { Supabase, Contact } from '../../../../supabase';
 import { avatarColors } from '../../../contacts/components/contact-list/contact-list';
@@ -50,34 +46,22 @@ export class AddTaskPage implements OnInit {
 
   today: string = new Date().toISOString().split('T')[0];
 
-  categoryValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-    const valid = (control.value ?? '').toString().trim();
-    return valid === 'Select task category' || valid === '' ? { categoryRequired: true } : null;
-  };
-
   taskForm = new FormGroup({
     title: new FormControl('', {
       validators: [Validators.required, Validators.minLength(3)]
     }),
-    description: new FormControl(''),
+    description: new FormControl('', {
+      validators: [Validators.required, Validators.maxLength(10)]
+    }),
     due_at: new FormControl('', {
       validators: [Validators.required]
     }),
     priority: new FormControl('medium'),
     type: new FormControl('Select task category', {
-      validators: [this.categoryValidator]
+      validators: [Validators.required]
     }),
+    subtasks: new FormControl('')
   });
-
-  filteredContacts = computed(() => {
-    const search = this.searchText().toLowerCase();
-    if (!search) return this.supabaseService.contacts();
-    return this.supabaseService.contacts().filter(c => c.name.toLowerCase().includes(search));
-  });
-
-  ngOnInit() {
-    this.supabaseService.getContacts();
-  }
 
   async formSubmit() {
     if (this.taskForm.invalid) {

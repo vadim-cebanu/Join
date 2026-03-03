@@ -182,7 +182,10 @@
 
         </button>
 
-        <button class="btnCreateTask btnBasic" type="submit" [disabled]="taskForm.invalid">
+        <button
+          class="btnCreateTask btnBasic"
+          type="submit"
+        >
           Create Task
           <div class="btnCreateTaskIcon btnBasicIcon"></div>
         </button>
@@ -190,6 +193,8 @@
     </footer>
 
   </form>
+
+  <p>{{ taskForm.valid }}</p>
 </section>
 
 @if (showSuccessMessage()) {
