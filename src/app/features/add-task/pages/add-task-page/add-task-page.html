@@ -20,14 +20,10 @@
         <div class="descriptionInContent">
           <label for="description">Description</label>
           <textarea formControlName="description" id="description" placeholder="Enter a description">
-                </textarea>
-
+          </textarea>
         </div>
 
-
-
-
-    <div class="dueDateContent">
+        <div class="dueDateContent">
           <label for="dueDate">
             Due date<span>*</span>
           </label>
@@ -37,11 +33,12 @@
           <p class="if">This field is required</p>
           }
         </div>
-          </div>
+
+      </div>
+
       <span class="lineContent"></span>
 
       <div class="rightContent">
-
 
 
         <div class="priorityContent">
@@ -69,7 +66,8 @@
 
           </div>
         </div>
-<div class="assignedToContent">
+
+           <div class="assignedToContent">
           <label>Assigned to</label>
           <div class="assigned-dropdown" [class.open]="dropdownOpen">
             <div class="assigned-trigger input" [class.open]="dropdownOpen" (click)="$event.stopPropagation()">
@@ -103,6 +101,7 @@
           </div>
           }
         </div>
+
         <div class="categoryContent">
           <label for="category">
             Category<span>*</span>
@@ -190,8 +189,11 @@
     </footer>
 
   </form>
+<<<<<<< HEAD
+=======
 
 <!--- <p>{{ taskForm.valid }}</p>-->
+>>>>>>> 9902215f0df3ec5f11d3332d4080cdab333267e5
 </section>
 
 @if (showSuccessMessage()) {
