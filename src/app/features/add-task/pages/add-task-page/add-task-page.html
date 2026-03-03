@@ -243,13 +243,10 @@
           <div class="btnClearIcon btnBasicIcon"></div>
         </button>
 
-        <button
-          class="btnCreateTask btnBasic"
-          type="submit"
-        >
-          Create Task
-          <div class="btnCreateTaskIcon btnBasicIcon"></div>
-        </button>
+                    <button class="btnCreateTask btnBasic" type="submit" [disabled]="taskForm.invalid">
+                        Create Task
+                        <div class="btnCreateTaskIcon btnBasicIcon"></div>
+                    </button>
       </div>
     </footer>
 
