@@ -72,7 +72,9 @@ export class TaskStore {
       position: task.position ?? 999,
     })) as Task[];
 
-    this.tasksSignal.set(tasks);
+    queueMicrotask(() => {
+      this.tasksSignal.set(tasks);
+    });
   }
 
   /**
