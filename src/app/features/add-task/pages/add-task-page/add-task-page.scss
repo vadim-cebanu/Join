@@ -712,6 +712,22 @@
   }
 }
 
+@media (max-width: 1100px) {
+  .add-task-content .mainContent input,
+  .add-task-content .mainContent input[type="date"],
+  .add-task-content .mainContent textarea,
+  .add-task-content .mainContent .assigned-search,
+  .add-task-content .mainContent .edit-input input,
+  .add-task-content .mainContent .categorySelection,
+  .add-task-content .mainContent .categoryOptions p {
+    font-size: 18px;
+  }
+
+  .add-task-content ::placeholder {
+    font-size: 18px;
+  }
+}
+
 @media (max-width: 1024px) {
   .add-task-content {
     padding: 40px;
@@ -751,13 +767,13 @@
   .add-task-content .mainContent input {
     height: 44px;
     padding: 10px 16px;
-    font-size: 16px;
+    font-size: 18px;
   }
 
   .add-task-content .mainContent textarea {
     min-height: 100px;
     max-height: 100px;
-    font-size: 16px;
+    font-size: 18px;
     padding: 10px 16px;
   }
 
@@ -798,12 +814,17 @@
     height: 44px;
 
     .assigned-search {
-      font-size: 16px;
+      font-size: 18px;
     }
   }
 
   .add-task-content .mainContent .subtask-list {
     max-height: 150px;
+  }
+
+  .footer{
+    display: flex;
+    flex-direction: column-reverse;
   }
 }
 
@@ -820,15 +841,28 @@
     font-size: 16px;
   }
 
-  .add-task-content .mainContent input {
+  .add-task-content .mainContent input,
+  .add-task-content .mainContent input[type="date"],
+  .add-task-content .mainContent .edit-input input {
     height: 40px;
-    font-size: 15px;
+    font-size: 16px;
   }
 
   .add-task-content .mainContent textarea {
     min-height: 80px;
     max-height: 80px;
-    font-size: 15px;
+    font-size: 16px;
+  }
+
+  .add-task-content .mainContent .categorySelection,
+  .add-task-content .mainContent .assigned-trigger .assigned-search,
+  .add-task-content .mainContent .assigned-name,
+  .add-task-content .mainContent .categoryOptions p {
+    font-size: 16px;
+  }
+
+  .add-task-content ::placeholder {
+    font-size: 16px;
   }
 
   .add-task-content .mainContent .priorityContent .priorityContentElements {
