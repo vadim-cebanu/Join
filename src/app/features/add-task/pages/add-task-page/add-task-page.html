@@ -27,8 +27,12 @@
           <label for="dueDate">
             Due date<span>*</span>
           </label>
-          <input formControlName="due_at" id="dueDate" type="date" [min]="today" required
-            [class.invalid]="taskForm.get('due_at')?.invalid && taskForm.get('due_at')?.touched">
+          <div class="input-date-wrapper">
+            <input formControlName="due_at" id="dueDate" type="date" [min]="today" required
+              class="input-date"
+              [class.invalid]="taskForm.get('due_at')?.invalid && taskForm.get('due_at')?.touched">
+            <img class="date-icon" src="assets/icons/calender.svg" alt="Calendar" />
+          </div>
           @if (taskForm.get('due_at')?.invalid && taskForm.get('due_at')?.touched) {
           <p class="if">This field is required</p>
           }
