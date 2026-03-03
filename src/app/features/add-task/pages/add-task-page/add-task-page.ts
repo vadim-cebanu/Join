@@ -3,13 +3,9 @@ import { CommonModule } from '@angular/common';
 import {
   FormControl,
   FormGroup,
-  FormsModule,
+  FormsModule, AbstractControl, ValidationErrors,
   ReactiveFormsModule,
-  FormsModule,
-  AbstractControl,
-  ValidationErrors,
-  Validators,
-  ValidatorFn
+  Validators, ValidatorFn
 } from '@angular/forms';
 import { Supabase, Contact } from '../../../../supabase';
 import { avatarColors } from '../../../contacts/components/contact-list/contact-list';
@@ -51,33 +47,27 @@ export class AddTaskPage implements OnInit {
 
   today: string = new Date().toISOString().split('T')[0];
 
-<<<<<<< HEAD
   categoryValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-    const valid = (control.value ?? '').toString().trim();
-    return valid === 'Select task category' || valid === '' ? { categoryRequired: true } : null;
-  };
-=======
->>>>>>> 9902215f0df3ec5f11d3332d4080cdab333267e5
+  const valid = (control.value ?? '').toString().trim();
+  return valid === 'Select task category' || valid === '' ? { categoryRequired: true } : null;
+};
 
   taskForm = new FormGroup({
     title: new FormControl('', {
       validators: [Validators.required, Validators.minLength(3)]
     }),
-    description: new FormControl(''),
+     description: new FormControl(''),
     due_at: new FormControl('', {
       validators: [Validators.required]
     }),
     priority: new FormControl('medium'),
-    type: new FormControl('Select task category', {
-      validators: [this.categoryValidator]
-    }),
+  type: new FormControl('Select task category', {
+  validators: [this.categoryValidator]
+}),
+    subtasks: new FormControl('')
   });
 
-<<<<<<< HEAD
-  filteredContacts = computed(() => {
-=======
     filteredContacts = computed(() => {
->>>>>>> 9902215f0df3ec5f11d3332d4080cdab333267e5
     const search = this.searchText().toLowerCase();
     if (!search) return this.supabaseService.contacts();
     return this.supabaseService.contacts().filter(c => c.name.toLowerCase().includes(search));
@@ -87,10 +77,7 @@ export class AddTaskPage implements OnInit {
     this.supabaseService.getContacts();
   }
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 9902215f0df3ec5f11d3332d4080cdab333267e5
   async formSubmit() {
     if (this.taskForm.invalid) {
       Object.keys(this.taskForm.controls).forEach(key => {

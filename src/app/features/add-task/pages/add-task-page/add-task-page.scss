@@ -17,7 +17,7 @@
   }
 
   span {
-    color: black;
+    color: #FF8190;
   }
 
   label {
@@ -118,6 +118,33 @@
       min-height: auto;
     }
 
+    .input-date-wrapper {
+      position: relative;
+
+      .input-date {
+        padding-right: 44px;
+
+        &::-webkit-calendar-picker-indicator {
+          opacity: 0;
+          position: absolute;
+          right: 0;
+          width: 44px;
+          height: 100%;
+          cursor: pointer;
+        }
+      }
+
+      .date-icon {
+        position: absolute;
+        right: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 20px;
+        height: 20px;
+        pointer-events: none;
+      }
+    }
+
     .descriptionInContent {
       min-height: auto;
     }
@@ -172,6 +199,7 @@
         #prioUrgent:checked+.priorityUrgent {
           background-color: #FF3D00;
           color: white;
+          box-shadow: none;
 
           .priorityUrgentIMG {
             background-image: url(../../../../../../public/assets/icons/AddTask/chevrons/chevronsUrgentWhite.svg);
@@ -181,6 +209,7 @@
         #prioMedium:checked+.priorityMedium {
           background-color: #FFA800;
           color: white;
+          box-shadow: none;
 
           .priorityMediumIMG {
             background-image: url(../../../../../../public/assets/icons/AddTask/chevrons/chevronsMediumWhite.svg);
@@ -190,6 +219,7 @@
         #prioLow:checked+.priorityLow {
           background-color: #7AE229;
           color: white;
+          box-shadow: none;
 
           .priorityLowIMG {
             background-image: url(../../../../../../public/assets/icons/AddTask/chevrons/chevronsLowWhite.svg);
@@ -467,6 +497,10 @@
 
       &:focus-within {
         border-color: #29abe2;
+
+        button, .dividing-line {
+          display: flex;
+        }
       }
 
       input {
@@ -484,24 +518,33 @@
         }
       }
 
+      .dividing-line {
+        display: none;
+        width: 1px;
+        height: 20px;
+        background-color: #d1d1d1;
+        flex-shrink: 0;
+      }
+
       button {
         background: none;
         border: none;
         cursor: pointer;
         padding: 4px;
-        border-radius: 4px;
-        display: flex;
+        border-radius: 50%;
+        display: none;
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
+        width: 28px;
+        height: 28px;
 
         img {
           width: 16px;
-          height: 16px;
         }
 
         &:hover {
-          background-color: #e0e0e0;
+          background-color: rgba(0, 0, 0, 0.08);
         }
       }
 
@@ -1107,7 +1150,7 @@
 }
 
 span {
-  color: red;
+  color: #FF8190;
 }
 
 label {
@@ -1412,6 +1455,7 @@ select {
       #prioUrgent:checked+.priorityUrgent {
         background-color: #FF3D00;
         color: white;
+        box-shadow: none;
 
         .priorityUrgentIMG {
           background-image: url(../../../../../../public/assets/icons/AddTask/chevrons/chevronsUrgentWhite.svg);
@@ -1421,6 +1465,7 @@ select {
       #prioMedium:checked+.priorityMedium {
         background-color: #FFA800;
         color: white;
+        box-shadow: none;
 
         .priorityMediumIMG {
           background-image: url(../../../../../../public/assets/icons/AddTask/chevrons/chevronsMediumWhite.svg);
@@ -1430,6 +1475,7 @@ select {
       #prioLow:checked+.priorityLow {
         background-color: #7AE229;
         color: white;
+        box-shadow: none;
 
         .priorityLowIMG {
           background-image: url(../../../../../../public/assets/icons/AddTask/chevrons/chevronsLowWhite.svg);
@@ -1689,7 +1735,9 @@ footer {
                 }
             }
         }
-    
+    }
+
+
 
 
 .success-overlay {
@@ -1756,4 +1804,5 @@ footer {
     transform: translateY(0);
     opacity: 1;
   }
+}
 }

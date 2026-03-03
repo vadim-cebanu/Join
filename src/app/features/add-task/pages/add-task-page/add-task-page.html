@@ -27,8 +27,12 @@
           <label for="dueDate">
             Due date<span>*</span>
           </label>
-          <input formControlName="due_at" id="dueDate" type="date" [min]="today" required
-            [class.invalid]="taskForm.get('due_at')?.invalid && taskForm.get('due_at')?.touched">
+          <div class="input-date-wrapper">
+            <input formControlName="due_at" id="dueDate" type="date" [min]="today" required
+              class="input-date"
+              [class.invalid]="taskForm.get('due_at')?.invalid && taskForm.get('due_at')?.touched">
+            <img class="date-icon" src="assets/icons/calender.svg" alt="Calendar" />
+          </div>
           @if (taskForm.get('due_at')?.invalid && taskForm.get('due_at')?.touched) {
           <p class="if">This field is required</p>
           }
@@ -42,13 +46,13 @@
 
 
         <div class="priorityContent">
-          <label>Prio</label>
+          <label>Priority</label>
 
           <div class="priorityContentElements">
 
             <input class="prioRadio" id="prioUrgent" type="radio" formControlName="priority" value="high">
             <label for="prioUrgent" class="priorityBasic priorityUrgent">
-              High
+              Urgent
               <div class="priorityUrgentIMG priorityBasicIMG"></div>
             </label>
 
@@ -130,6 +134,7 @@
             <button type="button" (click)="newSubtaskTitle = ''">
               <img src="assets/icons/AddTask/clearIconDarkColor.svg" alt="Clear" />
             </button>
+            <div class="dividing-line"></div>
             <button type="button" (click)="addSubtask()">
               <img src="assets/icons/check-grey.svg" alt="Add" />
             </button>
@@ -144,6 +149,7 @@
               <button type="button" (click)="removeSubtask(sub.id)">
                 <img src="assets/icons/trash.svg" alt="Delete" />
               </button>
+              <div class="dividing-line"></div>
               <button type="button" (click)="saveSubtaskEdit()">
                 <img src="assets/icons/check-grey.svg" alt="Confirm" />
               </button>
@@ -181,22 +187,15 @@
 
         </button>
 
-        <button
-          class="btnCreateTask btnBasic"
-          type="submit"
-        >
-          Create Task
+        <button class="btnCreateTask btnBasic" type="submit" [disabled]="taskForm.invalid">
+            Create Task
           <div class="btnCreateTaskIcon btnBasicIcon"></div>
         </button>
       </div>
     </footer>
 
   </form>
-<<<<<<< HEAD
-=======
-
 <!--- <p>{{ taskForm.valid }}</p>-->
->>>>>>> 9902215f0df3ec5f11d3332d4080cdab333267e5
 </section>
 
 @if (showSuccessMessage()) {

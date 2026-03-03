@@ -3,7 +3,7 @@
         <div class="dialog-header">
             <h2>Add Task</h2>
             <button type="button" class="close-btn" (click)="close()" aria-label="Close">
-                ✕
+                <img src="assets/icons/close-button.svg" alt="Close" />
             </button>
         </div>
 
@@ -28,6 +28,55 @@
                         <textarea formControlName="description" id="description" placeholder="Enter a description">
                     </textarea>
 
+                    </div>
+
+                    <div class="dueDateContent">
+                        <label for="dueDate">
+                            Due date<span>*</span>
+                        </label>
+                        <div class="input-date-wrapper">
+                            <input formControlName="due_at" id="dueDate" type="date" [min]="today" required
+                                class="input-date"
+                                [class.invalid]="taskForm.get('due_at')?.invalid && taskForm.get('due_at')?.touched">
+                            <img class="date-icon" src="assets/icons/calender.svg" alt="Calendar" />
+                        </div>
+                        @if (taskForm.get('due_at')?.invalid && taskForm.get('due_at')?.touched) {
+                        <p class="if">This field is required</p>
+                        }
+                    </div>
+
+                </div>
+
+                <span class="lineContent"></span>
+
+                <div class="rightContent">
+
+                    <div class="priorityContent">
+                        <label>Priority</label>
+
+                        <div class="priorityContentElements">
+
+                            <input class="prioRadio" id="prioUrgent" type="radio" formControlName="priority"
+                                value="high">
+                            <label for="prioUrgent" class="priorityBasic priorityUrgent">
+                                Urgent
+                                <div class="priorityUrgentIMG priorityBasicIMG"></div>
+                            </label>
+
+                            <input class="prioRadio" id="prioMedium" type="radio" formControlName="priority"
+                                value="medium">
+                            <label for="prioMedium" class="priorityBasic priorityMedium">
+                                Medium
+                                <div class="priorityMediumIMG priorityBasicIMG"></div>
+                            </label>
+
+                            <input class="prioRadio" id="prioLow" type="radio" formControlName="priority" value="low">
+                            <label for="prioLow" class="priorityBasic priorityLow">
+                                Low
+                                <div class="priorityLowIMG priorityBasicIMG"></div>
+                            </label>
+
+                        </div>
                     </div>
 
                     <div class="assignedToContent">
@@ -69,51 +118,6 @@
                         }
                     </div>
 
-                </div>
-
-                <span class="lineContent"></span>
-
-                <div class="rightContent">
-
-                    <div class="dueDateContent">
-                        <label for="dueDate">
-                            Due date<span>*</span>
-                        </label>
-                        <input formControlName="due_at" id="dueDate" type="date" [min]="today" required
-                            [class.invalid]="taskForm.get('due_at')?.invalid && taskForm.get('due_at')?.touched">
-                        @if (taskForm.get('due_at')?.invalid && taskForm.get('due_at')?.touched) {
-                        <p class="if">This field is required</p>
-                        }
-                    </div>
-
-                    <div class="priorityContent">
-                        <label>Prio</label>
-
-                        <div class="priorityContentElements">
-
-                            <input class="prioRadio" id="prioUrgent" type="radio" formControlName="priority"
-                                value="high">
-                            <label for="prioUrgent" class="priorityBasic priorityUrgent">
-                                High
-                                <div class="priorityUrgentIMG priorityBasicIMG"></div>
-                            </label>
-
-                            <input class="prioRadio" id="prioMedium" type="radio" formControlName="priority"
-                                value="medium">
-                            <label for="prioMedium" class="priorityBasic priorityMedium">
-                                Medium
-                                <div class="priorityMediumIMG priorityBasicIMG"></div>
-                            </label>
-
-                            <input class="prioRadio" id="prioLow" type="radio" formControlName="priority" value="low">
-                            <label for="prioLow" class="priorityBasic priorityLow">
-                                Low
-                                <div class="priorityLowIMG priorityBasicIMG"></div>
-                            </label>
-
-                        </div>
-                    </div>
-
                     <div class="categoryContent">
                         <label for="category">
                             Category<span>*</span>
@@ -143,6 +147,7 @@
                             <button type="button" (click)="newSubtaskTitle = ''">
                                 <img src="assets/icons/AddTask/clearIconDarkColor.svg" alt="Clear" />
                             </button>
+                            <div class="dividing-line"></div>
                             <button type="button" (click)="addSubtask()">
                                 <img src="assets/icons/check-grey.svg" alt="Add" />
                             </button>
@@ -157,6 +162,7 @@
                                 <button type="button" (click)="removeSubtask(sub.id)">
                                     <img src="assets/icons/trash.svg" alt="Delete" />
                                 </button>
+                                <div class="dividing-line"></div>
                                 <button type="button" (click)="saveSubtaskEdit()">
                                     <img src="assets/icons/check-grey.svg" alt="Confirm" />
                                 </button>
