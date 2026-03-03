@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import {
   FormControl,
   FormGroup,
+  FormsModule,
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
@@ -46,6 +47,7 @@ export class AddTaskPage implements OnInit {
 
   today: string = new Date().toISOString().split('T')[0];
 
+
   taskForm = new FormGroup({
     title: new FormControl('', {
       validators: [Validators.required, Validators.minLength(3)]
@@ -62,6 +64,17 @@ export class AddTaskPage implements OnInit {
     }),
     subtasks: new FormControl('')
   });
+
+    filteredContacts = computed(() => {
+    const search = this.searchText().toLowerCase();
+    if (!search) return this.supabaseService.contacts();
+    return this.supabaseService.contacts().filter(c => c.name.toLowerCase().includes(search));
+  });
+
+  ngOnInit() {
+    this.supabaseService.getContacts();
+  }
+
 
   async formSubmit() {
     if (this.taskForm.invalid) {
