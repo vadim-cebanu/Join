@@ -235,6 +235,12 @@
           }
         }
 
+        #prioUrgent:checked + .priorityUrgent:hover,
+        #prioMedium:checked + .priorityMedium:hover,
+        #prioLow:checked + .priorityLow:hover {
+          box-shadow: none;
+        }
+
         .priorityBasicIMG {
           background-position: center;
           background-repeat: no-repeat;
