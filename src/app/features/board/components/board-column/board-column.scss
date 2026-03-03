@@ -31,11 +31,17 @@
 }
 
 .btn-card{
-  color: #42526E ;
-  border-radius: 6px;
-  border: 3px solid #42526E;
+  color: #2A3647;
+  border-radius: 8px;
+  border: 3px solid #2A3647;
   font-weight: 700;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 28px;
+  height: 28px;
+  line-height: 1;
 
   &:hover{
     border: 3px solid #29ABE2;
