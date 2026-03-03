@@ -75,16 +75,12 @@
   z-index: 1;
   margin-bottom: 10px;
 
-
   &:active {
     cursor: grabbing;
-
   }
 
   &.dragging {
     opacity: 0.3;
-        transform: rotate(45deg);
-
   }
 }
 
@@ -105,6 +101,8 @@
   font-size: 14px;
   font-weight: 500;
   line-height: 1;
+                  transform: rotate(15deg);
+
 
 
   box-sizing: border-box;
@@ -130,21 +128,15 @@
   }
 }
 ::ng-deep .cdk-drag-placeholder {
-  opacity: 1 !important;
-  background: transparent ;
-  border: 2px dashed #ababab ;
-  border-radius: 12px ;
-  min-height: 120px t;
+  opacity: 0.5 !important;
+  background: transparent;
+  border: 2px dashed #ababab;
+  border-radius: 12px;
+  min-height: 120px;
   width: 100% !important;
   margin-bottom: 12px;
-  transform: none !important;
-  transition: none !important;
-    transform: rotate(5deg);
-
-
-  * {
-    visibility: hidden;
-  }
+  transform: rotate(5deg) !important;
+  transition: transform 0.2s ease !important;
 }
 .draggable-task {
   &.cdk-drag-animating {
