@@ -42,6 +42,7 @@ export class AddTaskDialog implements OnInit {
   subtasks: Subtask[] = [];
   editingSubtaskId: string | null = null;
   editingSubtaskTitle = '';
+  showSuccessMessage = signal(false);
 
   supabaseService = inject(Supabase);
   taskStore = inject(TaskStore);
@@ -111,7 +112,11 @@ categoryValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | 
     try {
       const result = await this.taskStore.addTask(taskData);
       if (result) {
-        this.close();
+        this.showSuccessMessage.set(true);
+        setTimeout(() => {
+          this.showSuccessMessage.set(false);
+          this.close();
+        }, 2000);
       } else {
         console.error('Failed to create task');
       }

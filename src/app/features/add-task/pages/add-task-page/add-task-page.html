@@ -115,7 +115,7 @@
         </div>
 
         <!-- ASSIGNED TO -->
-          <div 
+          <div
             class="assignedToContent"
             (focusin)="openAssignedDropdown()"
             (focusout)="hideDropdown($event)"
@@ -124,7 +124,7 @@
             <label for="assignedTo">Assigned to</label>
             <div class="withoutTitle">
   <div class="inputWrapper">
-    <div 
+    <div
       class="arrowDirection"
       [class.rotate]="showAssignedDropdown">
     </div>
@@ -257,3 +257,12 @@
 
   <p>{{ taskForm.valid }}</p>
 </section>
+
+@if (showSuccessMessage()) {
+<div class="success-overlay">
+    <div class="success-message">
+        <span>Task added to board</span>
+        <img src="assets/icons/board-active.svg" alt="Success" class="success-icon">
+    </div>
+</div>
+}

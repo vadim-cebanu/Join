@@ -203,4 +203,13 @@
 
         </form>
     </div>
+
+    @if (showSuccessMessage()) {
+    <div class="success-overlay">
+        <div class="success-message">
+            <span>Task added to board</span>
+            <img src="assets/icons/board-active.svg" alt="Success" class="success-icon">
+        </div>
+    </div>
+    }
 </div>

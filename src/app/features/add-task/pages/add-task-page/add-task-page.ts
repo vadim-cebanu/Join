@@ -30,7 +30,9 @@ export class AddTaskPage implements OnInit {
 
   filteredContacts: any[] = [];
 
-  contacts = signal<{name:string}[]>([])
+  contacts = signal<{name:string}[]>([]);
+
+  showSuccessMessage = signal(false);
 
   editingIndex: number | null = null;
 
@@ -77,6 +79,12 @@ export class AddTaskPage implements OnInit {
     }
 
     console.log('Task erstellt:', data);
+
+    this.showSuccessMessage.set(true);
+    setTimeout(() => {
+      this.showSuccessMessage.set(false);
+      this.clearForm();
+    }, 2000);
   }
 
   clearForm() {
@@ -165,7 +173,7 @@ export class AddTaskPage implements OnInit {
     if (!name) return '';
 
     const parts = name.trim().split(' ');
-    
+
     if (parts.length === 1) {
       return parts[0].substring(0, 2).toUpperCase();
     }
@@ -208,7 +216,7 @@ export class AddTaskPage implements OnInit {
   hideDropdown(event: FocusEvent) {
   const relatedTarget = event.relatedTarget as HTMLElement;
 
-  if (!event.currentTarget || 
+  if (!event.currentTarget ||
       !(event.currentTarget as HTMLElement).contains(relatedTarget)) {
     this.showAssignedDropdown = false;
   }

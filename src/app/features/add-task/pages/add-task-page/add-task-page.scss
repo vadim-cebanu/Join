@@ -80,19 +80,19 @@ select {
 
   appearance: none;
   font-size: 20px;
-  
+
 }
 
 .arrowImg {
   position: absolute;
-  right: 16px;        
+  right: 16px;
   top: 50%;
   transform: translateY(-50%);
   width: 18px;
   height: 18px;
   background: url(../../../../../../public/assets/icons/AddTask/arrow_triangle.svg) no-repeat center;
   background-size: contain;
-  pointer-events: none; 
+  pointer-events: none;
 }
 
 .categorySection{
@@ -152,7 +152,7 @@ select {
 #assignedTo {
   position: relative;
   z-index: 1;
-  padding-right: 40px;  
+  padding-right: 40px;
 }
 
 .arrowDirection {
@@ -414,7 +414,7 @@ select {
 .subtasksList{
     margin-top: 10px;
     .subtask-item {
-  list-style: none;   
+  list-style: none;
   position: relative;
 }
 
@@ -487,7 +487,7 @@ select {
     .subtasksListIndividually.editing-active {
        background-color: white;
        color: black;
-       border-bottom: #29ABE2 1px solid; 
+       border-bottom: #29ABE2 1px solid;
        border-radius: 0px;
        padding-left: 25px;
      }
@@ -573,3 +573,67 @@ select {
             }
         }
     }
+
+.success-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.2);
+    z-index: 10000;
+    animation: fadeIn 0.3s ease-in;
+}
+
+.success-message {
+    background-color: #2a3647;
+    color: white;
+    padding: 20px 24px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    min-width: 326px;
+    min-height: 74px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.4s ease-out;
+
+    span {
+        font-size: 21px;
+        font-weight: 400;
+        margin: 0;
+        white-space: nowrap;
+        color: white;
+    }
+
+    .success-icon {
+        width: 32px;
+        height: 32px;
+        flex-shrink: 0;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
