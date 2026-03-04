@@ -110,12 +110,12 @@
     display: flex;
     gap: 18px;
 
-    #editContent {
+    #edit-content {
       display: flex;
       align-items: center;
       cursor: pointer;
 
-      #editImg {
+      #edit-img {
         background-image: url(../../../../../../public/assets/icons/pen.svg);
         background-position: center;
         background-size: contain;
@@ -134,18 +134,18 @@
           color: $turquoise;
         }
 
-        #editImg {
+        #edit-img {
           background-image: url(../../../../../../public/assets/icons/pen_teal.svg);
         }
       }
     }
 
-    #deleteContent {
+    #delete-content {
       display: flex;
       align-items: center;
       cursor: pointer;
 
-      #deleteImg {
+      #delete-img {
         background-image: url(../../../../../../public/assets/icons/trash.svg);
         background-position: center;
         background-size: contain;
@@ -164,7 +164,7 @@
           color: $turquoise;
         }
 
-        #deleteImg {
+        #delete-img {
           background-image: url(../../../../../../public/assets/icons/trashHover.png);
         }
       }
