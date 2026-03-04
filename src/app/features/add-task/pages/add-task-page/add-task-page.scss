@@ -200,10 +200,11 @@
           align-items: center;
           gap: 8px;
           cursor: pointer;
-          transition: 0.2s ease;
+          box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
+          transition: background-color 125ms, box-shadow 125ms, color 125ms;
 
           &:hover {
-            box-shadow: 0px 9px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
           }
         }
 
@@ -232,6 +233,7 @@
         #prioUrgent:checked + .priorityUrgent {
           background-color: #FF3D00;
           color: white;
+          box-shadow: none;
 
           .priorityUrgentIMG {
             background-image: url(../../../../../../public/assets/icons/AddTask/chevrons/chevronsUrgentWhite.svg);
@@ -241,6 +243,7 @@
         #prioMedium:checked + .priorityMedium {
           background-color: #FFA800;
           color: white;
+          box-shadow: none;
 
           .priorityMediumIMG {
             background-image: url(../../../../../../public/assets/icons/AddTask/chevrons/chevronsMediumWhite.svg);
@@ -250,6 +253,7 @@
         #prioLow:checked + .priorityLow {
           background-color: #7AE229;
           color: white;
+          box-shadow: none;
 
           .priorityLowIMG {
             background-image: url(../../../../../../public/assets/icons/AddTask/chevrons/chevronsLowWhite.svg);
@@ -661,6 +665,8 @@
           border: 1px #2A3647 solid;
           cursor: pointer;
           white-space: nowrap;
+          box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
+          transition: background-color 125ms, box-shadow 125ms, color 125ms;
         }
 
         .btnClear {
@@ -675,7 +681,7 @@
           &:hover {
             border: 1px solid #29ABE2;
             color: #29ABE2;
-            box-shadow: 0px 9px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 
             .btnClearIcon {
               background-image: url(../../../../../../public/assets/icons/AddTask/clearIconLightColor.svg);
@@ -696,7 +702,7 @@
           &:hover {
             background-color: #29ABE2;
             border: 1px solid #29ABE2;
-            box-shadow: 0px 9px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
           }
         }
 
