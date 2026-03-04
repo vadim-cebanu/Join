@@ -52,7 +52,7 @@
   }
 
 
-  .mainContent {
+  .main-content {
     width: 100%;
     max-width: 1440px;
     margin: 0 auto;
@@ -63,8 +63,8 @@
   }
 
 
-  .mainContent {
-    .divContent {
+  .main-content {
+    .div-content {
       display: grid;
       grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr);
       column-gap: 60px;
@@ -72,8 +72,8 @@
       min-height: 376px;
     }
 
-    .leftContent,
-    .rightContent {
+    .left-content,
+    .right-content {
       width: 100%;
       display: flex;
       flex-direction: column;
@@ -82,7 +82,7 @@
       box-sizing: border-box;
     }
 
-    .lineContent {
+    .line-content {
       width: 1px;
       background-color: #D1D1D1;
       border-radius: 1px;
@@ -90,13 +90,13 @@
       justify-self: center;
     }
 
-    .titleInContent,
-    .descriptionInContent,
-    .dueDateContent,
-    .assignedToContent,
-    .categoryContent,
-    .subtaskContent,
-    .priorityContent {
+    .title-in-content,
+    .description-in-content,
+    .due-date-content,
+    .assigned-to-content,
+    .category-content,
+    .subtask-content,
+    .priority-content {
       width: 100%;
       display: flex;
       flex-direction: column;
@@ -180,17 +180,17 @@
     }
 
 
-    .priorityContent {
-      .priorityContentElements {
+    .priority-content {
+      .priority-content-elements {
         display: flex;
         justify-content: center;
         gap: 16px;
 
-        .prioRadio {
+        .prio-radio {
           display: none;
         }
 
-        .priorityBasic {
+        .priority-basic {
           border-radius: 10px;
           padding: 10px 16px;
           flex: 1;
@@ -209,7 +209,7 @@
           }
         }
 
-        .priorityBasicIMG {
+        .priority-basic-img {
           background-position: center;
           background-repeat: no-repeat;
           background-size: contain;
@@ -217,62 +217,62 @@
           height: 25px;
         }
 
-        .priorityUrgentIMG {
+        .priority-urgent-img {
           background-image: url(../../../../../../public/assets/icons/AddTask/chevrons/chevronUrgentRealRed.svg);
         }
 
-        .priorityMediumIMG {
+        .priority-medium-img {
           background-image: url(../../../../../../public/assets/icons/AddTask/chevrons/chevronsMediumOrange.svg);
         }
 
-        .priorityLowIMG {
+        .priority-low-img {
           background-image: url(../../../../../../public/assets/icons/AddTask/chevrons/chevronsLowGreen.svg);
           width: 20px;
           height: 20px;
         }
 
-        #prioUrgent:checked + .priorityUrgent {
+        #prio-urgent:checked + .priority-urgent {
           background-color: #FF3D00;
           color: white;
           box-shadow: none;
 
-          .priorityUrgentIMG {
+          .priority-urgent-img {
             background-image: url(../../../../../../public/assets/icons/AddTask/chevrons/chevronsUrgentWhite.svg);
           }
         }
 
-        #prioMedium:checked + .priorityMedium {
+        #prio-medium:checked + .priority-medium {
           background-color: #FFA800;
           color: white;
           box-shadow: none;
 
-          .priorityMediumIMG {
+          .priority-medium-img {
             background-image: url(../../../../../../public/assets/icons/AddTask/chevrons/chevronsMediumWhite.svg);
           }
         }
 
-        #prioLow:checked + .priorityLow {
+        #prio-low:checked + .priority-low {
           background-color: #7AE229;
           color: white;
           box-shadow: none;
 
-          .priorityLowIMG {
+          .priority-low-img {
             background-image: url(../../../../../../public/assets/icons/AddTask/chevrons/chevronsLowWhite.svg);
             width: 20px;
             height: 20px;
           }
         }
 
-        #prioUrgent:checked + .priorityUrgent:hover,
-        #prioMedium:checked + .priorityMedium:hover,
-        #prioLow:checked + .priorityLow:hover {
+        #prio-urgent:checked + .priority-urgent:hover,
+        #prio-medium:checked + .priority-medium:hover,
+        #prio-low:checked + .priority-low:hover {
           box-shadow: none;
         }
       }
     }
 
     /*ASSIGNED TO */
-    .assignedToContent {
+    .assigned-to-content {
       position: relative;
     }
 
@@ -422,7 +422,7 @@
     }
 
     /*CATEGORY  */
-    .categoryContent {
+    .category-content {
       position: relative;
     }
 
@@ -438,7 +438,7 @@
       width: 100%;
     }
 
-    .categorySelection {
+    .category-selection {
       flex: 1;
       width: 100%;
       height: 48px;
@@ -469,7 +469,7 @@
       }
     }
 
-    .categoryOptions {
+    .category-options {
       position: absolute;
       top: 100%;
       left: 0;
@@ -495,7 +495,7 @@
     }
 
     /*  SUBTASKS  */
-    .subtaskContent {
+    .subtask-content {
       position: relative;
     }
 
@@ -663,12 +663,12 @@
         }
       }
 
-      .btnDiv {
+      .btn-div {
         margin-left: auto;
         display: flex;
         gap: 16px;
 
-        .btnBasicIcon {
+        .btn-basic-icon {
           background-position: center;
           background-repeat: no-repeat;
           background-size: contain;
@@ -676,7 +676,7 @@
           height: 25px;
         }
 
-        .btnBasic {
+        .btn-basic {
           display: flex;
           gap: 4px;
           justify-content: center;
@@ -690,12 +690,12 @@
           transition: background-color 125ms, box-shadow 125ms, color 125ms;
         }
 
-        .btnClear {
+        .btn-clear {
           background-color: #F6F7F8;
           font-size: 20px;
           font-weight: 400;
 
-          .btnClearIcon {
+          .btn-clear-icon {
             background-image: url(../../../../../../public/assets/icons/AddTask/clearIconDarkColor.svg);
           }
 
@@ -704,19 +704,19 @@
             color: #29ABE2;
             box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 
-            .btnClearIcon {
+            .btn-clear-icon {
               background-image: url(../../../../../../public/assets/icons/AddTask/clearIconLightColor.svg);
             }
           }
         }
 
-        .btnCreateTask {
+        .btn-create-task {
           background-color: #2A3647;
           color: white;
           font-size: 21px;
           font-weight: 700;
 
-          .btnCreateTaskIcon {
+          .btn-create-task-icon {
             background-image: url(../../../../../../public/assets/icons/AddTask/createIconLightColor.svg);
           }
 
@@ -727,7 +727,7 @@
           }
         }
 
-        .btnCreateTask:disabled {
+        .btn-create-task:disabled {
           opacity: 0.5;
           cursor: not-allowed;
           pointer-events: none;
@@ -739,7 +739,7 @@
 
 /*    RESPONSIVE */
 @media (max-width: 1390px) {
-.priorityContentElements{
+.priority-content-elements{
   flex-direction: column;
 }
 }
@@ -751,13 +751,13 @@
 }
 
 @media (max-width: 1100px) {
-  .add-task-content .mainContent input,
-  .add-task-content .mainContent input[type="date"],
-  .add-task-content .mainContent textarea,
-  .add-task-content .mainContent .assigned-search,
-  .add-task-content .mainContent .edit-input input,
-  .add-task-content .mainContent .categorySelection,
-  .add-task-content .mainContent .categoryOptions p {
+  .add-task-content .main-content input,
+  .add-task-content .main-content input[type="date"],
+  .add-task-content .main-content textarea,
+  .add-task-content .main-content .assigned-search,
+  .add-task-content .main-content .edit-input input,
+  .add-task-content .main-content .category-selection,
+  .add-task-content .main-content .category-options p {
     font-size: 18px;
   }
 
@@ -765,11 +765,11 @@
     font-size: 18px;
   }
 
-  .add-task-content .mainContent .priorityContent .priorityContentElements {
+  .add-task-content .main-content .priority-content .priority-content-elements {
     flex-direction: column;
     gap: 8px;
 
-    .priorityBasic {
+    .priority-basic {
       width: 100%;
     }
   }
@@ -796,37 +796,37 @@
     }
   }
 
-  .add-task-content .mainContent .priorityContent .priorityContentElements {
+  .add-task-content .main-content .priority-content .priority-content-elements {
     flex-direction: row;
     gap: 16px;
 
-    .priorityBasic {
+    .priority-basic {
       width: auto;
     }
   }
 
-  .add-task-content .mainContent .divContent {
+  .add-task-content .main-content .div-content {
     display: flex;
     flex-direction: column;
     gap: 24px;
     min-height: auto;
   }
 
-  .add-task-content .mainContent .lineContent {
+  .add-task-content .main-content .line-content {
     display: none;
   }
 
-  .add-task-content .mainContent label {
+  .add-task-content .main-content label {
     font-size: 18px;
   }
 
-  .add-task-content .mainContent input {
+  .add-task-content .main-content input {
     height: 44px;
     padding: 10px 16px;
     font-size: 18px;
   }
 
-  .add-task-content .mainContent textarea {
+  .add-task-content .main-content textarea {
     min-height: 100px;
     max-height: 100px;
     font-size: 18px;
@@ -834,39 +834,39 @@
   }
 
 
-  .add-task-content .mainContent .assignedToContent,
-  .add-task-content .mainContent .categoryContent,
-  .add-task-content .mainContent .subtaskContent,
-  .add-task-content .mainContent .assigned-dropdown,
-  .add-task-content .mainContent .category-dropdown,
-  .add-task-content .mainContent .edit-input {
+  .add-task-content .main-content .assigned-to-content,
+  .add-task-content .main-content .category-content,
+  .add-task-content .main-content .subtask-content,
+  .add-task-content .main-content .assigned-dropdown,
+  .add-task-content .main-content .category-dropdown,
+  .add-task-content .main-content .edit-input {
     width: 100%;
     max-width: none;
   }
 
-  .add-task-content .mainContent footer {
+  .add-task-content .main-content footer {
     flex-direction: column-reverse;
     align-items: stretch;
     gap: 16px;
   }
 
-  .add-task-content .mainContent footer p {
+  .add-task-content .main-content footer p {
     font-size: 16px;
     order: 2;
   }
 
-  .add-task-content .mainContent footer .btnDiv {
+  .add-task-content .main-content footer .btn-div {
     order: 1;
     width: 100%;
   }
 
-  .add-task-content .mainContent footer .btnDiv .btnBasic {
+  .add-task-content .main-content footer .btn-div .btn-basic {
     flex: 1;
     padding: 12px 16px;
     font-size: 18px;
   }
 
-  .add-task-content .mainContent .assigned-trigger {
+  .add-task-content .main-content .assigned-trigger {
     height: 44px;
 
     .assigned-search {
@@ -874,7 +874,7 @@
     }
   }
 
-  .add-task-content .mainContent .subtask-list {
+  .add-task-content .main-content .subtask-list {
     max-height: 150px;
   }
 }
@@ -888,27 +888,27 @@
     }
   }
 
-  .add-task-content .mainContent label {
+  .add-task-content .main-content label {
     font-size: 16px;
   }
 
-  .add-task-content .mainContent input,
-  .add-task-content .mainContent input[type="date"],
-  .add-task-content .mainContent .edit-input input {
+  .add-task-content .main-content input,
+  .add-task-content .main-content input[type="date"],
+  .add-task-content .main-content .edit-input input {
     height: 40px;
     font-size: 16px;
   }
 
-  .add-task-content .mainContent textarea {
+  .add-task-content .main-content textarea {
     min-height: 80px;
     max-height: 80px;
     font-size: 16px;
   }
 
-  .add-task-content .mainContent .categorySelection,
-  .add-task-content .mainContent .assigned-trigger .assigned-search,
-  .add-task-content .mainContent .assigned-name,
-  .add-task-content .mainContent .categoryOptions p {
+  .add-task-content .main-content .category-selection,
+  .add-task-content .main-content .assigned-trigger .assigned-search,
+  .add-task-content .main-content .assigned-name,
+  .add-task-content .main-content .category-options p {
     font-size: 16px;
   }
 
@@ -916,18 +916,18 @@
     font-size: 16px;
   }
 
-  .add-task-content .mainContent .priorityContent .priorityContentElements {
+  .add-task-content .main-content .priority-content .priority-content-elements {
     flex-direction: column;
     gap: 8px;
 
-    .priorityBasic {
+    .priority-basic {
       width: 100%;
       font-size: 15px;
       padding: 10px 12px;
     }
   }
 
-  .add-task-content .mainContent footer .btnDiv .btnBasic {
+  .add-task-content .main-content footer .btn-div .btn-basic {
     font-size: 15px;
     padding: 10px 12px;
   }
@@ -942,11 +942,11 @@
     }
   }
 
-  .add-task-content .mainContent footer .btnDiv {
+  .add-task-content .main-content footer .btn-div {
     flex-direction: column;
   }
 
-  .add-task-content .mainContent footer .btnDiv .btnBasic {
+  .add-task-content .main-content footer .btn-div .btn-basic {
     width: 100%;
     font-size: 14px;
   }

@@ -2,12 +2,12 @@
   <div  class="add-task-content-container">
   <h2>Add Task</h2>
 
-  <form [formGroup]="taskForm" class="mainContent" (ngSubmit)="formSubmit()">
+  <form [formGroup]="taskForm" class="main-content" (ngSubmit)="formSubmit()">
 
-    <div class="divContent">
+    <div class="div-content">
 
-      <div class="leftContent">
-        <div class="titleInContent">
+      <div class="left-content">
+        <div class="title-in-content">
           <label for="title">
             Title<span>*</span>
           </label>
@@ -18,13 +18,13 @@
           }
         </div>
 
-        <div class="descriptionInContent">
+        <div class="description-in-content">
           <label for="description">Description</label>
           <textarea formControlName="description" id="description" placeholder="Enter a description">
           </textarea>
         </div>
 
-        <div class="dueDateContent">
+        <div class="due-date-content">
           <label for="dueDate">
             Due date<span>*</span>
           </label>
@@ -44,38 +44,38 @@
 
       </div>
 
-      <span class="lineContent"></span>
+      <span class="line-content"></span>
 
-      <div class="rightContent">
+      <div class="right-content">
 
 
-        <div class="priorityContent">
+        <div class="priority-content">
           <label>Priority</label>
 
-          <div class="priorityContentElements">
+          <div class="priority-content-elements">
 
-            <input class="prioRadio" id="prioUrgent" type="radio" formControlName="priority" value="high">
-            <label for="prioUrgent" class="priorityBasic priorityUrgent">
+            <input class="prio-radio" id="prio-urgent" type="radio" formControlName="priority" value="high">
+            <label for="prio-urgent" class="priority-basic priority-urgent">
               Urgent
-              <div class="priorityUrgentIMG priorityBasicIMG"></div>
+              <div class="priority-urgent-img priority-basic-img"></div>
             </label>
 
-            <input class="prioRadio" id="prioMedium" type="radio" formControlName="priority" value="medium">
-            <label for="prioMedium" class="priorityBasic priorityMedium">
+            <input class="prio-radio" id="prio-medium" type="radio" formControlName="priority" value="medium">
+            <label for="prio-medium" class="priority-basic priority-medium">
               Medium
-              <div class="priorityMediumIMG priorityBasicIMG"></div>
+              <div class="priority-medium-img priority-basic-img"></div>
             </label>
 
-            <input class="prioRadio" id="prioLow" type="radio" formControlName="priority" value="low">
-            <label for="prioLow" class="priorityBasic priorityLow">
+            <input class="prio-radio" id="prio-low" type="radio" formControlName="priority" value="low">
+            <label for="prio-low" class="priority-basic priority-low">
               Low
-              <div class="priorityLowIMG priorityBasicIMG"></div>
+              <div class="priority-low-img priority-basic-img"></div>
             </label>
 
           </div>
         </div>
 
-           <div class="assignedToContent">
+           <div class="assigned-to-content">
           <label>Assigned to</label>
           <div class="assigned-dropdown" [class.open]="dropdownOpen">
             <div class="assigned-trigger input" [class.open]="dropdownOpen" (click)="$event.stopPropagation()">
@@ -110,19 +110,19 @@
           }
         </div>
 
-        <div class="categoryContent">
+        <div class="category-content">
           <label for="category">
             Category<span>*</span>
           </label>
 
           <div class="category-dropdown">
             <div class="category-trigger">
-              <input type="text" class="categorySelection" (click)="actionDropdown()" formControlName="type" readonly>
+              <input type="text" class="category-selection" (click)="actionDropdown()" formControlName="type" readonly>
               <img src="assets/icons/arrow-drop-down.svg" alt="Dropdown" class="dropdown-arrow"
                 [class.open]="dropdownCategory" (click)="actionDropdown()" />
             </div>
             @if(dropdownCategory){
-            <div class="categoryOptions">
+            <div class="category-options">
               <p (click)="TTSelction()">Technical Task</p>
               <p (click)="USSelction()">User Story</p>
             </div>
@@ -130,7 +130,7 @@
           </div>
         </div>
 
-        <div class="subtaskContent">
+        <div class="subtask-content">
           <label for="subtasks">Subtasks</label>
           <div class="edit-input input">
             <input type="text" [(ngModel)]="newSubtaskTitle" [ngModelOptions]="{ standalone: true }"
@@ -185,16 +185,16 @@
         <span>*</span>This field is required
       </p>
 
-      <div class="btnDiv">
-        <button class="btnClear btnBasic" type="button" (click)="clearForm()">
+      <div class="btn-div">
+        <button class="btn-clear btn-basic" type="button" (click)="clearForm()">
           Clear
-          <div class="btnClearIcon btnBasicIcon"></div>
+          <div class="btn-clear-icon btn-basic-icon"></div>
 
         </button>
 
-        <button class="btnCreateTask btnBasic" type="submit" [disabled]="taskForm.invalid">
+        <button class="btn-create-task btn-basic" type="submit" [disabled]="taskForm.invalid">
             Create Task
-          <div class="btnCreateTaskIcon btnBasicIcon"></div>
+          <div class="btn-create-task-icon btn-basic-icon"></div>
         </button>
       </div>
     </footer>
