@@ -70,6 +70,7 @@ export class TaskDetailDialog implements OnInit {
   newSubtaskTitle = '';
   editingSubtaskId = signal<string | null>(null);
   editingSubtaskTitle = '';
+  showAllAssignees = signal(false);
 
   /**
    * Computed list of contacts filtered by the current search text.
@@ -329,7 +330,7 @@ export class TaskDetailDialog implements OnInit {
     if (!this.newSubtaskTitle.trim() || !this.task) return;
 
     const newSubtask = {
-      id: crypto.randomUUID(),
+      id: this.generateUUID(),
       title: this.newSubtaskTitle.trim(),
       done: false
     };
@@ -404,5 +405,27 @@ export class TaskDetailDialog implements OnInit {
    */
   cancelSubtaskEdit(): void {
     this.editingSubtaskId.set(null);
+  }
+
+  /**
+   * Toggles between showing 5 assignees or all assignees.
+   *
+   * @returns void
+   */
+  toggleShowAllAssignees(): void {
+    this.showAllAssignees.set(!this.showAllAssignees());
+  }
+
+  /**
+   * Generates a UUID compatible with all browsers.
+   *
+   * @returns string A UUID v4 string
+   */
+  private generateUUID(): string {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+      const r = (Math.random() * 16) | 0;
+      const v = c === 'x' ? r : (r & 0x3) | 0x8;
+      return v.toString(16);
+    });
   }
 }

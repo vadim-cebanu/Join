@@ -120,11 +120,8 @@ minDateValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | n
     try {
       const result = await this.taskStore.addTask(taskData);
       if (result) {
-        this.showSuccessMessage.set(true);
-        setTimeout(() => {
-          this.showSuccessMessage.set(false);
-          this.close();
-        }, 2000);
+        // Close immediately - parent will handle UI updates
+        this.closed.emit();
       } else {
         console.error('Failed to create task');
       }
@@ -204,7 +201,7 @@ minDateValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | n
   addSubtask() {
     if (!this.newSubtaskTitle.trim()) return;
     const newSubtask: Subtask = {
-      id: crypto.randomUUID(),
+      id: this.generateUUID(),
       title: this.newSubtaskTitle.trim(),
       done: false
     };
@@ -254,5 +251,13 @@ minDateValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | n
     if (!target.closest('.category-dropdown')) {
       this.dropdownCategory = false;
     }
+  }
+
+  private generateUUID(): string {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+      const r = (Math.random() * 16) | 0;
+      const v = c === 'x' ? r : (r & 0x3) | 0x8;
+      return v.toString(16);
+    });
   }
 }

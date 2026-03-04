@@ -210,7 +210,7 @@
             @if (selectedContacts().length > 0) {
               <div class="assigned-avatars">
                 @for (contact of selectedContacts(); track contact.id; let i = $index) {
-                  @if (i < 5) {
+                  @if (showAllAssignees() || i < 5) {
                     <div
                       class="assigned-avatar"
                       [style.background-color]="getAvatarColor(contact.name)"
@@ -220,8 +220,25 @@
                     </div>
                   }
                 }
-                @if (selectedContacts().length > 5) {
-                  <div class="assigned-avatar avatar-overflow">+{{ selectedContacts().length - 5 }}</div>
+                @if (selectedContacts().length > 5 && !showAllAssignees()) {
+                  <div
+                    class="assigned-avatar avatar-overflow"
+                    (click)="toggleShowAllAssignees()"
+                    style="cursor: pointer;"
+                    title="Show all assignees"
+                  >
+                    +{{ selectedContacts().length - 5 }}
+                  </div>
+                }
+                @if (showAllAssignees() && selectedContacts().length > 5) {
+                  <div
+                    class="assigned-avatar avatar-overflow"
+                    (click)="toggleShowAllAssignees()"
+                    style="cursor: pointer;"
+                    title="Show less"
+                  >
+                    −
+                  </div>
                 }
               </div>
             }

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, ChangeDetectorRef, effect, HostListener } from '@angular/core';
+import { Component, OnInit, AfterViewInit, inject, ChangeDetectorRef, effect, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Task , Status} from '../../models/task.model';
@@ -24,7 +24,7 @@ import { TaskStore } from '../../services/task-store';
   templateUrl: './board-page.html',
   styleUrl: './board-page.scss',
 })
-export class BoardPage implements OnInit {
+export class BoardPage implements OnInit, AfterViewInit {
   private taskStore = inject(TaskStore);
   private cdr = inject(ChangeDetectorRef);
   dropListIds: string[] = ['todo', 'inProgress', 'awaitFeedback', 'done'];
@@ -78,12 +78,22 @@ export class BoardPage implements OnInit {
 
   /**
    * Angular lifecycle hook.
-   * Loads tasks when the page is initialized.
+   * Initializes the component.
    *
-   * @returns Promise<void>
+   * @returns void
    */
-  async ngOnInit(): Promise<void> {
-    await this.loadTasks();
+  ngOnInit(): void {
+    // Initialization happens here
+  }
+
+  /**
+   * Angular lifecycle hook.
+   * Loads tasks after the view is initialized to avoid change detection errors.
+   *
+   * @returns void
+   */
+  ngAfterViewInit(): void {
+    this.loadTasks();
   }
 
   /**
@@ -221,7 +231,6 @@ export class BoardPage implements OnInit {
    */
   async onTaskUpdated(): Promise<void> {
     this.closeTaskDetail();
-    await this.taskStore.loadTasks();
   }
 
   /**
@@ -254,7 +263,6 @@ export class BoardPage implements OnInit {
    */
   async onTaskCreated(): Promise<void> {
     this.closeAddTask();
-    await this.taskStore.loadTasks();
     this.cdr.detectChanges();
   }
 
@@ -280,6 +288,5 @@ export class BoardPage implements OnInit {
   async onMoveTask(evt: { taskId: string; status: Status }): Promise<void> {
     this.openMenuTaskId = null;
     await this.taskStore.updateTask(evt.taskId, { status: evt.status });
-    await this.taskStore.loadTasks();
   }
 }

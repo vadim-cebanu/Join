@@ -44,9 +44,10 @@ export class TaskStore {
    * - Maps DB column names to the Task model fields (e.g. `created_at` -> `createdAt`).
    * - If an error occurs, this method exits silently (caller can decide how to handle).
    *
+   * @param defer If true, defers the signal update to avoid change detection errors
    * @returns Promise<void>
    */
-  async loadTasks(): Promise<void> {
+  async loadTasks(defer: boolean = false): Promise<void> {
     const { data, error } = await this.supabase.supabase
       .from('tasks')
       .select('*')
@@ -72,9 +73,11 @@ export class TaskStore {
       position: task.position ?? 999,
     })) as Task[];
 
-    queueMicrotask(() => {
+    if (defer) {
+      setTimeout(() => this.tasksSignal.set(tasks), 0);
+    } else {
       this.tasksSignal.set(tasks);
-    });
+    }
   }
 
   /**
@@ -130,7 +133,7 @@ export class TaskStore {
       return null;
     }
 
-    await this.loadTasks();
+    await this.loadTasks(true);
 
     return result
       ? {
@@ -184,7 +187,7 @@ export class TaskStore {
 
     if (error) {
       console.error('Error updating task:', error);
-      await this.loadTasks();
+      await this.loadTasks(true);
       return null;
     }
 
@@ -207,7 +210,7 @@ export class TaskStore {
       return false;
     }
 
-    await this.loadTasks();
+    await this.loadTasks(true);
     return true;
   }
 }

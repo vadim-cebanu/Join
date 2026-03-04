@@ -204,7 +204,7 @@ export class AddTaskPage implements OnInit {
   addSubtask() {
     if (!this.newSubtaskTitle.trim()) return;
     const newSubtask: Subtask = {
-      id: crypto.randomUUID(),
+      id: this.generateUUID(),
       title: this.newSubtaskTitle.trim(),
       done: false
     };
@@ -241,5 +241,13 @@ export class AddTaskPage implements OnInit {
     if (!target.closest('.category-dropdown')) {
       this.dropdownCategory = false;
     }
+  }
+
+  private generateUUID(): string {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+      const r = (Math.random() * 16) | 0;
+      const v = c === 'x' ? r : (r & 0x3) | 0x8;
+      return v.toString(16);
+    });
   }
 }
