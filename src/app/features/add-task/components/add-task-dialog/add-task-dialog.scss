@@ -199,11 +199,15 @@ input[type='date'] {
 
       &::-webkit-calendar-picker-indicator {
         opacity: 0;
-        position: absolute;
-        right: 0;
-        width: 44px;
-        height: 100%;
         cursor: pointer;
+
+        @media (pointer: fine) {
+          position: absolute;
+          right: 0;
+          top: 0;
+          bottom: 0;
+          width: 44px;
+        }
       }
     }
 
