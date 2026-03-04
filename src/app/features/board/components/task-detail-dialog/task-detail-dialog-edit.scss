@@ -76,6 +76,12 @@
     }
   }
 
+  @supports (-moz-appearance: none) {
+    .date-icon {
+      display: none;
+    }
+  }
+
   .date-icon {
     position: absolute;
     right: 14px;
