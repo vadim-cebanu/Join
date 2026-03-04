@@ -262,10 +262,11 @@ input[type='date'] {
         align-items: center;
         gap: 8px;
         cursor: pointer;
-        transition: 0.2s ease;
+        box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
+        transition: background-color 125ms, box-shadow 125ms, color 125ms;
 
         &:hover {
-          box-shadow: 0px 9px 4px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
         }
       }
 
@@ -299,6 +300,12 @@ input[type='date'] {
           width: 20px;
           height: 20px;
         }
+      }
+
+      #prio-urgent:checked + .priority-urgent:hover,
+      #prio-medium:checked + .priority-medium:hover,
+      #prio-low:checked + .priority-low:hover {
+        box-shadow: none;
       }
 
       .priority-basic-img {
@@ -390,9 +397,10 @@ input[type='date'] {
     p {
       padding: 12px 16px;
       font-size: 20px;
+      border-radius: 10px;
 
       &:hover {
-        background-color: #d1d1d1;
+        background-color: #ebebeb;
         cursor: pointer;
       }
     }
@@ -475,6 +483,7 @@ input[type='date'] {
     display: flex;
     align-items: center;
     gap: 12px;
+    border-radius: 10px;
     padding: 10px 16px;
     cursor: pointer;
     transition: background-color 150ms;
@@ -737,6 +746,8 @@ input[type='date'] {
         border-radius: 10px;
         border: 1px #2a3647 solid;
         cursor: pointer;
+        box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
+        transition: background-color 125ms, box-shadow 125ms, color 125ms;
       }
 
       .btn-clear {
@@ -751,7 +762,7 @@ input[type='date'] {
         &:hover {
           border: 1px solid #29abe2;
           color: #29abe2;
-          box-shadow: 0px 9px 4px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 
           .btn-clear-icon {
             background-image: url(../../../../../../public/assets/icons/AddTask/clearIconLightColor.svg);
@@ -773,7 +784,7 @@ input[type='date'] {
         &:hover {
           background-color: #29abe2;
           border: 1px solid #29abe2;
-          box-shadow: 0px 9px 4px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
         }
       }
       .btn-create-task:disabled {
@@ -992,8 +1003,12 @@ input[type='date'] {
     font-size: 14px;
   }
 
-  .assigned-name {
-    font-size: 16px;
+  .main-content .assigned-name {
+    font-size: 18px;
+  }
+
+  .main-content .category-options p {
+    font-size: 18px;
   }
 
   .assigned-list {
@@ -1062,11 +1077,12 @@ input[type='date'] {
   .main-content {
     .priority-content {
       .priority-content-elements {
+        flex-direction: column;
         gap: 8px;
+        width: 100%;
 
         .priority-basic {
-          padding: 6px 8px;
-          font-size: 14px;
+          width: 100%;
           gap: 6px;
         }
 
@@ -1098,8 +1114,12 @@ input[type='date'] {
     font-size: 13px;
   }
 
-  .assigned-name {
-    font-size: 15px;
+  .main-content .assigned-name {
+    font-size: 16px;
+  }
+
+  .main-content .category-options p {
+    font-size: 16px;
   }
 }
 
