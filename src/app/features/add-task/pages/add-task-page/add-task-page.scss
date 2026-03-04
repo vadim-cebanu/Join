@@ -421,6 +421,11 @@
       margin-top: 8px;
     }
 
+    .avatar-overflow {
+      background-color: #2a3647;
+      font-size: 14px;
+    }
+
     /*CATEGORY  */
     .categoryContent {
       position: relative;
@@ -497,6 +502,7 @@
     /*  SUBTASKS  */
     .subtaskContent {
       position: relative;
+      min-height: 188px;
     }
 
     .edit-input {
@@ -567,8 +573,12 @@
     .subtask-list {
       display: flex;
       flex-direction: column;
+<<<<<<< HEAD
       margin-top: 12px;
       max-height: 200px;
+=======
+      max-height: 100px;
+>>>>>>> b1f992e7d805d556e01b7327cd0274589944bcad
       overflow-y: auto;
     }
 
@@ -643,7 +653,7 @@
     footer {
       width: 100%;
       max-width: 1440px;
-      margin: 80px auto 0 auto;
+      margin: 40px auto 0 auto;
       display: flex;
       justify-content: space-between;
       align-items: flex-end;

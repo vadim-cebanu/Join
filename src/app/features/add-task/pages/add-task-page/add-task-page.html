@@ -101,10 +101,15 @@
           </div>
           @if (selectedContacts.length > 0) {
           <div class="assigned-avatars">
-            @for (contact of selectedContacts; track contact.id) {
-            <div class="assigned-avatar" [style.background-color]="getAvatarColor(contact.name)" [title]="contact.name">
-              {{ getInitials(contact.name) }}
-            </div>
+            @for (contact of selectedContacts; track contact.id; let i = $index) {
+              @if (i < 5) {
+              <div class="assigned-avatar" [style.background-color]="getAvatarColor(contact.name)" [title]="contact.name">
+                {{ getInitials(contact.name) }}
+              </div>
+              }
+            }
+            @if (selectedContacts.length > 5) {
+            <div class="assigned-avatar avatar-overflow">+{{ selectedContacts.length - 5 }}</div>
             }
           </div>
           }

@@ -38,10 +38,11 @@
 
   <div class="assignees" *ngIf="task.assignees?.length">
     <div class="assignees__initials">
-      <span class="avatar" *ngFor="let a of task.assignees"
+      <span class="avatar" *ngFor="let a of task.assignees!.slice(0, 5)"
         [style.background-color]="getAvatarColor(a.name || a.initials)">
         {{ a.initials || getInitials(a.name) }}
       </span>
+      <span class="avatar avatar-overflow" *ngIf="task.assignees!.length > 5">+{{ task.assignees!.length - 5 }}</span>
     </div>
     <img class="prio-icon" [src]="priorityIcon[task.priority]" alt="'priority ' + task.priority">
   </div>
