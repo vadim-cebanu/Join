@@ -820,7 +820,7 @@
   }
 
   .add-task-content .mainContent footer {
-    flex-direction: column;
+    flex-direction: column-reverse;
     align-items: stretch;
     gap: 16px;
   }
@@ -851,11 +851,6 @@
 
   .add-task-content .mainContent .subtask-list {
     max-height: 150px;
-  }
-
-  .footer{
-    display: flex;
-    flex-direction: column-reverse;
   }
 }
 
