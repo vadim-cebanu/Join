@@ -73,6 +73,8 @@ export class TaskStore {
       position: task.position ?? 999,
     })) as Task[];
 
+
+
     if (defer) {
       setTimeout(() => this.tasksSignal.set(tasks), 0);
     } else {
@@ -129,7 +131,6 @@ export class TaskStore {
       due_at: data.dueDate,
     };
 
-    console.log('Inserting task with payload:', taskPayload);
 
     const { data: result, error } = await this.supabase.supabase
       .from('tasks')
@@ -163,7 +164,6 @@ export class TaskStore {
           assignees: result.assignees || [],
           subtasks: result.subtasks || [],
           createdAt: result.created_at,
-          dueDate: result.due_at,
         }
       : null;
   }

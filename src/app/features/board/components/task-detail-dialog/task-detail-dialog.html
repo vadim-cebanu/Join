@@ -19,7 +19,15 @@
           }
           <div class="view-row">
             <span class="view-label">Due date:</span>
-            <span>{{ task?.dueDate ? (task?.dueDate | date: 'dd/MM/yyyy') : '-' }}</span>
+            @if (task?.dueDate) {
+              @if (isOverdue(task!.dueDate)) {
+                <span style="color: #ff3d00; font-weight: 500;">{{ task!.dueDate | date: 'dd/MM/yyyy' }} (Overdue)</span>
+              } @else {
+                <span>{{ task!.dueDate | date: 'dd/MM/yyyy' }}</span>
+              }
+            } @else {
+              <span>{{ task?.dueDate | date: 'dd/MM/yyyy'}}</span>
+            }
           </div>
           <div class="view-row">
             <span class="view-label">Priority:</span>
