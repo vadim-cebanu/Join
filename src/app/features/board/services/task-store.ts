@@ -107,15 +107,12 @@ export class TaskStore {
     dueDate?: string;
   }): Promise<Task | null> {
     const userId = this.supabase.currentUser()?.id;
-    if (!userId) {
-      return null;
-    }
 
     const { data: result, error } = await this.supabase.supabase
       .from('tasks')
       .insert([
         {
-          created_by: userId,
+          ...(userId ? { created_by: userId } : {}),
           title: data.title,
           description: data.description,
           status: data.status,
