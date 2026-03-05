@@ -1,5 +1,6 @@
 import { Component, inject, OnInit, ViewChild, ElementRef, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import {
   FormControl,
   FormGroup,
@@ -44,6 +45,7 @@ export class AddTaskPage implements OnInit {
 
   supabaseService = inject(Supabase);
   taskStore = inject(TaskStore);
+  router = inject(Router);
 
   today: string = new Date().toISOString().split('T')[0];
 
@@ -124,6 +126,7 @@ export class AddTaskPage implements OnInit {
         setTimeout(() => {
           this.showSuccessMessage.set(false);
           this.clearForm();
+          this.router.navigate(['/board']);
         }, 2000);
       } else {
         console.error('Failed to create task');

@@ -94,6 +94,7 @@ export class TaskStore {
    * Inserts a new task into Supabase and refreshes local store state.
    *
    * @param data Data required to create the task.
+   * @param skipReload If true, skip reloading tasks (useful for dialogs to avoid change detection errors)
    * @returns The created Task mapped to the app model, or null on failure.
    */
   async addTask(data: {
@@ -105,7 +106,7 @@ export class TaskStore {
     assignees?: { id: string; initials: string; name?: string }[];
     subtasks?: { id: string; title: string; done: boolean }[];
     dueDate?: string;
-  }): Promise<Task | null> {
+  }, skipReload: boolean = false): Promise<Task | null> {
     const userId = this.supabase.currentUser()?.id;
     const isGuest = this.supabase.isGuest();
 
@@ -147,7 +148,9 @@ export class TaskStore {
       return null;
     }
 
-    await this.loadTasks(true);
+    if (!skipReload) {
+      await this.loadTasks(true);
+    }
 
     return result
       ? {

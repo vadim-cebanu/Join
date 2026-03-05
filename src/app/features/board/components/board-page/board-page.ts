@@ -247,12 +247,15 @@ export class BoardPage implements OnInit, AfterViewInit {
 
   /**
    * Closes the add task dialog and clears the selectedStatus.
+   * Reloads tasks to reflect any newly created task.
    *
    * @returns void
    */
-  closeAddTask(): void {
+  async closeAddTask(): Promise<void> {
     this.showAddTask = false;
     this.selectedStatus = null;
+    // Reload tasks in case a task was created
+    await this.loadTasks();
   }
 
   /**

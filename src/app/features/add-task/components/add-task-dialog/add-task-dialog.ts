@@ -118,10 +118,13 @@ minDateValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | n
     };
 
     try {
-      const result = await this.taskStore.addTask(taskData);
+      const result = await this.taskStore.addTask(taskData, true); // skipReload=true to avoid change detection error
       if (result) {
-        // Close immediately - parent will handle UI updates
-        this.closed.emit();
+        this.showSuccessMessage.set(true);
+        setTimeout(() => {
+          this.showSuccessMessage.set(false);
+          this.closed.emit();
+        }, 2000);
       } else {
         console.error('Failed to create task');
       }
