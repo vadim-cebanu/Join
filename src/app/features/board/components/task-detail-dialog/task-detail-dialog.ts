@@ -408,6 +408,21 @@ export class TaskDetailDialog implements OnInit {
   }
 
   /**
+   * Checks if a given date is in the past (before today).
+   *
+   * @param dueDate The due date to check
+   * @returns boolean True if the date is overdue
+   */
+  isOverdue(dueDate: string | undefined): boolean {
+    if (!dueDate) return false;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const due = new Date(dueDate);
+    due.setHours(0, 0, 0, 0);
+    return due < today;
+  }
+
+  /**
    * Toggles between showing 5 assignees or all assignees.
    *
    * @returns void
