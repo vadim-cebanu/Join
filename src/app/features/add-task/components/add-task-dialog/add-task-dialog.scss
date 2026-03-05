@@ -10,7 +10,8 @@
   justify-content: center;
   z-index: 1000;
   .dialog-content {
-  padding: 40px 20px 40px 40px;
+  padding: 40px;
+  margin: 20px;
 }
 }
 
@@ -1051,6 +1052,12 @@ input[type='date'] {
     font-size: 14px;
     padding: 6px 8px;
     min-height: 36px;
+  }
+}
+
+@media (max-width: 550px) {
+  .dialog-overlay .dialog-content {
+    padding: 40px 10px 40px 20px;
   }
 }
 
