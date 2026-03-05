@@ -844,11 +844,11 @@ input[type='date'] {
     padding: 0;
   }
 
-  .dialog-content {
+  .dialog-overlay .dialog-content {
     max-width: 90%;
     max-height: 95vh;
     border-radius: 30px;
-    padding: 24px 20px 32px;
+    padding: 40px 10px 40px 40px;
     height: auto;
     overflow-y: hidden;
   }
