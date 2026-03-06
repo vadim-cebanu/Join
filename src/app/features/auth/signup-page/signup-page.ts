@@ -50,6 +50,10 @@ export class SignupPage {
 
     if (success) {
       this.successMessage.set('Account created! Please check your email to confirm.');
+
+       setTimeout(() => {
+         this.router.navigate(['/login'])}, 800);
+
     }
   }
 }
