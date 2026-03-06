@@ -33,7 +33,13 @@ input {
   border: 1px solid #d1d1d1;
   outline: none;
   font-size: 16px;
+  cursor: pointer;
+
+  &::placeholder{
+    color: #D1D1D1;
+  }
 }
+
 input:focus { border-color: #29abe2; }
 
 .error {
@@ -67,7 +73,7 @@ input:focus { border-color: #29abe2; }
   background: #2a3647;
   color: #fff;
 }
-.btn-primary:hover { background: #29abe2; }
+.btn-primary:hover { background: #29abe2; box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25); }
 
 .btn-secondary {
   background: #fff;
@@ -77,11 +83,17 @@ input:focus { border-color: #29abe2; }
 .btn-secondary:hover {
   border-color: #29abe2;
   color: #29abe2;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 button:disabled {
   opacity: 0.6;
-  cursor: not-allowed;
+  cursor: default;
+
+  &:hover{
+    background-color: #2a3647;
+    box-shadow: none;
+  }
 }
 
 .input-wrap{
@@ -90,7 +102,7 @@ button:disabled {
 
 .input-wrap input{
   width: 100%;
-  padding-right: 48px; 
+  padding-right: 48px;
 }
 
 .input-icon{

@@ -65,8 +65,12 @@
 .btn-dark {
   background: #2a3647;
   color: #fff;
+  transition: 100ms ease-in-out;
 }
-.btn-dark:hover { background: #29abe2; }
+.btn-dark:hover {
+  background: #29abe2;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+}
 
 
 @media screen and (max-width:991px) {
