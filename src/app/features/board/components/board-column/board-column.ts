@@ -1,27 +1,8 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  ViewChild,
-  ViewChildren,
-  QueryList,
-  ElementRef,
-  TemplateRef,
-  ChangeDetectorRef,
-  ChangeDetectionStrategy
-} from '@angular/core';
+import {Component,EventEmitter,Input,Output,ViewChild, ViewChildren,QueryList,ElementRef,TemplateRef,ChangeDetectorRef,ChangeDetectionStrategy} from '@angular/core';
 import { TaskCard } from '../task-card/task-card';
 import { Task, Status } from '../../models/task.model';
 import { CommonModule } from '@angular/common';
-import {
-  CdkDrag,
-  CdkDropList,
-  CdkDragDrop,
-  moveItemInArray,
-  transferArrayItem,
-  DragDropModule
-} from '@angular/cdk/drag-drop';
+import {CdkDrag,CdkDropList,CdkDragDrop,moveItemInArray,transferArrayItem,DragDropModule} from '@angular/cdk/drag-drop';
 import { inject } from '@angular/core';
 import { Supabase } from '../../../../supabase';
 
@@ -70,7 +51,7 @@ export class BoardColumn  {
 
   private supabase = inject(Supabase);
   private cdr = inject(ChangeDetectorRef);
-  
+
   isDragOver = false;
   isDragging = false;
   draggedTaskIndex = -1;

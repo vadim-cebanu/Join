@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from "@angular/router";
+import { Supabase } from '../../../supabase';
 
 /**
  * Sidebar navigation component displayed on the left side of the main layout.
@@ -12,5 +13,5 @@ import { RouterLink, RouterLinkActive } from "@angular/router";
   styleUrl: './sidebar.scss',
 })
 export class Sidebar {
-
+  supabase = inject(Supabase);
 }

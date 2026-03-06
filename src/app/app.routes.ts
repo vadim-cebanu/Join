@@ -39,9 +39,15 @@ export const routes: Routes = [
       { path: 'summary', component: SummaryPage },
       { path: 'add-task', component: AddTaskPage },
       { path: 'board', component: BoardPage },
+      { path: 'help', component: HelpPage },
+    ],
+  },
+  {
+    path: '',
+    component: AppLayout,
+    children: [
       { path: 'privacy', component: PrivacyPolicyPage },
       { path: 'legal', component: LegalNoticePage },
-      { path: 'help', component: HelpPage },
     ],
   },
   { path: '**', redirectTo: 'login' },
