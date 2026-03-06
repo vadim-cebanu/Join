@@ -1,1 +1,91 @@
-<p>summary-page works!</p>
+<div class="summary-page">
+  <div class="summary-header">
+    <h1>Join 360</h1>
+    <span class="header-line"></span>
+    <p>Key Metrics at a Glance</p>
+  </div>
+
+  <div class="summary-container">
+    <div class="summary-main">
+      <!-- All metric cards -->
+      <section class="all-cards">
+        <!-- To-do card -->
+        <a routerLink="/board" class="metric-card">
+          <div class="metric-icon" style="background-color: #2A3647;">
+            <img src="assets/icons/pencil.svg" alt="To-do" width="32" height="32">
+          </div>
+          <div class="metric-value">{{ toDoCount() }}</div>
+          <div class="metric-label">To-do</div>
+        </a>
+
+        <!-- Done card -->
+        <a routerLink="/board" class="metric-card">
+          <div class="metric-icon" style="background-color: #2A3647;">
+            <img src="assets/icons/check.svg" alt="Done" width="32" height="32">
+          </div>
+          <div class="metric-value">{{ doneCount() }}</div>
+          <div class="metric-label">Done</div>
+        </a>
+
+        <!-- Combined Urgent and Deadline card -->
+        <a routerLink="/board" class="combined-card">
+          <!-- Urgent section -->
+          <div class="urgent-section">
+            <div class="metric-icon" style="background-color: #EF4444;">
+              <img src="assets/icons/urgent2.svg" alt="Urgent" width="60" height="60">
+            </div>
+            <div class="urgent-content">
+              <div class="metric-value">{{ urgentCount() }}</div>
+              <div class="metric-label">Urgent</div>
+            </div>
+          </div>
+
+          <!-- Vertical divider -->
+          <div class="vertical-divider"></div>
+
+          <!-- Deadline section -->
+          <div class="deadline-section">
+            <div class="deadline-date" *ngIf="upcomingDeadline()">
+              {{ upcomingDeadline() | date: 'MMMM dd, yyyy' }}
+            </div>
+            <div class="deadline-date" *ngIf="!upcomingDeadline()">
+              No upcoming deadline
+            </div>
+            <div class="deadline-label">Upcoming Deadline</div>
+          </div>
+        </a>
+      </section>
+
+      <!-- Task counts row -->
+      <section class="task-counts-row">
+        <!-- Tasks in Board card -->
+        <a routerLink="/board" class="count-item">
+          <div class="count-value">{{ tasksInBoard() }}</div>
+          <div class="count-label">Tasks in Board</div>
+        </a>
+
+        <!-- Tasks In Progress card -->
+        <a routerLink="/board" class="count-item">
+          <div class="count-value">{{ tasksInProgress() }}</div>
+          <div class="count-label">Tasks In Progress</div>
+        </a>
+
+        <!-- Awaiting Feedback card -->
+        <a routerLink="/board" class="count-item">
+          <div class="count-value">{{ awaitingFeedback() }}</div>
+          <div class="count-label">Awaiting Feedback</div>
+        </a>
+      </section>
+    </div>
+
+    <!-- Greeting Aside -->
+    <aside class="summary-greeting">
+      @if (!isGuestUser && userName()) {
+        <h2>{{ greeting }},</h2>
+        <h2 class="user-name">{{ userName() }}</h2>
+      } @else {
+        <h2>{{ greeting }}</h2>
+      }
+    </aside>
+  </div>
+</div>
