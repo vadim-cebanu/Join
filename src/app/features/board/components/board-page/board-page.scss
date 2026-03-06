@@ -218,13 +218,20 @@ body {
     @media(max-width:1215px){
       .board {
     gap: 16px;
-    padding: 30px 30px 30px;
+    padding: 30px 23px 30px;
 }
     }
 
-       @media (min-width: 992px) and (max-width: 1075px) {
+    @media (min-width: 1075px) and (max-width: 1120px) {
+        .board-page__header {
+        padding-right: 40px;
+    }
+      
+    }
+
+    @media (min-width: 992px) and (max-width: 1115px) {
             .board-page__header {
-        padding-right: 45px;
+        padding-right: 30px;
     }
         .board {
         grid-template-columns: repeat(3, 1fr);
