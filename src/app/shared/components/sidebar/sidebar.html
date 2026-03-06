@@ -1,7 +1,7 @@
 <section>
-  <!-- User ist eingeloggt -->
-  @if (supabase.isLoggedIn()) {
+  @if (supabase.isAuthenticated()) {
     <img class="logo" src="assets/icons/logo.png" alt="Join Logo" />
+
     <div class="button-bar">
       <button
         class="button"
@@ -18,6 +18,7 @@
           <span class="sidebar-button-text">Summary</span>
         </div>
       </button>
+
       <button
         class="button"
         routerLink="/add-task"
@@ -26,14 +27,13 @@
       >
         <div class="sidebar-button">
           <img
-            [src]="
-              addTaskRla.isActive ? 'assets/icons/add-task-active.svg' : 'assets/icons/add-task.svg'
-            "
+            [src]="addTaskRla.isActive ? 'assets/icons/add-task-active.svg' : 'assets/icons/add-task.svg'"
             alt="Add Task"
           />
           <span class="sidebar-button-text">Add Task</span>
         </div>
       </button>
+
       <button
         class="button"
         routerLink="/board"
@@ -48,6 +48,7 @@
           <span class="sidebar-button-text">Board</span>
         </div>
       </button>
+
       <button
         class="button"
         routerLink="/contacts"
@@ -56,57 +57,46 @@
       >
         <div class="sidebar-button">
           <img
-            [src]="
-              contactsRla.isActive
-                ? 'assets/icons/contacts-active.svg'
-                : 'assets/icons/contacts.svg'
-            "
+            [src]="contactsRla.isActive ? 'assets/icons/contacts-active.svg' : 'assets/icons/contacts.svg'"
             alt="Contacts"
           />
           <span class="sidebar-button-text">Contacts</span>
         </div>
       </button>
     </div>
+
     <aside class="legal-information">
       <a routerLink="/privacy" routerLinkActive="active">Privacy Policy</a>
       <a routerLink="/legal" routerLinkActive="active">Legal notice</a>
     </aside>
-  }
-  <!-- User ist NICHT eingeloggt -->
-  @if (!supabase.isLoggedIn()) {
+  } @else {
     <article class="content-guest">
       <div class="guest-top">
         <img class="logo" src="assets/icons/logo.png" alt="Join Logo" />
+
         <div class="button-bar-guest">
           <button class="button" routerLink="/login">
             <div class="sidebar-button-guest">
-              <img [src]="'assets/icons/login.svg'" alt="Log in" />
+              <img src="assets/icons/login.svg" alt="Log in" />
               <span class="sidebar-button-guest-text">Log in</span>
             </div>
           </button>
         </div>
       </div>
-      <aside class="legal-information-guest">
-<div class="button-bar-guest">
-<button
-        class="button"
-        routerLink="/privacy"
-        routerLinkActive="active"
-      >
-        <div class="sidebar-button-guest">
-          <span class="sidebar-button-guest-text">Privacy Policy</span>
-        </div>
-      </button>
 
-<button
-        class="button"
-        routerLink="/legal"
-        routerLinkActive="active"
-      >
-        <div class="sidebar-button-guest">
-          <span class="sidebar-button-guest-text">Legal notice</span>
-        </div>
-      </button>
+      <aside class="legal-information-guest">
+        <div class="button-bar-guest">
+          <button class="button" routerLink="/privacy" routerLinkActive="active">
+            <div class="sidebar-button-guest">
+              <span class="sidebar-button-guest-text">Privacy Policy</span>
+            </div>
+          </button>
+
+          <button class="button" routerLink="/legal" routerLinkActive="active">
+            <div class="sidebar-button-guest">
+              <span class="sidebar-button-guest-text">Legal notice</span>
+            </div>
+          </button>
         </div>
       </aside>
     </article>
