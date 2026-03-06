@@ -1,1 +1,83 @@
-<p>summary-page works!</p>
+<section class="summary-page">
+  <header class="summary-header">
+    <div class="summary-header__row">
+      <div class="summary-header__brand">Join 360</div>
+      <span class="summary-header__div" aria-hidden="true">|</span>
+      <div class="summary-header__subtitle">Key Metrics at a Glance</div>
+    </div>
+    <div class="summary-header__underline"></div>
+  </header>
+
+  <div class="summary-layout">
+    <!-- LEFT -->
+    <div class="summary-left">
+      <!-- To-do / Done -->
+      <div class="row row--two">
+        <article class="card card--metric">
+          <div class="card__icon">
+            <img class="icon-img" src="assets/icons/Summary/edit.png" alt="logo">
+          </div>
+          <div class="card__value">
+            <span>2</span>
+            <div class="card__label">To-do</div>
+        </div>
+        </article>
+        <article class="card card--metric">
+          <div class="card__icon">
+            <img class="icon-img" src="assets/icons/Summary/vector.png" alt="logo">
+          </div>
+          <div class="card__value">
+            <span>3</span>
+            <div class="card__label">Done</div>
+        </div>
+        </article>
+      </div>
+
+      <!-- Urgent -->
+      <article class="card card--wide">
+        <div class="wide-left">
+          <div class="wide-left__icon">
+             <img src="assets/icons/Summary/Prio-alta.png" alt="logo">
+          </div>
+          <div class="card__value">
+            <span>3</span>
+            <div class="card__label">Urgent</div>
+        </div>
+        </div>
+
+        <div class="wide-div"></div>
+
+        <div class="wide-right">
+          <div class="wide-right__date">12.2.2026</div>
+          <div class="wide-right__label">Upcoming Deadline</div>
+        </div>
+      </article>
+
+      <!-- Bottom 3 cards -->
+      <div class="row row--three">
+        <article class="card card__small">
+          <div class="card__value">2</div>
+          <div class="card__label">Tasks in<br />Board</div>
+        </article>
+
+        <article class="card card__small">
+          <div class="card__value">2</div>
+          <div class="card__label">Tasks In<br />Progress</div>
+        </article>
+
+        <article class="card card__small">
+          <div class="card__value">2</div>
+          <div class="card__label">Awaiting<br />Feedback</div>
+        </article>
+      </div>
+    </div>
+
+    <!-- RIGHT -->
+    <aside class="summary-right">
+      <div class="info">
+        <div class="info__hello">Good morning,</div>
+        <div class="info__name">Serhat Özcakir</div>
+      </div>
+    </aside>
+  </div>
+</section>
