@@ -70,13 +70,19 @@ section {
 
 @media (max-width: 1024px) {
   section {
-    padding: 48px 40px;
-    max-width: 860px;
+    padding: 48px 60px;
 
     h1 {
       font-size: 42px;
     }
   }
+}
+
+@media (max-width: 768px) {
+  section {
+    padding: 48px 32px;
+  }
+
 }
 
 @media (max-width: 480px) {
