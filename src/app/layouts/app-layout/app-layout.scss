@@ -9,6 +9,7 @@
   margin-left: 0;
   margin-right: auto;
   height: 100%;
+   overflow-y: auto;
 }
 
 .main {
@@ -20,7 +21,7 @@
 
 .content {
   flex: 1;
-  overflow-y: auto;
+  /* overflow-y: auto; */
   height: 100%;
   padding-top: 96px;
 }
