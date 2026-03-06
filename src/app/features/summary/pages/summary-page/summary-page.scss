@@ -1,10 +1,10 @@
 .summary-page {
   padding: 80px;
   background: #f7f8fa;
-  height: 100vh;
+  min-height: 100vh;
 }
 
-/* HEADER  */
+/* HEADER */
 .summary-header {
   margin-bottom: 28px;
 }
@@ -44,7 +44,7 @@
   margin-top: 12px;
 }
 
-/*  LAYOUT */
+/* LAYOUT */
 .summary-layout {
   display: flex;
   align-items: stretch;
@@ -68,48 +68,56 @@
   justify-content: center;
 }
 
-/*  ROWS */
+/* ROWS */
 .row {
   display: flex;
   gap: 22px;
 
-  &--two > .card {
-    flex: 1;
-    min-width: 0;
-  }
-
+  &--two > .card,
   &--three > .card {
     flex: 1;
     min-width: 0;
   }
 }
 
-/*  CARDS */
+/* CARDS - BASE */
 .card {
-  background: #fff;
+  display: block;
+  text-decoration: none;
+  background-color: #fff;
   border-radius: 22px;
   padding: 22px;
   box-shadow: 0 10px 24px rgba(16, 24, 40, 0.06);
   border: 1px solid rgba(17, 24, 39, 0.06);
   text-align: center;
+  cursor: pointer;
+  transition:
+    background-color 0.35s ease,
+    transform 0.35s ease,
+    box-shadow 0.35s ease;
+
+  &:hover {
+    background-color: #1f2937;
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 18px 36px rgba(16, 24, 40, 0.16);
+  }
 
   &__icon {
     width: 56px;
     height: 56px;
     border-radius: 999px;
-    /* margin: 0 auto 12px; */
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #1f2937;
-    color: #fff;
-    font-size: 22px;
+    background-color: #1f2937;
+    transition: background-color 0.35s ease;
 
     img {
       width: 20px;
+      height: auto;
       display: block;
-      transition: filter 0.2s ease;
       filter: brightness(0) invert(1);
+      transition: filter 0.35s ease;
     }
   }
 
@@ -118,26 +126,27 @@
     font-weight: 800;
     color: #111;
     line-height: 1;
+    transition: color 0.35s ease;
   }
 
   &__label {
     margin-top: 8px;
     font-size: 20px;
     color: #4b5563;
+    transition: color 0.35s ease;
   }
+}
 
-  &--metric {
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    cursor: pointer;
-  }
+/* METRIC CARDS */
+.card--metric {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 16px;
 
   &:hover {
-    background: #1f2937;
-
     .card__icon {
-      background: #fff;
+      background-color: #fff;
 
       img {
         filter: brightness(0) invert(0);
@@ -151,25 +160,23 @@
   }
 }
 
-.card--wide:hover {
-  .wide-right__date,
-  .wide-right__label,
-  .wide-left .card__value,
-  .wide-left .card__label {
-    color: #fff;
-  }
-}
-
+/* SMALL CARDS */
 .card__small {
   padding: 20px;
-  cursor: pointer;
 
   .card__value {
     font-size: 44px;
   }
+
+  &:hover {
+    .card__value,
+    .card__label {
+      color: #fff;
+    }
+  }
 }
 
-/*  WIDE CARD */
+/* WIDE CARD */
 .card--wide {
   display: flex;
   align-items: center;
@@ -177,14 +184,28 @@
   text-align: left;
   padding: 26px;
   gap: 18px;
+
+  &:hover {
+    .wide-right__date,
+    .wide-right__label,
+    .wide-left .card__value,
+    .wide-left .card__label {
+      color: #fff;
+    }
+
+    .wide-div {
+      background-color: #fff;
+    }
+  }
 }
 
 .wide-left {
   width: 140px;
   display: flex;
   align-items: center;
-  text-align: center;
   justify-content: space-evenly;
+  text-align: center;
+  gap: 12px;
 
   &__icon {
     width: 56px;
@@ -193,26 +214,21 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #ff3d00;
+    background-color: #ff3d00;
     color: #fff;
     font-size: 22px;
-    margin-bottom: 8px;
-    img{
+    transition: background-color 0.35s ease;
+
+    img {
       width: 20px;
+      height: auto;
+      display: block;
     }
   }
 
-  &__value {
-    font-size: 40px;
-    font-weight: 800;
-    line-height: 1;
-    color: #111;
-  }
-
-  &__label {
-    font-size: 14px;
-    color: #4b5563;
-    margin-top: 6px;
+  .card__value,
+  .card__label {
+    transition: color 0.35s ease;
   }
 }
 
@@ -220,6 +236,7 @@
   width: 3px;
   height: 64px;
   background-color: #d1d1d1;
+  transition: background-color 0.35s ease;
 }
 
 .wide-right {
@@ -229,16 +246,18 @@
     font-size: 18px;
     font-weight: 700;
     color: #111827;
+    transition: color 0.35s ease;
   }
 
   &__label {
     margin-top: 6px;
     font-size: 14px;
     color: #6b7280;
+    transition: color 0.35s ease;
   }
 }
 
-/*  INFO  */
+/* INFO */
 .info {
   text-align: left;
 
@@ -257,7 +276,7 @@
   }
 }
 
-/*  RESPONSIVE: MOBILE */
+/* RESPONSIVE */
 @media (min-width: 1025px) {
   .summary-header__underline {
     display: none;
@@ -355,7 +374,6 @@
   .wide-left__icon {
     width: 50px;
     height: 50px;
-
   }
 
   .row--three > .card {
