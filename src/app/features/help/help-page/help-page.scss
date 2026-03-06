@@ -3,16 +3,70 @@
     height: 100vh;
     display: flex;
     align-items: flex-start;
-    justify-content: center;
+    flex-direction: column;
+    padding: 30px 30px;
+}
+
+.help-top{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 30px 30px;
+}
+
+.help-container{
+    max-width: 1440px;
+    margin: 0 auto;
+    width: 100%;
 }
 
 .help-main{
-    padding: 30px 30px;
+    padding: 0px 30px;
     &__title{
-        font-size: 40px;
+        font-size: 42px;
     }
     &__subtitle{
         font-size: 25px;
+        margin-bottom: 30px;
     }
+     ol li::marker {
+  font-weight: 600;
+  font-size: 20px;
+}
 
 }
+
+.icon-btn{
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.join-text{
+    color: rgba(41, 171, 226, 1); 
+}
+
+@media (max-width: 768px) {
+    .help{
+        padding: 24px 16px;
+    }
+    .help-top{
+        padding: 16px 16px;
+    }
+    .help-main{
+        padding: 0px 16px;
+        &__title{
+            font-size: 32px;
+        }
+        &__subtitle{
+            font-size: 20px;
+        }
+    }
+}
+
+
