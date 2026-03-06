@@ -16,12 +16,14 @@
       (ngModelChange)="email.set($event)"
       name="email"
       required
+      email
+      pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$"
       #emailInput="ngModel"
     />
     <img class="input-icon" src="assets/icons/mail.png" alt="" aria-hidden="true" />
   </div>
       @if (emailInput.invalid && emailInput.touched) {
-      <span class="error">Valid email is required</span>
+      <span class="error">Please enter a valid email address</span>
       }
     </div>
 

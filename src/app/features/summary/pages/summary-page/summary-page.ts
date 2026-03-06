@@ -33,8 +33,15 @@ export class SummaryPage implements OnInit {
   async loadUserName() {
     const { data: { user } } = await this.supabase.supabase.auth.getUser();
     if (user) {
-      const name = user.user_metadata?.['display_name'] || user.email || '';
-      this.userName.set(this.capitalizeWords(name));
+      // Try to get display_name from profiles table
+      const { data: profile } = await this.supabase.supabase
+        .from('profiles')
+        .select('display_name')
+        .eq('id', user.id)
+        .single();
+
+      const name = profile?.display_name || user.user_metadata?.['display_name'] || '';
+      this.userName.set(name ? this.capitalizeWords(name) : '');
     }
   }
 
