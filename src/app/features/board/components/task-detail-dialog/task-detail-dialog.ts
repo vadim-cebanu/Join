@@ -129,10 +129,13 @@ export class TaskDetailDialog implements OnInit {
       name: c.name,
     }));
 
+    // Use the original due date if no new date was provided
+    const finalDueDate = dueDate || this.task.dueDate;
+
     await this.taskStore.updateTask(this.task.id, {
       title,
       description,
-      dueDate,
+      dueDate: finalDueDate,
       priority: this.selectedPriority() ?? this.task.priority,
       assignees,
     });
