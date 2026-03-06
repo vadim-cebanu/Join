@@ -35,18 +35,17 @@
 }
 <!-- User ist NICHT eingeloggt -->
 @if (!supabase.isLoggedIn()) {
-<img class="logo" src="assets/icons/logo.png" alt="Join Logo" />
-
-<div class="button-bar">
-    <button class="button" routerLink="/login">
-      <div class="sidebar-button">
-        <img [src]="'assets/icons/contacts.svg'" alt="Log in" />
-        <span class="sidebar-button-text">Log in</span>
-      </div>
-    </button>
+  <div class="guest-top">
+    <img class="logo" src="assets/icons/logo.png" alt="Join Logo" />
+    <div class="button-bar">
+      <button class="button" routerLink="/login">
+        <div class="sidebar-button">
+          <img [src]="'assets/icons/login.svg'" alt="Log in" />
+          <span class="sidebar-button-text">Log in</span>
+        </div>
+      </button>
+    </div>
   </div>
-
-
   <aside class="legal-information">
     <a routerLink="/privacy">Privacy Policy</a>
     <a routerLink="/legal">Legal notice</a>

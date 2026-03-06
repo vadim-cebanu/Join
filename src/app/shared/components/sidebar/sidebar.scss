@@ -31,6 +31,14 @@ section {
   padding: 0;
 }
 
+.guest-top {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(20px, 10vh, 160px);
+  align-items: center;
+  width: 100%;
+}
+
 .active {
   background-color: #091931;
   color: #ffffff;
