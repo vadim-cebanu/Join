@@ -1,54 +1,119 @@
 <section>
   <!-- User ist eingeloggt -->
   @if (supabase.isLoggedIn()) {
-  <img class="logo" src="assets/icons/logo.png" alt="Join Logo" />
-  <div class="button-bar">
-    <button class="button" routerLink="/summary" routerLinkActive="active" #summaryRla="routerLinkActive">
-      <div class="sidebar-button">
-        <img class="sidebar-button-image" [src]="summaryRla.isActive ? 'assets/icons/summary3.png' : 'assets/icons/summary3.png'" alt="Summary" />
-        <span class="sidebar-button-text">Summary</span>
-      </div>
-    </button>
-    <button class="button" routerLink="/add-task" routerLinkActive="active" #addTaskRla="routerLinkActive">
-      <div class="sidebar-button">
-        <img [src]="addTaskRla.isActive ? 'assets/icons/add-task-active.svg' : 'assets/icons/add-task.svg'" alt="Add Task" />
-        <span class="sidebar-button-text">Add Task</span>
-      </div>
-    </button>
-    <button class="button" routerLink="/board" routerLinkActive="active" #boardRla="routerLinkActive">
-      <div class="sidebar-button">
-        <img [src]="boardRla.isActive ? 'assets/icons/board-active.svg' : 'assets/icons/board.svg'" alt="Board" />
-        <span class="sidebar-button-text">Board</span>
-      </div>
-    </button>
-    <button class="button" routerLink="/contacts" routerLinkActive="active" #contactsRla="routerLinkActive">
-      <div class="sidebar-button">
-        <img [src]="contactsRla.isActive ? 'assets/icons/contacts-active.svg' : 'assets/icons/contacts.svg'" alt="Contacts" />
-        <span class="sidebar-button-text">Contacts</span>
-      </div>
-    </button>
-  </div>
-  <aside class="legal-information">
-    <a routerLink="/privacy">Privacy Policy</a>
-    <a routerLink="/legal">Legal notice</a>
-  </aside>
-}
-<!-- User ist NICHT eingeloggt -->
-@if (!supabase.isLoggedIn()) {
-  <div class="guest-top">
     <img class="logo" src="assets/icons/logo.png" alt="Join Logo" />
     <div class="button-bar">
-      <button class="button" routerLink="/login">
+      <button
+        class="button"
+        routerLink="/summary"
+        routerLinkActive="active"
+        #summaryRla="routerLinkActive"
+      >
         <div class="sidebar-button">
-          <img [src]="'assets/icons/login.svg'" alt="Log in" />
-          <span class="sidebar-button-text">Log in</span>
+          <img
+            class="sidebar-button-image"
+            [src]="summaryRla.isActive ? 'assets/icons/summary3.png' : 'assets/icons/summary3.png'"
+            alt="Summary"
+          />
+          <span class="sidebar-button-text">Summary</span>
+        </div>
+      </button>
+      <button
+        class="button"
+        routerLink="/add-task"
+        routerLinkActive="active"
+        #addTaskRla="routerLinkActive"
+      >
+        <div class="sidebar-button">
+          <img
+            [src]="
+              addTaskRla.isActive ? 'assets/icons/add-task-active.svg' : 'assets/icons/add-task.svg'
+            "
+            alt="Add Task"
+          />
+          <span class="sidebar-button-text">Add Task</span>
+        </div>
+      </button>
+      <button
+        class="button"
+        routerLink="/board"
+        routerLinkActive="active"
+        #boardRla="routerLinkActive"
+      >
+        <div class="sidebar-button">
+          <img
+            [src]="boardRla.isActive ? 'assets/icons/board-active.svg' : 'assets/icons/board.svg'"
+            alt="Board"
+          />
+          <span class="sidebar-button-text">Board</span>
+        </div>
+      </button>
+      <button
+        class="button"
+        routerLink="/contacts"
+        routerLinkActive="active"
+        #contactsRla="routerLinkActive"
+      >
+        <div class="sidebar-button">
+          <img
+            [src]="
+              contactsRla.isActive
+                ? 'assets/icons/contacts-active.svg'
+                : 'assets/icons/contacts.svg'
+            "
+            alt="Contacts"
+          />
+          <span class="sidebar-button-text">Contacts</span>
         </div>
       </button>
     </div>
-  </div>
-  <aside class="legal-information">
-    <a routerLink="/privacy">Privacy Policy</a>
-    <a routerLink="/legal">Legal notice</a>
-  </aside>
-}
+    <aside class="legal-information">
+      <a routerLink="/privacy">Privacy Policy</a>
+      <a routerLink="/legal">Legal notice</a>
+    </aside>
+  }
+  <!-- User ist NICHT eingeloggt -->
+  @if (!supabase.isLoggedIn()) {
+    <article class="content-guest">
+      <div class="guest-top">
+        <img class="logo" src="assets/icons/logo.png" alt="Join Logo" />
+        <div class="button-bar-guest">
+          <button class="button" routerLink="/login">
+            <div class="sidebar-button-guest">
+              <img [src]="'assets/icons/login.svg'" alt="Log in" />
+              <span class="sidebar-button-guest-text">Log in</span>
+            </div>
+          </button>
+        </div>
+      </div>
+      <aside class="legal-information-guest">
+<div class="button-bar-guest">
+<button
+        class="button"
+        routerLink="/privacy"
+        routerLinkActive="active"
+      >
+        <div class="sidebar-button-guest">
+          <span class="sidebar-button-guest-text">Privacy Policy</span>
+        </div>
+      </button>
+
+<button
+        class="button"
+        routerLink="/legal"
+        routerLinkActive="active"
+      >
+        <div class="sidebar-button-guest">
+          <span class="sidebar-button-guest-text">Legal notice</span>
+        </div>
+      </button>
+
+
+
+        <!-- <a routerLink="/privacy">Privacy Policy</a>
+        <a routerLink="/legal">Legal notice</a> -->
+        </div>
+      </aside>
+    </article>
+  }
 </section>
