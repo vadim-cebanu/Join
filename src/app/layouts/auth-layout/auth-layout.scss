@@ -3,6 +3,7 @@
   display: flex;
   flex-direction: column;
   background: #f6f7f8;
+  overflow-y: auto;
 }
 
 .auth-top {
@@ -15,6 +16,7 @@
 .logo {
   font-weight: 800;
   letter-spacing: 1px;
+
 }
 
 .top-right {
@@ -35,6 +37,7 @@
     padding: 24px;
     justify-content: center;
     flex-direction: column;
+    overflow-y: auto;
 }
 
 .auth-footer {
@@ -82,4 +85,8 @@
   margin-top: 20px;
 }
 
+img {
+   width: 64px;
+  height: 80px;
+}
 }

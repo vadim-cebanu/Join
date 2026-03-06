@@ -6,15 +6,15 @@
 }
 
 .signup-card {
-  width: min(500px, 92vw);           
+  width: min(500px, 92vw);
   background: #fff;
-  border-radius: 24px;                 
-  padding: 48px 56px;                   
+  border-radius: 24px;
+  padding: 48px 56px;
   box-shadow: 0 8px 30px rgba(0,0,0,0.08);
   text-align: center;
 
   h1 {
-    font-size: 48px;                    
+    font-size: 48px;
     margin: 0;
     color: #2a3647;
   }
@@ -23,7 +23,7 @@
 .underline {
   width: 120px;
   height: 3px;
-  background: #29abe2;               
+  background: #29abe2;
   margin: 14px auto 28px;
   border-radius: 2px;
 }
@@ -35,7 +35,7 @@
   input {
     width: 100%;
     padding: 14px 14px;
-    padding-right: 48px;               
+    padding-right: 48px;
     border-radius: 10px;
     border: 1px solid #d1d1d1;
     outline: none;
@@ -100,15 +100,33 @@
     width: 18px;
     height: 18px;
     accent-color: #29abe2;
+    cursor: pointer;
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
   }
 
   label {
     font-size: 14px;
     color: #2a3647;
 
-    span {
+    .privacy-link {
       color: #29abe2;
       cursor: pointer;
+      text-decoration: underline;
+
+      &:hover {
+        color: #1e8ab8;
+      }
+    }
+
+    .read-required {
+      color: #ff3d00;
+      font-size: 12px;
+      margin-left: 4px;
     }
   }
 }
@@ -123,7 +141,7 @@
     padding: 12px 18px;
     transition: 100ms;
     font-weight: 600;
-    width: auto;                       
+    width: auto;
     background: #2a3647;
     color: #fff;
 
@@ -143,7 +161,7 @@
   text-align: center;
 
   a {
-    color: #29abe2;                     
+    color: #29abe2;
     text-decoration: none;
 
     &:hover {
@@ -154,6 +172,136 @@
 
 @media screen and (max-width:548px) {
   .signup-card {
-    padding: 32px 20px;               
+    padding: 32px 20px;
+  }
+}
+
+/* Privacy Policy Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 16px;
+  max-width: 700px;
+  width: 100%;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+  padding: 24px 24px 16px;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h2 {
+    margin: 0;
+    color: #2a3647;
+    font-size: 24px;
+  }
+
+  .close-btn {
+    background: none;
+    border: none;
+    font-size: 32px;
+    color: #666;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    line-height: 1;
+
+    &:hover {
+      color: #2a3647;
+    }
+  }
+}
+
+.modal-body {
+  padding: 24px;
+  overflow-y: auto;
+  flex: 1;
+  text-align: left;
+
+  h3 {
+    color: #2a3647;
+    margin-top: 24px;
+    margin-bottom: 12px;
+  }
+
+  h4 {
+    color: #2a3647;
+    margin-top: 16px;
+    margin-bottom: 8px;
+  }
+
+  p {
+    color: #4b5563;
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+
+  ul {
+    margin-left: 20px;
+    color: #4b5563;
+    line-height: 1.6;
+
+    li {
+      margin-bottom: 8px;
+    }
+  }
+
+  strong {
+    color: #2a3647;
+  }
+}
+
+.read-confirmation {
+  background: #e8f5e9;
+  color: #2e7d32;
+  padding: 12px;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 600;
+  margin-top: 24px;
+}
+
+.modal-footer {
+  padding: 16px 24px;
+  border-top: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: flex-end;
+
+  .btn-close-modal {
+    background: #2a3647;
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.2s;
+
+    &:hover {
+      background: #29abe2;
+    }
   }
 }
