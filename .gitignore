@@ -6,6 +6,10 @@
 /out-tsc
 /bazel-out
 
+# Compiled CSS from SCSS
+src/**/*.css
+src/**/*.css.map
+
 # Node
 /node_modules
 npm-debug.log
