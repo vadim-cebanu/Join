@@ -10,7 +10,7 @@
   background: #fff;
   border-radius: 24px;
   padding: 48px 56px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
   text-align: center;
 }
 
@@ -31,10 +31,17 @@
     left: 0;
     background: none;
     border: none;
-    cursor: pointer;
-    padding: 4px;
     display: flex;
     align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    width: 28px;
+    height: 28px;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    border-radius: 50%;
+    transition: background-color 100ms;
 
     img {
       width: 24px;
@@ -42,7 +49,7 @@
     }
 
     &:hover {
-      opacity: 0.7;
+      background-color: rgba(0, 0, 0, 0.08);
     }
   }
 }
@@ -59,7 +66,7 @@
   margin-bottom: 18px;
   text-align: left;
 
-  input:not([type="checkbox"]) {
+  input:not([type='checkbox']) {
     width: 100%;
     padding: 14px 14px;
     padding-right: 48px;
@@ -74,8 +81,8 @@
       border-color: #29abe2;
     }
 
-    &::placeholder{
-      color: #D1D1D1;
+    &::placeholder {
+      color: #d1d1d1;
     }
   }
 
@@ -99,7 +106,6 @@
   text-align: center;
 }
 
-
 .input-wrap {
   position: relative;
 }
@@ -112,14 +118,13 @@
   width: 20px;
   height: 20px;
   object-fit: contain;
-  opacity: .6;
+  opacity: 0.6;
   pointer-events: none;
 }
 
 .input-wrap:focus-within .input-icon {
   opacity: 1;
 }
-
 
 .form-check {
   display: flex;
@@ -142,7 +147,7 @@
     &:hover {
       background-color: rgba(0, 0, 0, 0.08);
 
-      input[type="checkbox"]:not(:checked) {
+      input[type='checkbox']:not(:checked) {
         background-color: rgba(0, 0, 0, 0.08);
       }
     }
@@ -159,7 +164,7 @@
       background-color: transparent;
     }
 
-    input[type="checkbox"] {
+    input[type='checkbox'] {
       width: 18px;
       height: 18px;
       flex-shrink: 0;
@@ -223,7 +228,7 @@
 
     &:disabled {
       opacity: 0.6;
-      cursor:default;
+      cursor: default;
     }
   }
 }
@@ -242,7 +247,7 @@
   }
 }
 
-@media screen and (max-width:548px) {
+@media screen and (max-width: 548px) {
   .signup-card {
     padding: 32px 20px;
   }
