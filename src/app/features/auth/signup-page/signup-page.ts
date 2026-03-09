@@ -97,7 +97,6 @@ export class SignupPage {
    */
   async signup() {
     if (this.password() !== this.confirmPassword()) {
-      this.supabase.authError.set('Passwords do not match');
       return;
     }
 
