@@ -9,9 +9,10 @@
     <div class="underline"></div>
 
     @if (successMessage()) {
-      <div class="success-message">{{ successMessage() }}</div>
-      <div class="links">
-        <a routerLink="/login">Back to Login</a>
+      <div class="success-overlay">
+        <div class="success-message">
+          <span>{{ successMessage() }}</span>
+        </div>
       </div>
     } @else {
       @if (supabase.authError()) {
