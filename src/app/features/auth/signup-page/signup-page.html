@@ -1,20 +1,19 @@
 <div class="signup-container">
-  <div class="signup-card">
-    <div class="card-header">
-      <button class="icon-btn" (click)="goBack()" aria-label="Back">
-        <img src="assets/icons/Help/arrow-left-line.png" alt="Back" />
-      </button>
-      <h1>Sign up</h1>
-    </div>
-    <div class="underline"></div>
-
-    @if (successMessage()) {
-      <div class="success-overlay">
-        <div class="success-message">
-          <span>{{ successMessage() }}</span>
-        </div>
+  @if (successMessage()) {
+    <div class="success-overlay">
+      <div class="success-message">
+        <span>{{ successMessage() }}</span>
       </div>
-    } @else {
+    </div>
+  } @else {
+    <div class="signup-card">
+      <div class="card-header">
+        <button class="icon-btn" (click)="goBack()" aria-label="Back">
+          <img src="assets/icons/Help/arrow-left-line.png" alt="Back" />
+        </button>
+        <h1>Sign up</h1>
+      </div>
+      <div class="underline"></div>
       @if (supabase.authError()) {
         <div class="error-message">{{ supabase.authError() }}</div>
       }
@@ -158,8 +157,8 @@
           </button>
         </div>
       </form>
-    }
-  </div>
+    </div>
+  }
 
   <!-- Privacy Policy Modal -->
   @if (showPrivacyModal()) {
