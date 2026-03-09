@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Supabase } from '../../../supabase';
 
@@ -16,6 +16,7 @@ import { Supabase } from '../../../supabase';
 })
 export class Header {
   supabase = inject(Supabase);
+  isClosing = signal(false);
 
   /**
    * Returns the initials of the currently logged-in user.
@@ -33,12 +34,24 @@ export class Header {
 
   /** Toggles the header dropdown menu visibility. */
   toggleMenu() {
-    this.isMenuOpen = !this.isMenuOpen;
+    if (this.isMenuOpen) {
+      this.closeMenu();
+    } else {
+      this.isMenuOpen = true;
+    }
   }
 
   /** Closes the header dropdown menu. */
   closeMenu() {
-    this.isMenuOpen = false;
+    if (window.innerWidth <= 1024) {
+      this.isClosing.set(true);
+      setTimeout(() => {
+        this.isMenuOpen = false;
+        this.isClosing.set(false);
+      }, 400);
+    } else {
+      this.isMenuOpen = false;
+    }
   }
 
   /** Logs out the current user and closes the menu. */

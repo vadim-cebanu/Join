@@ -169,6 +169,39 @@ button.header-links {
   .help-link {
     display: block;
   }
+
+  .header-menu{
+    animation: slideInFromRight 400ms ease-out;
+
+    &.closing {
+    animation: slideOutToRight 400ms ease-in forwards;
+  }
+  }
+
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(200%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutToRight {
+  0% {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+  80% {
+    transform: translateX(180%);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(200%);
+    opacity: 0;
+  }
+}
+
 }
 
 @media (max-width: 600px) {

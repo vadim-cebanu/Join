@@ -16,8 +16,8 @@
   </div>
 </section>
 @if (isMenuOpen) {
-  <div class="backdrop" (click)="closeMenu()"></div>
-  <div class="header-menu" (click)="$event.stopPropagation()">
+  <div class="backdrop" (click)="closeMenu()" [class.closing]="isClosing()"></div>
+  <div class="header-menu" [class.closing]="isClosing()" (click)="$event.stopPropagation()">
     <a class="header-links help-link" routerLink="/help" (click)="closeMenu()">Help</a>
     <a class="header-links" routerLink="/legal" (click)="closeMenu()">Legal Notice</a>
     <a class="header-links" routerLink="/privacy" (click)="closeMenu()">Privacy Policy</a>
