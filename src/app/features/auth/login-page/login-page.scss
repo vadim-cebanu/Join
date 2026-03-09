@@ -45,11 +45,15 @@ input:focus {
   border-color: #29abe2;
 }
 
+.error-wrap{
+  min-height: 28px;
+}
+
 .error {
   display: block;
-  margin-top: 6px;
+  padding-top: 8px;
   color: #ff3d00;
-  font-size: 13px;
+  font-size: 16px;
 }
 
 .error-message {

@@ -23,7 +23,7 @@ export class LoginPage {
   invisibleImage = 'assets/icons/visibility_off.svg';
   visibleImage = 'assets/icons/visibility.svg';
 
-  onFocus(): void{
+  onFocus(): void {
     this.isFocused = true;
   }
 
