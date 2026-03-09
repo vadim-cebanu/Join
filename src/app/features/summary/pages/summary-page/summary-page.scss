@@ -243,7 +243,7 @@
   flex: 1;
 
   &__date {
-    font-size: 18px;
+    font-size: 25px;
     font-weight: 700;
     color: #111827;
     transition: color 0.35s ease;
@@ -359,6 +359,9 @@
   .card__label {
     font-size: 14px;
   }
+  .wide-right__date{
+    font-size: 19px;
+  }
 }
 
 @media (max-width: 420px) {
@@ -382,5 +385,45 @@
 
   .card__value {
     font-size: 34px;
+  }
+}
+
+@media (max-width: 390px) {
+  .summary-header__brand {
+    font-size: 36px;
+  }
+
+  .card__icon,
+  .wide-left__icon {
+    width: 40px;
+    height: 40px;
+
+    img {
+      width: 15px;
+    }
+  }
+
+  .wide-left{
+    justify-content: center;
+  }
+
+  .card__icon > img  {
+    width: 15px;
+  }
+
+  .card__value {
+    font-size: 20px;
+  }
+  .card__small .card__value {
+    font-size: 24px;
+  }
+  .card__label{
+    font-size: 11px;
+  }
+  .wide-right__label {
+    font-size: 11px;
+  }
+  .wide-right__date{
+    font-size: 15px;
   }
 }
