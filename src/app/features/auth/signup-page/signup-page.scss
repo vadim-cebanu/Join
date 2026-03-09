@@ -376,7 +376,7 @@
   h2 {
     margin: 0;
     color: #2a3647;
-    font-size: 24px;
+    font-size: 48px;
   }
 }
 
@@ -387,6 +387,7 @@
   text-align: left;
 
   h3 {
+    font-size: 20px;
     color: #2a3647;
     margin-top: 24px;
     margin-bottom: 12px;
@@ -448,5 +449,14 @@
     &:hover {
       background: #29abe2;
     }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .modal-header h2 {
+    font-size: 28px;
+  }
+  .modal-body h3 {
+    font-size: 18px;
   }
 }
