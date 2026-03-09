@@ -31,6 +31,7 @@
               minlength="2"
               maxlength="40"
               pattern="^[a-zA-ZÀ-ÿ\s]+$"
+              [class.input-error]="nameInput.invalid && nameInput.touched"
               #nameInput="ngModel"
             />
             <img class="input-icon" src="assets/icons/person.png" alt="" aria-hidden="true" />
@@ -59,6 +60,7 @@
               required
               email
               pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$"
+              [class.input-error]="emailInput.invalid && emailInput.touched"
               #emailInput="ngModel"
             />
             <img class="input-icon" src="assets/icons/mail.png" alt="" aria-hidden="true" />
@@ -82,6 +84,7 @@
               name="password"
               required
               minlength="6"
+              [class.input-error]="passwordInput.invalid && passwordInput.touched"
               #passwordInput="ngModel"
             />
             @if (!isFocused) {
@@ -115,6 +118,7 @@
               (ngModelChange)="confirmPassword.set($event)"
               name="confirmPassword"
               required
+              [class.input-error]="confirmInput.touched && confirmPassword() !== password()"
               #confirmInput="ngModel"
             />
             @if (!isFocused) {
