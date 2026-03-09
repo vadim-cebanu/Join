@@ -1,5 +1,5 @@
 <section>
-  @if (supabase.isAuthenticated()) {
+  @if (supabase.hasAppAccess()) {
     <img class="logo" src="assets/icons/logo.png" alt="Join Logo" />
 
     <div class="button-bar">
