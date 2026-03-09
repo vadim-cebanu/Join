@@ -9,11 +9,12 @@
           type="email"
           placeholder="Email"
           [ngModel]="email()"
-          (ngModelChange)="email.set($event)"
+          (ngModelChange)="email.set($event); clearAuthError()"
           name="email"
           required
           email
           pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$"
+          [class.input-error]="(emailInput.invalid && emailInput.touched) || supabase.authError()"
           #emailInput="ngModel"
         />
         <img class="input-icon" src="assets/icons/mail.png" alt="" aria-hidden="true" />
@@ -33,10 +34,11 @@
           (focus)="onFocus()"
           (blur)="onBlur()"
           [ngModel]="password()"
-          (ngModelChange)="password.set($event)"
+          (ngModelChange)="password.set($event); clearAuthError()"
           name="password"
           required
           minlength="6"
+          [class.input-error]="(passwordInput.invalid && passwordInput.touched) || supabase.authError()"
           #passwordInput="ngModel"
         />
         @if (!isFocused) {

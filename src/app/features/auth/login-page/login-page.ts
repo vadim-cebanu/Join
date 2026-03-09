@@ -45,6 +45,11 @@ export class LoginPage {
   /** Whether to keep the user logged in after closing the browser. */
   rememberMe = signal(true);
 
+  /** Clears the auth error when the user starts typing. */
+  clearAuthError() {
+    this.supabase.authError.set(null);
+  }
+
   /**
    * Attempts to sign in the user with the provided email and password.
    * Navigates to the greeting page on success.

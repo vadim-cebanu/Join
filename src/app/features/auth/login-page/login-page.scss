@@ -53,6 +53,10 @@ input:focus {
   border-color: #29abe2;
 }
 
+input.input-error {
+  border-color: #ff3d00;
+}
+
 .error-wrap {
   min-height: 28px;
 
