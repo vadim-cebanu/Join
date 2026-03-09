@@ -8,6 +8,7 @@
   overflow-y: auto;
 }
 
+
 .title {
   font-size: 48px;
   margin: 0;
@@ -138,5 +139,21 @@ button:disabled {
 @media screen and (max-width: 548px) {
   .actions {
     flex-direction: column;
+  }
+}
+@media screen and (max-width: 480px) {
+  .login-card {
+    padding: 35px 30px;
+  }
+  input {
+    font-size: 14px;
+  }
+}
+@media screen and (max-width: 360px) {
+  .login-card {
+    padding: 35px 20px;
+  }
+    input {
+    font-size: 13px;
   }
 }
