@@ -79,7 +79,7 @@
     <aside class="summary-right">
       <div class="info">
          @if (!isGuestUser && userName()) {
-          <div class="info__hello">{{ greeting }},</div>
+          <div class="info__hello">{{ greeting }}</div>
           <div class="info__name">{{ userName() }}</div>
         } @else {
           <div class="info__hello">{{ greeting }}</div>

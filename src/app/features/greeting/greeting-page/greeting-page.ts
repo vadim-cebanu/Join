@@ -60,9 +60,10 @@ export class GreetingPage implements OnInit {
    */
   get greeting(): string {
     const hour = new Date().getHours();
-    if (hour < 12) return 'Good morning,';
-    if (hour < 18) return 'Good afternoon,';
-    return 'Good evening,';
+    const suffix = this.isGuestUser ? '!' : ',';
+    if (hour < 12) return `Good morning${suffix}`;
+    if (hour < 18) return `Good afternoon${suffix}`;
+    return `Good evening${suffix}`;
   }
 
   /**
