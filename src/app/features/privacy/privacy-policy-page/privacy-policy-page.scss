@@ -5,58 +5,55 @@ section {
   flex-direction: column;
   gap: 0;
 
- > .help-top {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  > .icon-btn {
-    background: transparent;
-    border: none;
-    cursor: pointer;
+  > .help-top {
+    width: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    transition: background-color 100ms;
+    justify-content: space-between;
 
-    div {
-      display: contents;
-    }
+    > .icon-btn {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      transition: background-color 100ms;
 
-    img {
-      width: 28px;
-      height: 28px;
-      object-fit: contain;
-    }
+      div {
+        display: contents;
+      }
 
-    &:hover {
-      background-color: rgba(0, 0, 0, 0.08);
+      img {
+        width: 28px;
+        height: 28px;
+        object-fit: contain;
+      }
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.08);
+      }
     }
   }
 
-}
-
-
-
   h1 {
-    font-size: 47px;
+    font-size: 48px;
     font-weight: 700;
     margin-bottom: 24px;
   }
 
   h2 {
-    font-size: 20px;
+    font-size: 26px;
     font-weight: 700;
     margin-top: 32px;
     margin-bottom: 12px;
   }
 
   h3 {
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 700;
     margin-top: 24px;
     margin-bottom: 8px;
@@ -119,7 +116,6 @@ section {
   section {
     padding: 48px 32px;
   }
-
 }
 
 @media (max-width: 480px) {
@@ -128,6 +124,14 @@ section {
 
     h1 {
       font-size: 36px;
+    }
+
+    h2 {
+      font-size: 24px;
+    }
+
+    h3 {
+      font-size: 18px;
     }
   }
 }

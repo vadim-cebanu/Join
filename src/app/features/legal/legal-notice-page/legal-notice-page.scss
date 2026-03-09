@@ -47,19 +47,19 @@
   gap: 0;
 
   &__title {
-    font-size: 47px;
+    font-size: 48px;
     font-weight: 700;
     margin-bottom: 24px;
   }
 
   h2 {
-    font-size: 20px;
+    font-size: 26px;
     font-weight: 700;
     margin-bottom: 12px;
   }
 
   h3 {
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 700;
     margin-top: 24px;
     margin-bottom: 8px;
@@ -87,8 +87,6 @@
       text-decoration: underline;
     }
   }
-
-
 
   strong {
     font-weight: 700;
@@ -129,11 +127,18 @@
 @media (max-width: 480px) {
   .legal-main {
     padding: 48px 20px;
+
+    h2 {
+      font-size: 24px;
+    }
+
+    h3 {
+      font-size: 18px;
+    }
   }
 }
 @media (max-width: 360px) {
- .legal-main__title{
-   font-size: 35px;
- }
- 
+  .legal-main__title {
+    font-size: 35px;
+  }
 }
