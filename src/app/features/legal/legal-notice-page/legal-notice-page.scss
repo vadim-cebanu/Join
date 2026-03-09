@@ -5,6 +5,23 @@
   // justify-content: space-around;
 }
 
+.help-top {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.icon-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .legal-main {
   padding: 48px 64px;
   width: 100%;
@@ -96,4 +113,10 @@
   .legal-main {
     padding: 48px 20px;
   }
+}
+@media (max-width: 360px) {
+ .legal-main__title{
+   font-size: 35px;
+ }
+ 
 }
