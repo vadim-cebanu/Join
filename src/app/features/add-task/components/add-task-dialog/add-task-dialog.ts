@@ -1,24 +1,31 @@
 import { Component, EventEmitter, Output, inject, OnInit, ViewChild, ElementRef, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  FormsModule,AbstractControl, ValidationErrors,
-  Validators,
-  ValidatorFn
-} from '@angular/forms';
+import {FormControl,FormGroup,ReactiveFormsModule,FormsModule,AbstractControl, ValidationErrors, Validators,ValidatorFn} from '@angular/forms';
 import { Supabase, Contact } from '../../../../supabase';
 import { avatarColors } from '../../../contacts/components/contact-list/contact-list';
 import { TaskStore } from '../../../board/services/task-store';
 import { Status } from '../../../board/models/task.model';
 
+/**
+ * Represents a subtask within a task.
+ *
+ * @property id - Unique identifier for the subtask.
+ * @property title - Description or title of the subtask.
+ * @property done - Whether the subtask has been completed.
+ */
 interface Subtask {
   id: string;
   title: string;
   done: boolean;
 }
 
+/**
+ * Add Task Dialog component.
+ *
+ * Provides a modal dialog for creating new tasks with full form handling,
+ * including contact assignment, subtask management, and category selection.
+ * Emits a `closed` event when the dialog is dismissed.
+ */
 @Component({
   selector: 'app-add-task-dialog',
   imports: [
@@ -82,6 +89,11 @@ minDateValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | n
     return this.supabaseService.contacts().filter(c => c.name.toLowerCase().includes(search));
   });
 
+
+  /**
+   * Angular lifecycle hook.
+   * Loads contacts from the database for the assignee dropdown.
+   */
   ngOnInit() {
     this.supabaseService.getContacts();
   }
@@ -204,11 +216,23 @@ minDateValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | n
   }
 
 
+  /**
+   * Resets the task form to its initial state.
+   * Clears all inputs, selected contacts, and subtasks.
+   */
+
+
+  /**
+   * Toggles the task category dropdown visibility.
+   */
   actionDropdown() {
     this.dropdownCategory = !this.dropdownCategory;
   }
 
 
+  /**
+   * Selects 'Technical Task' as the task category and closes the dropdown.
+   */
   selectTechnicalTask() {
     this.taskForm.patchValue({
       type: "Technical Task"
@@ -217,6 +241,9 @@ minDateValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | n
   }
 
 
+  /**
+   * Selects 'User Story' as the task category and closes the dropdown.
+   */
   selectUserStory() {
     this.taskForm.patchValue({
       type: "User Story"
@@ -225,6 +252,10 @@ minDateValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | n
   }
 
 
+  /**
+   * Toggles the contact assignment dropdown.
+   * Automatically focuses the search input when opened.
+   */
   toggleDropdown() {
     this.dropdownOpen = !this.dropdownOpen;
     if (this.dropdownOpen) {
@@ -233,17 +264,34 @@ minDateValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | n
   }
 
 
+  /**
+   * Handles search input changes for filtering contacts.
+   *
+   * @param event - The input event from the search field.
+   */
   onSearchInput(event: Event) {
     this.searchText.set((event.target as HTMLInputElement).value);
     this.dropdownOpen = true;
   }
 
 
+  /**
+   * Checks if a contact is currently selected as an assignee.
+   *
+   * @param contact - The contact to check.
+   * @returns `true` if the contact is selected; otherwise `false`.
+   */
   isContactSelected(contact: Contact): boolean {
     return this.selectedContacts.some(c => c.id === contact.id);
   }
 
 
+  /**
+   * Toggles a contact's selection state.
+   * Adds the contact if not selected, removes it if already selected.
+   *
+   * @param contact - The contact to toggle.
+   */
   toggleContact(contact: Contact) {
     if (this.isContactSelected(contact)) {
       this.selectedContacts = this.selectedContacts.filter(c => c.id !== contact.id);
@@ -253,11 +301,23 @@ minDateValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | n
   }
 
 
+  /**
+   * Extracts initials from a contact's name for avatar display.
+   *
+   * @param name - The contact's full name.
+   * @returns Up to 2 uppercase initials.
+   */
   getInitials(name: string): string {
     return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
   }
 
 
+  /**
+   * Generates a consistent avatar background color based on the contact's name.
+   *
+   * @param name - The contact's name.
+   * @returns A color from the predefined avatarColors palette.
+   */
   getAvatarColor(name: string): string {
     let hash = 0;
     for (let i = 0; i < name.length; i++) {
@@ -267,6 +327,10 @@ minDateValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | n
   }
 
 
+  /**
+   * Adds a new subtask to the task.
+   * Creates a unique ID and resets the input field.
+   */
   addSubtask() {
     if (!this.newSubtaskTitle.trim()) return;
     const newSubtask: Subtask = {
@@ -279,11 +343,21 @@ minDateValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | n
   }
 
 
+  /**
+   * Removes a subtask from the task.
+   *
+   * @param subtaskId - The unique ID of the subtask to remove.
+   */
   removeSubtask(subtaskId: string) {
     this.subtasks = this.subtasks.filter(sub => sub.id !== subtaskId);
   }
 
 
+  /**
+   * Opens the inline edit form for a subtask.
+   *
+   * @param subtaskId - The ID of the subtask to edit.
+   */
   openEditForm(subtaskId: string) {
     const subtask = this.subtasks.find(sub => sub.id === subtaskId);
     if (!subtask) return;
@@ -292,6 +366,10 @@ minDateValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | n
   }
 
 
+  /**
+   * Saves changes to a subtask being edited.
+   * Updates the subtask title and exits edit mode.
+   */
   saveSubtaskEdit() {
     if (!this.editingSubtaskId || !this.editingSubtaskTitle.trim()) return;
     this.subtasks = this.subtasks.map(sub =>
@@ -305,6 +383,11 @@ minDateValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | n
 
   isClosing = false;
 
+
+  /**
+   * Initiates the dialog closing animation and emits the closed event.
+   * Adds a delay to allow the closing animation to complete.
+   */
   close() {
     this.isClosing = true;
     setTimeout(() => {
@@ -314,6 +397,12 @@ minDateValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | n
   }
 
 
+  /**
+   * Handles clicks on the dialog backdrop or outside dropdowns.
+   * Closes the dialog if the overlay is clicked, or closes dropdowns if clicked outside.
+   *
+   * @param event - The mouse event triggered by clicking.
+   */
   onBackdropClick(event: MouseEvent) {
     if ((event.target as HTMLElement).classList.contains('dialog-overlay')) {
       this.close();
@@ -327,6 +416,13 @@ minDateValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | n
     }
   }
 
+
+  /**
+   * Generates a universally unique identifier (UUID) for subtasks.
+   * Uses a simple random-based approach conforming to UUID v4 format.
+   *
+   * @returns A UUID string.
+   */
   private generateUUID(): string {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
       const r = (Math.random() * 16) | 0;

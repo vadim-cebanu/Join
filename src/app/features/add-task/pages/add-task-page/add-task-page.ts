@@ -13,12 +13,26 @@ import { avatarColors } from '../../../contacts/components/contact-list/contact-
 import { TaskStore } from '../../../board/services/task-store';
 import { Status } from '../../../board/models/task.model';
 
+/**
+ * Represents a subtask within a task.
+ *
+ * @property id - Unique identifier for the subtask.
+ * @property title - Description or title of the subtask.
+ * @property done - Whether the subtask has been completed.
+ */
 interface Subtask {
   id: string;
   title: string;
   done: boolean;
 }
 
+/**
+ * Add Task Page component.
+ *
+ * Provides a standalone page for creating new tasks with full form handling,
+ * including contact assignment, subtask management, and category selection.
+ * Validates user input and persists tasks to the database via TaskStore.
+ */
 @Component({
   selector: 'app-add-task-page',
   imports: [
@@ -83,6 +97,11 @@ export class AddTaskPage implements OnInit {
     return this.supabaseService.contacts().filter(c => c.name.toLowerCase().includes(search));
   });
 
+
+  /**
+   * Angular lifecycle hook.
+   * Loads contacts from the database for the assignee dropdown.
+   */
   ngOnInit() {
     this.supabaseService.getContacts();
   }
@@ -206,11 +225,23 @@ export class AddTaskPage implements OnInit {
   }
 
 
+  /**
+   * Resets the task form to its initial state.
+   * Clears all inputs, selected contacts, and subtasks.
+   */
+
+
+  /**
+   * Toggles the task category dropdown visibility.
+   */
   actionDropdown() {
     this.dropdownCategory = !this.dropdownCategory;
   }
 
 
+  /**
+   * Selects 'Technical Task' as the task category and closes the dropdown.
+   */
   selectTechnicalTask() {
     this.taskForm.patchValue({
       type: "Technical Task"
@@ -219,6 +250,9 @@ export class AddTaskPage implements OnInit {
   }
 
 
+  /**
+   * Selects 'User Story' as the task category and closes the dropdown.
+   */
   selectUserStory() {
     this.taskForm.patchValue({
       type: "User Story"
@@ -227,6 +261,10 @@ export class AddTaskPage implements OnInit {
   }
 
 
+  /**
+   * Toggles the contact assignment dropdown.
+   * Automatically focuses the search input when opened.
+   */
   toggleDropdown() {
     this.dropdownOpen = !this.dropdownOpen;
     if (this.dropdownOpen) {
@@ -235,17 +273,34 @@ export class AddTaskPage implements OnInit {
   }
 
 
+  /**
+   * Handles search input changes for filtering contacts.
+   *
+   * @param event - The input event from the search field.
+   */
   onSearchInput(event: Event) {
     this.searchText.set((event.target as HTMLInputElement).value);
     this.dropdownOpen = true;
   }
 
 
+  /**
+   * Checks if a contact is currently selected as an assignee.
+   *
+   * @param contact - The contact to check.
+   * @returns `true` if the contact is selected; otherwise `false`.
+   */
   isContactSelected(contact: Contact): boolean {
     return this.selectedContacts.some(c => c.id === contact.id);
   }
 
 
+  /**
+   * Toggles a contact's selection state.
+   * Adds the contact if not selected, removes it if already selected.
+   *
+   * @param contact - The contact to toggle.
+   */
   toggleContact(contact: Contact) {
     if (this.isContactSelected(contact)) {
       this.selectedContacts = this.selectedContacts.filter(c => c.id !== contact.id);
@@ -255,11 +310,23 @@ export class AddTaskPage implements OnInit {
   }
 
 
+  /**
+   * Extracts initials from a contact's name for avatar display.
+   *
+   * @param name - The contact's full name.
+   * @returns Up to 2 uppercase initials.
+   */
   getInitials(name: string): string {
     return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
   }
 
 
+  /**
+   * Generates a consistent avatar background color based on the contact's name.
+   *
+   * @param name - The contact's name.
+   * @returns A color from the predefined avatarColors palette.
+   */
   getAvatarColor(name: string): string {
     let hash = 0;
     for (let i = 0; i < name.length; i++) {
@@ -269,6 +336,10 @@ export class AddTaskPage implements OnInit {
   }
 
 
+  /**
+   * Adds a new subtask to the task.
+   * Creates a unique ID and resets the input field.
+   */
   addSubtask() {
     if (!this.newSubtaskTitle.trim()) return;
     const newSubtask: Subtask = {
@@ -281,11 +352,21 @@ export class AddTaskPage implements OnInit {
   }
 
 
+  /**
+   * Removes a subtask from the task.
+   *
+   * @param subtaskId - The unique ID of the subtask to remove.
+   */
   removeSubtask(subtaskId: string) {
     this.subtasks = this.subtasks.filter(sub => sub.id !== subtaskId);
   }
 
 
+  /**
+   * Opens the inline edit form for a subtask.
+   *
+   * @param subtaskId - The ID of the subtask to edit.
+   */
   openEditForm(subtaskId: string) {
     const subtask = this.subtasks.find(sub => sub.id === subtaskId);
     if (!subtask) return;
@@ -294,6 +375,10 @@ export class AddTaskPage implements OnInit {
   }
 
 
+  /**
+   * Saves changes to a subtask being edited.
+   * Updates the subtask title and exits edit mode.
+   */
   saveSubtaskEdit() {
     if (!this.editingSubtaskId || !this.editingSubtaskTitle.trim()) return;
     this.subtasks = this.subtasks.map(sub =>
@@ -305,6 +390,11 @@ export class AddTaskPage implements OnInit {
   }
 
 
+  /**
+   * Handles clicks outside dropdowns to close them.
+   *
+   * @param event - The mouse event triggered by clicking.
+   */
   onBackdropClick(event: MouseEvent) {
     const target = event.target as HTMLElement;
     if (!target.closest('.assigned-dropdown')) {
@@ -316,6 +406,12 @@ export class AddTaskPage implements OnInit {
   }
 
 
+  /**
+   * Generates a universally unique identifier (UUID) for subtasks.
+   * Uses a simple random-based approach conforming to UUID v4 format.
+   *
+   * @returns A UUID string.
+   */
   private generateUUID(): string {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
       const r = (Math.random() * 16) | 0;

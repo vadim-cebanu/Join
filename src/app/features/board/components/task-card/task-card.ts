@@ -3,6 +3,14 @@ import { Status, Task, TaskPriority } from '../../models/task.model';
 import { CommonModule } from '@angular/common';
 import { avatarColors } from '../../../contacts/components/contact-list/contact-list';
 
+/**
+ * Task Card component.
+ *
+ * Displays a single task card in the Kanban board. Shows task details including
+ * title, description, type, priority, assignees, subtasks progress, and due date.
+ * Supports drag-and-drop, context menu for moving tasks to different columns,
+ * and click handling for opening task details.
+ */
 @Component({
   selector: 'app-task-card',
   imports: [CommonModule],

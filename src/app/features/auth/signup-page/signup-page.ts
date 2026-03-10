@@ -49,17 +49,29 @@ export class SignupPage {
   invisibleImage = 'assets/icons/visibility_off.svg';
   visibleImage = 'assets/icons/visibility.svg';
 
+
+  /**
+   * Handles focus event on password input.
+   * Shows password visibility toggle icon.
+   */
   onFocus(): void{
     this.isFocused = true;
   }
 
 
+  /**
+   * Handles blur event on password input.
+   * Hides password visibility toggle and resets visibility state.
+   */
   onBlur(): void {
     this.isFocused = false;
     this.isAlternateImage = false;
   }
 
 
+  /**
+   * Toggles password visibility between plain text and masked.
+   */
   togglePasswordVisibility(): void {
     this.isAlternateImage = !this.isAlternateImage;
   }
@@ -126,6 +138,9 @@ export class SignupPage {
   }
 
 
+  /**
+   * Navigates back to the previous page using browser history.
+   */
   goBack() {
     window.history.back();
   }
