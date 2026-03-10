@@ -22,6 +22,10 @@
 }
 
 .logoAnimation {
+  background-image: url(../../../../public/assets/img/Capa-1.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
   width: 273.9997558594px;
   height: 334.0722961426px;
   position: absolute;
@@ -158,7 +162,7 @@ img {
     opacity: 1;
     top: 0px;
     left: 48px;
-    transform: translate(0, 0) scale(0.4);
+    transform: translate(0, 0) scale(0.3);
   }
 }
 
@@ -174,6 +178,9 @@ img {
 @media (max-width: 428px){
   .auth-shell{
     animation: bgChangeMobile 2s;
+  }
+  .logoAnimation{
+    background-image: url(../../../../public/assets/img/Capa\ 2.png);
   }
 }
 
