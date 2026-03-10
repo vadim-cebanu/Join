@@ -12,7 +12,6 @@ import { Supabase } from '../../../../supabase';
 })
 export class SummaryPage implements OnInit {
   supabase = inject(Supabase);
-
   userName = signal<string>('');
   toDoCount = signal<number>(0);
   doneCount = signal<number>(0);
@@ -32,15 +31,15 @@ export class SummaryPage implements OnInit {
    * Loads the current user's name from user metadata.
    */
   async loadUserName() {
-    const { data: { user } } = await this.supabase.supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await this.supabase.supabase.auth.getUser();
     if (user) {
-      // Try to get display_name from profiles table
       const { data: profile } = await this.supabase.supabase
         .from('profiles')
         .select('display_name')
         .eq('id', user.id)
         .single();
-
       const name = profile?.display_name || user.user_metadata?.['display_name'] || '';
       this.userName.set(name ? this.capitalizeWords(name) : '');
     }
@@ -53,13 +52,16 @@ export class SummaryPage implements OnInit {
   private capitalizeWords(text: string): string {
     return text
       .split(' ')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
       .join(' ');
   }
 
 
   /**
-   * Loads and calculates task metrics from the database.
+   * Loads all tasks and updates the dashboard metrics signals.
+   *
+   * Delegates fetching, count calculation and deadline resolution to
+   * dedicated helper methods. Exits silently on database error.
    */
   async loadTaskMetrics() {
     const tasks = await this.fetchTasks();
