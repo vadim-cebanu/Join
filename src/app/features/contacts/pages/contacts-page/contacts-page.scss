@@ -38,49 +38,39 @@
   flex: 1;
   overflow-y: auto;
   height: 100%;
-  background-color: #F6F7F8;
+  background-color: #f6f7f8;
 }
 
 .Toast-Notification {
   position: fixed;
   bottom: 20px;
-
   width: 250px;
   height: 50px;
-
   left: 50%;
   margin-left: -125px;
-
   display: flex;
   justify-content: center;
   align-items: center;
-
   border-radius: 10px;
   background-color: $darkblue;
   color: $white;
-
   z-index: 9999;
-
   animation: slideAcross 3s ease forwards;
 }
 
 @keyframes slideAcross {
-
   0% {
     transform: translateX(100%) translateY(-120px);
     opacity: 0;
   }
-
   10% {
     transform: translateX(0) translateY(-120px);
     opacity: 1;
   }
-
   90% {
     transform: translateX(0) translateY(-120px);
     opacity: 1;
   }
-
   100% {
     transform: translateX(100%) translateY(-120px);
     opacity: 0;
@@ -88,22 +78,18 @@
 }
 
 @keyframes slideUpMobile {
-
   0% {
     transform: translateY(100%);
     opacity: 0;
   }
-
   10% {
     transform: translateY(0);
     opacity: 1;
   }
-
   90% {
     transform: translateY(0);
     opacity: 1;
   }
-
   100% {
     transform: translateY(100%);
     opacity: 0;
@@ -111,7 +97,6 @@
 }
 
 @media (max-width: 991px) {
-
   .contacts-page {
     position: relative;
   }
@@ -142,7 +127,7 @@
 
     &.show-mobile {
       transform: translateX(0);
-      background-color: #F6F7F8;
+      background-color: #f6f7f8;
     }
   }
 
@@ -159,7 +144,6 @@
 }
 
 @media (max-width: 600px) {
-
   .contacts-page-detail {
     top: 72px;
     bottom: 100px;

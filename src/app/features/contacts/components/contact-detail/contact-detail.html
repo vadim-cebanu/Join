@@ -3,22 +3,19 @@
     <h1 class="title">Contacts</h1>
     @if (supabase.selectedContact()) {
       <button class="icon-btn" (click)="onClose()" aria-label="Back">
-        <img src="assets/icons/arrow-left-line.png" alt="Back">
+        <img src="assets/icons/arrow-left-line.png" alt="Back" />
       </button>
     }
-
   </div>
   <span class="blue-underline"></span>
-
   <p class="message">Better with a team</p>
-
 </div>
-
 @if (supabase.selectedContact(); as contact) {
   <div class="contact-detail">
     <div class="header">
-      <div class="avatar" [style.background-color]="getAvatarColor(contact.name)">{{ getInitials(contact.name) }}</div>
-
+      <div class="avatar" [style.background-color]="getAvatarColor(contact.name)">
+        {{ getInitials(contact.name) }}
+      </div>
       <div class="info">
         <h2>{{ contact.name }}</h2>
         <div class="actions">
@@ -33,42 +30,35 @@
         </div>
       </div>
     </div>
-
     <div class="details">
       <h3>Contact Information</h3>
-
       <div class="field">
         <span class="label">Email</span>
-        <a href="mailto:{{contact.email}}">{{ contact.email }}</a>
+        <a href="mailto:{{ contact.email }}">{{ contact.email }}</a>
       </div>
-
       <div class="field">
         <span class="label">Phone</span>
         <span class="value">{{ contact.phone ? formatPhone(contact.phone) : '-' }}</span>
       </div>
     </div>
   </div>
-
-<div class="fab-wrap" (click)="$event.stopPropagation()">
-  <button
-    type="button"
-    class="fab"
-    aria-label="More actions"
-    [attr.aria-expanded]="fabOpen"
-    (click)="toggleFab($event)"
-  >
-    <img class="fab-img" src="assets/icons/Menu-Contact-options.png" alt="" />
-  </button>
-
-  <div class="fab-menu" *ngIf="fabOpen">
-    <button type="button" class="fab-item" (click)="editContact(); closeFab()">
-      <span>Edit</span>
+  <div class="fab-wrap" (click)="$event.stopPropagation()">
+    <button
+      type="button"
+      class="fab"
+      aria-label="More actions"
+      [attr.aria-expanded]="fabOpen"
+      (click)="toggleFab($event)"
+    >
+      <img class="fab-img" src="assets/icons/Menu-Contact-options.png" alt="" />
     </button>
-
-    <button type="button" class="fab-item" (click)="deleteContact(); closeFab() ">
-      <span>Delete</span>
-    </button>
+    <div class="fab-menu" *ngIf="fabOpen">
+      <button type="button" class="fab-item" (click)="editContact(); closeFab()">
+        <span>Edit</span>
+      </button>
+      <button type="button" class="fab-item" (click)="deleteContact(); closeFab()">
+        <span>Delete</span>
+      </button>
+    </div>
   </div>
-</div>
-
 }

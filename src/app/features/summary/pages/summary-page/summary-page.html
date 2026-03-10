@@ -7,73 +7,65 @@
     </div>
     <div class="summary-header__underline"></div>
   </header>
-
   <div class="summary-layout">
     <div class="summary-left">
       <div class="row row--two">
-
         <a routerLink="/board" class="card card--metric">
           <div class="card__icon">
-            <img class="icon-img" src="assets/icons/Summary/edit.png" alt="logo">
+            <img class="icon-img" src="assets/icons/Summary/edit.png" alt="logo" />
           </div>
-           <div class="card__value">{{ toDoCount() }}
+          <div class="card__value">
+            {{ toDoCount() }}
             <div class="card__label">To-do</div>
-        </div>
+          </div>
         </a>
         <a routerLink="/board" class="card card--metric">
           <div class="card__icon">
-            <img class="icon-img" src="assets/icons/Summary/vector.png" alt="logo">
+            <img class="icon-img" src="assets/icons/Summary/vector.png" alt="logo" />
           </div>
-          <div class="card__value">{{ doneCount() }}
+          <div class="card__value">
+            {{ doneCount() }}
             <div class="card__label">Done</div>
-        </div>
+          </div>
         </a>
       </div>
-
       <a routerLink="/board" class="card card--wide">
         <div class="wide-left">
           <div class="wide-left__icon">
-             <img src="assets/icons/Summary/Prio-alta.png" alt="logo">
+            <img src="assets/icons/Summary/Prio-alta.png" alt="logo" />
           </div>
-          <div class="card__value">{{ urgentCount() }}
+          <div class="card__value">
+            {{ urgentCount() }}
             <div class="card__label">Urgent</div>
+          </div>
         </div>
-        </div>
-
         <div class="wide-div"></div>
-
         <div class="wide-right">
-           <div class="wide-right__date" *ngIf="upcomingDeadline()">
+          <div class="wide-right__date" *ngIf="upcomingDeadline()">
             {{ upcomingDeadline() | date: 'MMMM dd, yyyy' }}
           </div>
-          <div class="wide-right__date" *ngIf="!upcomingDeadline()">
-            No upcoming deadline
-          </div>
+          <div class="wide-right__date" *ngIf="!upcomingDeadline()">No upcoming deadline</div>
           <div class="wide-right__label">Upcoming Deadline</div>
         </div>
       </a>
-
       <div class="row row--three">
         <a routerLink="/board" class="card card__small">
- <div class="card__value">{{ tasksInBoard() }}</div>
-           <div class="card__label">Tasks in<br />Board</div>
+          <div class="card__value">{{ tasksInBoard() }}</div>
+          <div class="card__label">Tasks in<br />Board</div>
         </a>
-
         <a routerLink="/board" class="card card__small">
           <div class="card__value">{{ tasksInProgress() }}</div>
           <div class="card__label">Tasks In<br />Progress</div>
         </a>
-
         <a routerLink="/board" class="card card__small">
           <div class="card__value">{{ awaitingFeedback() }}</div>
           <div class="card__label">Awaiting<br />Feedback</div>
         </a>
       </div>
     </div>
-
     <aside class="summary-right">
       <div class="info">
-         @if (!isGuestUser && userName()) {
+        @if (!isGuestUser && userName()) {
           <div class="info__hello">{{ greeting }}</div>
           <div class="info__name">{{ userName() }}</div>
         } @else {

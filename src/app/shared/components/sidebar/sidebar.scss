@@ -129,8 +129,8 @@ section {
 
     &:hover {
       cursor: pointer;
-          cursor: pointer;
-    background-color: #29abe21a;
+      cursor: pointer;
+      background-color: #29abe21a;
     }
 
     &.active {
@@ -140,7 +140,7 @@ section {
   }
 }
 
-.content-guest{
+.content-guest {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -267,9 +267,6 @@ section {
   .legal-information {
     display: none;
   }
-
-
-
 
   .content-guest {
     flex-direction: row;

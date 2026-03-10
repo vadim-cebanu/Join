@@ -286,7 +286,9 @@
     gap: 6px;
   }
 
-  .summary-header__div, .summary-right, .info {
+  .summary-header__div,
+  .summary-right,
+  .info {
     display: none;
   }
 
@@ -351,7 +353,8 @@
   .card__label {
     font-size: 14px;
   }
-  .wide-right__date{
+
+  .wide-right__date {
     font-size: 19px;
   }
 }
@@ -395,27 +398,31 @@
     }
   }
 
-  .wide-left{
+  .wide-left {
     justify-content: center;
   }
 
-  .card__icon > img  {
+  .card__icon > img {
     width: 15px;
   }
 
   .card__value {
     font-size: 20px;
   }
+
   .card__small .card__value {
     font-size: 24px;
   }
-  .card__label{
+
+  .card__label {
     font-size: 11px;
   }
+
   .wide-right__label {
     font-size: 11px;
   }
-  .wide-right__date{
+
+  .wide-right__date {
     font-size: 15px;
   }
 }
