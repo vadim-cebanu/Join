@@ -2,7 +2,6 @@
   <div class="board-page-div">
     <section class="board-page">
       <div class="board-page-div">
-        <!-- toolbar -->
         <header class="board-page__header">
           <h1 class="board-page__title">Board</h1>
 
@@ -32,7 +31,6 @@
           <p>No match found!</p>
         </div>
 
-        <!-- Task Detail Dialog -->
         <div *ngIf="showTaskDetail && selectedTask" class="dialog-overlay" (click)="closeTaskDetail()">
           <div class="dialog-container" (click)="$event.stopPropagation()">
             <app-task-detail-dialog [task]="selectedTask" (closed)="closeTaskDetail()"
@@ -40,7 +38,6 @@
           </div>
         </div>
 
-        <!-- Add Task Dialog -->
         <div *ngIf="showAddTask" class="dialog-overlay" (click)="closeAddTask()">
           <div class="dialog-container" (click)="$event.stopPropagation()">
             <app-add-task-dialog (closed)="closeAddTask()"></app-add-task-dialog>

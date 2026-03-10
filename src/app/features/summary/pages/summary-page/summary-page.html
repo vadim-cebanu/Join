@@ -9,9 +9,7 @@
   </header>
 
   <div class="summary-layout">
-    <!-- LEFT -->
     <div class="summary-left">
-      <!-- To-do / Done -->
       <div class="row row--two">
 
         <a routerLink="/board" class="card card--metric">
@@ -32,7 +30,6 @@
         </a>
       </div>
 
-      <!-- Urgent -->
       <a routerLink="/board" class="card card--wide">
         <div class="wide-left">
           <div class="wide-left__icon">
@@ -56,7 +53,6 @@
         </div>
       </a>
 
-      <!-- Bottom 3 cards -->
       <div class="row row--three">
         <a routerLink="/board" class="card card__small">
  <div class="card__value">{{ tasksInBoard() }}</div>
@@ -75,7 +71,6 @@
       </div>
     </div>
 
-    <!-- RIGHT -->
     <aside class="summary-right">
       <div class="info">
          @if (!isGuestUser && userName()) {

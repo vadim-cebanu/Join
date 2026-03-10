@@ -108,7 +108,6 @@
   text-align: center;
 }
 
-/*  SUCCESS OVERLAY */
 .success-overlay {
   position: fixed;
   top: 0;
@@ -231,7 +230,6 @@
       background-color: white;
 
       &:checked {
-        // background-color: #2a3647;
         background-image: url('../../../../../public/assets/icons/checked-input-dark.svg');
         background-repeat: no-repeat;
         background-size: 130%;
@@ -344,7 +342,6 @@
   }
 }
 
-/* Privacy Policy Modal */
 .modal-overlay {
   position: fixed;
   top: 0;

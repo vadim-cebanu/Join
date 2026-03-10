@@ -281,7 +281,6 @@
       }
     }
 
-    /*ASSIGNED TO */
     .assigned-to-content {
       position: relative;
     }
@@ -437,7 +436,6 @@
       font-size: 14px;
     }
 
-    /*CATEGORY  */
     .category-content {
       position: relative;
     }
@@ -511,7 +509,6 @@
       }
     }
 
-    /*  SUBTASKS  */
     .subtask-content {
       position: relative;
       min-height: 188px;
@@ -656,7 +653,6 @@
       }
     }
 
-    /*  FOOTER */
     footer {
       width: 100%;
       max-width: 1440px;
@@ -754,7 +750,6 @@
   }
 }
 
-/*    RESPONSIVE */
 @media (max-width: 1200px) {
   .add-task-content {
     padding: 60px;
@@ -814,8 +809,6 @@
   }
 }
 
-
-/* MOBILE / TABLET */
 @media (max-width: 1024px) {
   .add-task-content {
     padding: 30px 35px;
@@ -1005,7 +998,6 @@
   }
 }
 
-/*  SUCCESS OVERLAY */
 .success-overlay {
   position: fixed;
   top: 0;
