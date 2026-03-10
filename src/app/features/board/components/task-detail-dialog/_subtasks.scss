@@ -1,0 +1,144 @@
+.edit-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  &:focus-within {
+    border-color: #29abe2;
+
+    & button,
+    & .dividing-line {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+
+  & input {
+    flex: 1;
+    min-width: 120px;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 20px;
+    font-family: inherit;
+    color: black;
+    padding: 0;
+
+    &::placeholder {
+      color: #d1d1d1;
+    }
+  }
+
+  & button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    opacity: 0;
+    pointer-events: none;
+    transition: background-color 100ms;
+
+    & img {
+      width: 16px;
+    }
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.08);
+    }
+  }
+}
+
+
+.dividing-line {
+  width: 1px;
+  height: 20px;
+  border: 1px solid #d1d1d1;
+  display: flex;
+  flex-shrink: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+
+.edit-subtask-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+
+  &::before {
+    content: '•';
+    margin-right: 8px;
+    flex-shrink: 0;
+  }
+
+  span {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    min-height: 32px;
+  }
+
+  &:hover {
+    background-color: #f6f7f8;
+
+    .edit-subtask-buttons {
+      visibility: visible;
+    }
+
+    .dividing-line {
+      opacity: 1;
+    }
+  }
+}
+
+
+.edit-subtask-buttons {
+  display: flex;
+  visibility: hidden;
+  align-items: center;
+  gap: 4px;
+
+  button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+
+    img {
+      width: 16px;
+    }
+
+    &:first-child img {
+      width: 24px;
+    }
+
+    &:hover {
+      background-color: #e0e0e0;
+    }
+  }
+}
+
+
+.subtask-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}

@@ -1,0 +1,29 @@
+.content-edit {
+  padding-top: 62px;
+}
+
+
+.edit-fields {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-right: 16px;
+  scrollbar-width: thin;
+  scrollbar-color: #c1c1c1 transparent;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #c1c1c1;
+    border-radius: 3px;
+  }
+}

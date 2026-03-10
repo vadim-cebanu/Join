@@ -1,0 +1,83 @@
+@media (max-width: 550px) {
+  .edit-fields {
+    gap: 16px;
+    padding-right: 16px;
+  }
+
+  .input-label {
+    font-size: 16px;
+  }
+
+  .input {
+    padding: 8px 12px;
+    font-size: 16px;
+  }
+
+  .edit-input {
+    gap: 4px;
+    padding: 8px 8px 8px 16px;
+  }
+
+  .edit-input input {
+    font-size: 16px;
+  }
+
+  .assigned-trigger {
+    .assigned-search {
+      font-size: 16px;
+    }
+  }
+
+  .assigned-name {
+    font-size: 16px;
+  }
+
+  .assigned-item {
+    padding: 7px 16px;
+  }
+
+  .button-save {
+    height: 60px;
+    width: 75px;
+    padding: 18px 10px;
+
+    & img {
+      width: 16px;
+      height: 12px;
+    }
+  }
+
+  .priority-button-area {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    & .priority-button {
+      padding: 18px 10px;
+      font-size: 16px;
+      width: 90%;
+    }
+  }
+}
+
+
+@media (max-width: 400px) {
+  .edit-fields {
+    padding-right: 8px;
+  }
+
+  .assigned-trigger.input {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .assigned-search {
+    min-width: 200px;
+  }
+
+  .dropdown-arrow {
+    flex-shrink: 0;
+  }
+}

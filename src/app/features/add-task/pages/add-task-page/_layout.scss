@@ -1,0 +1,81 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+
+.add-task-content-container {
+  max-width: 1440px;
+  width: 100%;
+}
+
+
+.add-task-content {
+  padding: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  background-color: #F6F7F8;
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
+
+  h2 {
+    margin: 0;
+    font-size: 48px;
+    font-weight: 700;
+    color: #2A3647;
+  }
+
+  .main-content {
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+
+    .div-content {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr);
+      column-gap: 60px;
+      align-items: start;
+      min-height: 376px;
+    }
+
+    .left-content,
+    .right-content {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 20px;
+      box-sizing: border-box;
+    }
+
+    .line-content {
+      width: 1px;
+      background-color: #D1D1D1;
+      border-radius: 1px;
+      align-self: stretch;
+      justify-self: center;
+    }
+
+    .title-in-content,
+    .description-in-content,
+    .due-date-content,
+    .assigned-to-content,
+    .category-content,
+    .subtask-content,
+    .priority-content {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      box-sizing: border-box;
+    }
+  }
+}

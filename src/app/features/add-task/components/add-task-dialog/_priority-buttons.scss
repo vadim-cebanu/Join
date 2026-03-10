@@ -1,0 +1,97 @@
+.main-content {
+  .priority-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    .priority-content-elements {
+      display: flex;
+      gap: 16px;
+
+      .prio-radio {
+        display: none;
+      }
+
+      .priority-basic {
+        border-radius: 10px;
+        padding: 10px 16px;
+        width: 136px;
+        background-color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
+        transition:
+          background-color 125ms,
+          box-shadow 125ms,
+          color 125ms;
+
+        &:hover {
+          box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+        }
+      }
+
+      #prio-urgent:checked + .priority-urgent {
+        background-color: #ff3d00;
+        color: white;
+        box-shadow: none;
+
+        .priority-urgent-img {
+          background-image: url(../../../../../../public/assets/icons/AddTask/chevrons/chevronsUrgentWhite.svg);
+        }
+      }
+
+      #prio-medium:checked + .priority-medium {
+        background-color: #ffa800;
+        color: white;
+        box-shadow: none;
+
+        .priority-medium-img {
+          background-image: url(../../../../../../public/assets/icons/AddTask/chevrons/chevronsMediumWhite.svg);
+        }
+      }
+
+      #prio-low:checked + .priority-low {
+        background-color: #7ae229;
+        color: white;
+        box-shadow: none;
+
+        .priority-low-img {
+          background-image: url(../../../../../../public/assets/icons/AddTask/chevrons/chevronsLowWhite.svg);
+          width: 20px;
+          height: 20px;
+        }
+      }
+
+      #prio-urgent:checked + .priority-urgent:hover,
+      #prio-medium:checked + .priority-medium:hover,
+      #prio-low:checked + .priority-low:hover {
+        box-shadow: none;
+      }
+
+      .priority-basic-img {
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        width: 25px;
+        height: 25px;
+      }
+
+      .priority-urgent-img {
+        background-image: url(../../../../../../public/assets/icons/AddTask/chevrons/chevronUrgentRealRed.svg);
+      }
+
+      .priority-medium-img {
+        background-image: url(../../../../../../public/assets/icons/AddTask/chevrons/chevronsMediumOrange.svg);
+      }
+
+      .priority-low-img {
+        background-image: url(../../../../../../public/assets/icons/AddTask/chevrons/chevronsLowGreen.svg);
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+}

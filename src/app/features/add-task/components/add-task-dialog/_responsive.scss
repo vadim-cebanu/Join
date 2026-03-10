@@ -1,0 +1,336 @@
+@media (max-width: 1024px) {
+  .dialog-content {
+    max-width: 900px;
+    padding: 30px;
+  }
+
+  .dialog-header h2 {
+    font-size: 40px;
+  }
+
+  .main-content {
+    .div-content {
+      gap: 30px;
+    }
+
+    .category-content {
+      width: 360px;
+    }
+  }
+}
+
+
+@media (max-width: 1050px) {
+  .dialog-overlay {
+    padding: 0;
+  }
+
+  .dialog-overlay .dialog-content {
+    max-width: 90%;
+    max-height: 95vh;
+    border-radius: 30px;
+    padding: 40px 10px 40px 40px;
+    height: auto;
+    overflow-y: hidden;
+  }
+
+  .dialog-header {
+    margin-bottom: 20px;
+
+    h2 {
+      font-size: 32px;
+    }
+  }
+
+  label {
+    font-size: 18px;
+  }
+
+  input {
+    width: 100%;
+    height: 44px;
+    padding: 10px 16px;
+    font-size: 18px;
+  }
+
+  textarea {
+    width: 100%;
+    min-height: 100px;
+    max-height: 100px;
+    font-size: 18px;
+    padding: 10px 16px;
+  }
+
+  ::placeholder {
+    font-size: 18px;
+  }
+
+  .category-selection {
+    font-size: 18px;
+  }
+
+  input[type='date'] {
+    font-size: 18px;
+  }
+
+  .main-content {
+    .div-content {
+      flex-direction: column;
+      gap: 24px;
+      min-height: auto;
+    }
+
+    .line-content {
+      display: none;
+    }
+
+    .left-content,
+    .right-content {
+      width: 100%;
+      min-height: auto;
+      gap: 20px;
+    }
+
+    .title-in-content,
+    .description-in-content,
+    .due-date-content,
+    .assigned-to-content,
+    .category-content,
+    .subtask-content,
+    .priority-content {
+      width: 100%;
+    }
+
+    .title-in-content {
+      height: auto;
+      min-height: 100px;
+    }
+
+    .description-in-content {
+      min-height: auto;
+      max-height: none;
+    }
+
+    .due-date-content {
+      margin-top: 0;
+      min-height: auto;
+      max-height: none;
+    }
+
+    .priority-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      label {
+        align-self: flex-start;
+      }
+
+      .priority-content-elements {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 12px;
+
+        .priority-basic {
+          width: auto;
+          min-width: 120px;
+          padding: 8px 12px;
+          font-size: 16px;
+        }
+      }
+    }
+
+    .assigned-dropdown,
+    .edit-input {
+      width: 100%;
+    }
+
+    .category-content {
+      width: 100%;
+    }
+
+    .category-selection {
+      width: 100%;
+    }
+
+    .subtask-list {
+      max-height: 150px;
+    }
+
+    footer {
+      flex-direction: column-reverse;
+      gap: 16px;
+      margin-top: 24px;
+      align-items: stretch;
+      padding-bottom: 16px;
+
+      p {
+        font-size: 16px;
+        order: 2;
+      }
+
+      .btn-div {
+        flex-direction: row;
+        gap: 12px;
+        order: 1;
+        justify-content: center;
+        display: flex;
+        .btn-basic {
+          padding: 12px 16px;
+          font-size: 18px;
+        }
+
+        .btn-clear {
+          font-size: 18px;
+        }
+
+        .btn-create-task {
+          font-size: 18px;
+        }
+      }
+    }
+  }
+
+  .assigned-trigger {
+    height: 44px;
+    padding: 10px 16px;
+
+    .assigned-search {
+      font-size: 18px;
+    }
+  }
+
+  .assigned-avatar {
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+  }
+
+  .main-content .assigned-name {
+    font-size: 18px;
+  }
+
+  .main-content .category-options p {
+    font-size: 18px;
+  }
+
+  .assigned-list {
+    max-height: 160px;
+  }
+
+  .edit-input {
+    height: 44px;
+    padding: 10px 16px;
+
+    input {
+      font-size: 18px;
+      padding: 0;
+    }
+  }
+
+  .edit-subtask-item {
+    font-size: 14px;
+    padding: 6px 8px;
+    min-height: 36px;
+  }
+}
+
+
+@media (max-width: 550px) {
+  .dialog-overlay .dialog-content {
+    padding: 40px 10px 40px 20px;
+  }
+}
+
+
+@media (max-width: 490px) {
+  .dialog-content {
+    padding: 20px 16px;
+  }
+
+  .dialog-header {
+    h2 {
+      font-size: 28px;
+    }
+  }
+
+  label {
+    font-size: 16px;
+  }
+
+  input {
+    height: 40px;
+    font-size: 16px;
+  }
+
+  textarea {
+    min-height: 80px;
+    max-height: 80px;
+    font-size: 16px;
+  }
+
+  ::placeholder {
+    font-size: 16px;
+  }
+
+  .category-selection {
+    font-size: 16px;
+  }
+
+  .assigned-search {
+    font-size: 16px;
+  }
+
+  input[type='date'] {
+    font-size: 16px;
+  }
+
+  .main-content {
+    .priority-content {
+      .priority-content-elements {
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+
+        .priority-basic {
+          width: 100%;
+          gap: 6px;
+        }
+
+        .priority-basic-img {
+          width: 20px;
+          height: 20px;
+        }
+      }
+    }
+
+    footer {
+      .btn-div {
+        .btn-basic {
+          padding: 10px 14px;
+          font-size: 16px;
+        }
+
+        .btn-basic-icon {
+          width: 20px;
+          height: 20px;
+        }
+      }
+    }
+  }
+
+  .assigned-avatar {
+    width: 32px;
+    height: 32px;
+    font-size: 13px;
+  }
+
+  .main-content .assigned-name {
+    font-size: 16px;
+  }
+
+  .main-content .category-options p {
+    font-size: 16px;
+  }
+}

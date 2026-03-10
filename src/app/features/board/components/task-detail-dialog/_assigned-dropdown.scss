@@ -1,0 +1,160 @@
+.assigned-dropdown {
+  position: relative;
+}
+
+
+.assigned-trigger {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  cursor: pointer;
+  text-align: left;
+  color: #a0a0a0;
+
+  .assigned-search {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 20px;
+    font-family: inherit;
+    color: black;
+    cursor: pointer;
+
+    &::placeholder {
+      color: black;
+    }
+
+    &:focus::placeholder {
+      color: transparent;
+    }
+  }
+
+  .dropdown-arrow {
+    padding: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 200ms, background-color 100ms;
+
+    &.open {
+      transform: rotate(180deg);
+    }
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.08);
+    }
+  }
+
+  &:focus-within {
+    border-color: #29abe2;
+  }
+}
+
+
+.assigned-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: white;
+  border-left: 1px solid #d1d1d1;
+  border-right: 1px solid #d1d1d1;
+  border-bottom: 1px solid #d1d1d1;
+  border-radius: 0 0 10px 10px;
+  list-style: none;
+  padding: 4px 0;
+  margin: 0;
+  z-index: 10;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+
+.assigned-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: background-color 150ms;
+
+  &.selected {
+    background-color: #2a3647;
+    color: white;
+    border-radius: 10px;
+  }
+
+  &:hover {
+    background-color: #ebebeb;
+  }
+
+  &.selected:hover {
+    background-color: #091931;
+
+    input[type='checkbox']:checked {
+      background-color: #091931;
+      border-color: transparent;
+    }
+  }
+
+  input[type='checkbox'] {
+    margin-left: auto;
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    cursor: pointer;
+    appearance: none;
+    box-sizing: border-box;
+    border: 2px solid #2a3647;
+    border-radius: 3px;
+
+    &:checked {
+      background-color: #2a3647;
+      background-image: url(../../../../../../public/assets/icons/checked-input.svg);
+      background-repeat: no-repeat;
+      background-size: 130%;
+      background-position: center;
+    }
+
+    &:checked:hover {
+      background-color: #091931;
+    }
+  }
+}
+
+
+.assigned-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 2px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+
+.assigned-name {
+  font-size: 19px;
+}
+
+
+.assigned-avatars {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+
+.avatar-overflow {
+  background-color: #2a3647;
+  font-size: 14px;
+}

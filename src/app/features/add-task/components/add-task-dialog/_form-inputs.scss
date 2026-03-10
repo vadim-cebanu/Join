@@ -1,0 +1,135 @@
+label > span,
+footer span {
+  color: #ff8190;
+}
+
+
+label {
+  font-size: 20px;
+  font-weight: 400;
+  color: #2a3647;
+}
+
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border: 1px solid #29abe2;
+  box-shadow: none;
+}
+
+
+input {
+  border-radius: 10px;
+  padding: 12px 16px;
+  width: 440px;
+  height: 48px;
+  border: 1px solid #d1d1d1;
+  font-size: 20px;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+
+::placeholder {
+  font-size: 20px;
+  color: #d1d1d1;
+  font-weight: 400;
+  font-style: 400;
+}
+
+
+textarea {
+  font-size: 20px;
+  width: 440px;
+  min-height: 120px;
+  max-height: 120px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  border-color: #d1d1d1;
+  font-weight: 400;
+  font-style: 400;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+
+input[type='date'] {
+  font-size: 20px;
+  color: black;
+}
+
+
+.main-content {
+  .title-in-content,
+  .description-in-content,
+  .due-date-content,
+  .assigned-to-content,
+  .category-content,
+  .subtask-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .title-in-content,
+  .description-in-content {
+    padding-bottom: 32px;
+  }
+
+  .input-date-wrapper {
+    position: relative;
+
+    .input-date {
+      padding-right: 44px;
+
+      &::-webkit-calendar-picker-indicator {
+        opacity: 0;
+        cursor: pointer;
+
+        @media (any-pointer: fine) {
+          position: absolute;
+          right: 0;
+          top: 0;
+          height: 44px;
+          width: 44px;
+        }
+      }
+    }
+
+    @supports (-moz-appearance: none) {
+      .date-icon {
+        display: none;
+      }
+    }
+
+    .date-icon {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
+      pointer-events: none;
+    }
+  }
+
+  .description-in-content {
+    max-height: 168px;
+    min-height: 168px;
+  }
+
+  input.invalid {
+    border: 2px solid #e60026;
+  }
+
+  .if {
+    height: 25px;
+    color: #e60026;
+  }
+}

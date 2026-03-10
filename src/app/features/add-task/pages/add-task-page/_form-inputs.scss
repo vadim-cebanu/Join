@@ -1,0 +1,111 @@
+.add-task-content {
+  label {
+    font-size: 20px;
+    font-weight: 400;
+    color: #2A3647;
+
+    span {
+      color: #E60026;
+    }
+  }
+
+  input:focus,
+  textarea:focus,
+  select:focus {
+    outline: none;
+    border: 1px solid #29ABE2;
+    box-shadow: none;
+  }
+
+  ::placeholder {
+    font-size: 20px;
+    color: #D1D1D1;
+    font-weight: 400;
+  }
+
+  .main-content {
+    input,
+    textarea {
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    input {
+      border-radius: 10px;
+      padding: 12px 21px;
+      height: 48px;
+      border: 1px solid #D1D1D1;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    textarea {
+      font-size: 20px;
+      min-height: 120px;
+      max-height: 120px;
+      padding: 12px 21px;
+      border-radius: 10px;
+      border: 1px solid #D1D1D1;
+      font-weight: 400;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    input[type="date"] {
+      font-size: 20px;
+      color: black;
+    }
+
+    .input-date-wrapper {
+      position: relative;
+      width: 100%;
+
+      .input-date {
+        padding-right: 44px;
+
+        &::-webkit-calendar-picker-indicator {
+          opacity: 0;
+          cursor: pointer;
+
+          @media (any-pointer: fine) {
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 44px;
+            width: 44px;
+          }
+        }
+      }
+
+      @supports (-moz-appearance: none) {
+        .date-icon {
+          display: none;
+        }
+      }
+
+      .date-icon {
+        position: absolute;
+        right: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 20px;
+        height: 20px;
+        pointer-events: none;
+      }
+    }
+
+    input.invalid {
+      border: 2px solid #E60026;
+    }
+
+    .if {
+      height: 25px;
+      color: #E60026;
+      margin: 0;
+    }
+  }
+}

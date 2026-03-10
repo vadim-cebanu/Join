@@ -1,0 +1,59 @@
+@media screen and (max-width: 548px) {
+  .signup-card {
+    padding: 32px 20px;
+  }
+}
+
+
+@media screen and (max-width: 480px) {
+  .signup-card {
+    padding: 28px 18px;
+  }
+
+  .form-group input:not([type='checkbox']) {
+    font-size: 14px;
+  }
+
+  .form-group .error {
+    font-size: 14px;
+  }
+
+  .form-check label {
+    font-size: 14px;
+  }
+
+  .form-check label .read-required {
+    font-size: 12px;
+  }
+
+  .modal-header h2 {
+    font-size: 28px;
+  }
+
+  .modal-body h3 {
+    font-size: 18px;
+  }
+}
+
+
+@media screen and (max-width: 360px) {
+  .signup-card {
+    padding: 24px 14px;
+  }
+
+  .form-group input:not([type='checkbox']) {
+    font-size: 13px;
+  }
+
+  .form-group .error {
+    font-size: 13px;
+  }
+
+  .form-check label {
+    font-size: 13px;
+  }
+
+  .form-check label .read-required {
+    font-size: 12px;
+  }
+}
