@@ -16,8 +16,7 @@
 .logo {
   font-weight: 800;
   letter-spacing: 1px;
-  opacity: 0;
-  animation: showImg 2s 2s forwards;
+
 }
 
 .top-right {
@@ -25,8 +24,6 @@
   align-items: center;
   gap: 12px;
   color: #2a3647;
-  opacity: 0;
-  animation: showImg 2s 2s forwards;
 }
 
 .top-right-mobil{
@@ -60,9 +57,6 @@
   display: inline-flex;
   flex-direction: column;
   align-items: center;
-  opacity: 0;
-  animation: showImg 2s 2s forwards;
-  
 
   &::after {
     content: attr(data-text);
@@ -114,17 +108,4 @@ img {
    width: 64px;
   height: 80px;
 }
-}
-
-@media (max-width: 428px){
-  
-}
-
-@keyframes showImg {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
 }
