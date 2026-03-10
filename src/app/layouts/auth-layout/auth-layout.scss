@@ -22,7 +22,9 @@
 .logo {
   font-weight: 800;
   letter-spacing: 1px;
-
+  opacity: 0;
+  animation: showImg 0.6s ease forwards;
+  animation-delay: 2.2s;
 }
 
 .logoAnimation {
@@ -37,12 +39,9 @@
   left: 50%;
   transform: translate(-50%, -50%) scale(1);
   z-index: 10;
-  animation:
-    moveFade 1s forwards,
-    hideLogo 0.2s forwards;
-  animation-delay:
-    1s,
-    2s;
+  animation: 
+    moveFade 1s ease forwards 1s,
+    hideLogo 0.4s ease forwards 2s;
 }
 
 .top-right {
@@ -50,6 +49,9 @@
   align-items: center;
   gap: 12px;
   color: #2a3647;
+  opacity: 0;
+  animation: showImg 0.6s ease forwards;
+  animation-delay: 2.2s;
 }
 
 .top-right-mobil{
@@ -64,6 +66,9 @@
     flex-direction: column;
     overflow-y: auto;
     overflow-x: hidden;
+    opacity: 0;
+    animation: showImg 0.6s ease forwards;
+    animation-delay: 2.2s;
 }
 
 .auth-footer {
@@ -73,6 +78,9 @@
   padding: 20px 12px;
   opacity: 0.65;
   font-size: 14px;
+  opacity: 0;
+  animation: showImg 0.6s ease forwards;
+  animation-delay: 2.2s;
 }
 
 .auth-footer a {
