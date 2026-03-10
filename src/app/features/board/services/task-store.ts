@@ -2,6 +2,29 @@ import { Injectable, signal, computed } from '@angular/core';
 import { Task, Status, TaskPriority, TaskType } from '../models/task.model';
 import { Supabase } from '../../../supabase';
 
+/**
+ * Data required to create a new task.
+ *
+ * @property title       - Task title (required).
+ * @property description - Optional task description.
+ * @property status      - Initial kanban status.
+ * @property type        - Task category type.
+ * @property priority    - Task priority level.
+ * @property assignees   - Optional list of assigned contacts.
+ * @property subtasks    - Optional list of subtasks.
+ * @property dueDate     - Optional due date string.
+ */
+interface NewTaskData {
+  title: string;
+  description?: string;
+  status: Status;
+  type: TaskType;
+  priority: TaskPriority;
+  assignees?: { id: string; initials: string; name?: string }[];
+  subtasks?: { id: string; title: string; done: boolean }[];
+  dueDate?: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -110,19 +133,7 @@ export class TaskStore {
    *                     dialogs that need to avoid change-detection errors).
    * @returns The created {@link Task} mapped to the app model, or `null` on failure.
    */
-  async addTask(
-    data: {
-      title: string;
-      description?: string;
-      status: Status;
-      type: TaskType;
-      priority: TaskPriority;
-      assignees?: { id: string; initials: string; name?: string }[];
-      subtasks?: { id: string; title: string; done: boolean }[];
-      dueDate?: string;
-    },
-    skipReload: boolean = false,
-  ): Promise<Task | null> {
+  async addTask(data: NewTaskData, skipReload: boolean = false): Promise<Task | null> {
     const { userId, isGuest } = this.resolveAuthContext();
     if (!this.canCreateTask(userId, isGuest)) return null;
     const newTaskPayload = this.buildNewTaskPayload(userId, data);
@@ -176,19 +187,7 @@ export class TaskStore {
    * @param taskData The raw task form data collected from the UI.
    * @returns A plain object ready to be passed to a Supabase `insert` call.
    */
-  private buildNewTaskPayload(
-    userId: string | undefined,
-    taskData: {
-      title: string;
-      description?: string;
-      status: Status;
-      type: TaskType;
-      priority: TaskPriority;
-      assignees?: { id: string; initials: string; name?: string }[];
-      subtasks?: { id: string; title: string; done: boolean }[];
-      dueDate?: string;
-    },
-  ) {
+  private buildNewTaskPayload(userId: string | undefined, taskData: NewTaskData) {
     return {
       created_by: userId ?? null,
       title: taskData.title,

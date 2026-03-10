@@ -226,12 +226,6 @@ export class AddTaskPage implements OnInit {
 
 
   /**
-   * Resets the task form to its initial state.
-   * Clears all inputs, selected contacts, and subtasks.
-   */
-
-
-  /**
    * Toggles the task category dropdown visibility.
    */
   actionDropdown() {

@@ -62,39 +62,63 @@ export class BoardColumn  {
   /**
    * Handles a drop event from Angular CDK Drag & Drop.
    *
-   * - If the drop occurs in the same column: reorders tasks in-place.
-   * - If the drop occurs from another column: updates the task status, transfers
-   *   it between arrays, persists the new status to Supabase, and emits `taskDropped`.
+   * Delegates to {@link reorderTaskWithinColumn} for same-column drops or
+   * {@link transferTaskToNewColumn} for cross-column drops, then resets
+   * the drag-over state and triggers change detection.
    *
    * @param event Drag & drop event containing source/target containers and indices.
-   * @returns void
    */
   onDrop(event: CdkDragDrop<Task[]>): void {
-    const task = event.previousContainer.data[event.previousIndex];
+    const droppedTask = event.previousContainer.data[event.previousIndex];
 
-    if (!task) {
+    if (!droppedTask) {
       console.error('Task not found');
       return;
     }
 
     if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      this.reorderTaskWithinColumn(event);
     } else {
-      task.status = this.columnId;
-
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
-
-      this.updateTaskStatus(task);
-      this.taskDropped.emit({ task, newStatus: this.columnId });
+      this.transferTaskToNewColumn(droppedTask, event);
     }
 
     this.isDragOver = false;
     this.cdr.markForCheck();
+  }
+
+  /**
+   * Reorders a task within the same column after an in-column drag & drop.
+   *
+   * Uses CDK's `moveItemInArray` to update the column's task array in-place.
+   *
+   * @param event The drag & drop event from Angular CDK.
+   */
+  private reorderTaskWithinColumn(event: CdkDragDrop<Task[]>): void {
+    moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+  }
+
+  /**
+   * Moves a task from another column into this column.
+   *
+   * Updates the task's status to this column's `columnId`, transfers it
+   * between the two data arrays, persists the new status to Supabase
+   * and emits the `taskDropped` output event.
+   *
+   * @param droppedTask  The task being moved.
+   * @param event        The drag & drop event from Angular CDK.
+   */
+  private transferTaskToNewColumn(droppedTask: Task, event: CdkDragDrop<Task[]>): void {
+    droppedTask.status = this.columnId;
+
+    transferArrayItem(
+      event.previousContainer.data,
+      event.container.data,
+      event.previousIndex,
+      event.currentIndex,
+    );
+
+    this.updateTaskStatus(droppedTask);
+    this.taskDropped.emit({ task: droppedTask, newStatus: this.columnId });
   }
 
 
