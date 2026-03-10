@@ -63,11 +63,23 @@ export class AddTaskPage implements OnInit {
 
   today: string = new Date().toISOString().split('T')[0];
 
+  /**
+   * Validates that a task category has been selected.
+   *
+   * @param control - The form control holding the category value.
+   * @returns A `{ categoryRequired: true }` error if no valid category is selected; otherwise `null`.
+   */
   categoryValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-  const valid = (control.value ?? '').toString().trim();
-  return valid === 'Select task category' || valid === '' ? { categoryRequired: true } : null;
-};
+    const valid = (control.value ?? '').toString().trim();
+    return valid === 'Select task category' || valid === '' ? { categoryRequired: true } : null;
+  };
 
+  /**
+   * Validates that the selected due date is not in the past.
+   *
+   * @param control - The form control holding the date string.
+   * @returns A `{ pastDate: true }` error if the date is before today; otherwise `null`.
+   */
   minDateValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
     if (!control.value) return null;
     const entered = new Date(control.value);
@@ -210,6 +222,10 @@ export class AddTaskPage implements OnInit {
   }
 
 
+  /**
+   * Resets the task form to its initial state.
+   * Clears all inputs, selected contacts, subtasks and closes all dropdowns.
+   */
   clearForm() {
     this.taskForm.reset({
       title: '',

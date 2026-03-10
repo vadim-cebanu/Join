@@ -8,6 +8,11 @@
   overflow-y: auto;
   opacity: 0;
   animation: showImg 2s 2s forwards;
+
+  &.skip-animation {
+    animation: none;
+    opacity: 1;
+  }
 }
 
 

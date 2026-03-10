@@ -19,6 +19,9 @@ export class LoginPage {
   isAlternateImage = false;
   isFocused = false;
 
+  /** True when navigating from another page — skips the intro animation. */
+  skipIntroAnimation = (history.state?.navigationId ?? 1) > 1;
+
   lockImage = 'assets/icons/lock.png';
   invisibleImage = 'assets/icons/visibility_off.svg';
   visibleImage = 'assets/icons/visibility.svg';

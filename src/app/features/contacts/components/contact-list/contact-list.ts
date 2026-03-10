@@ -96,9 +96,15 @@ export class ContactList implements OnInit {
   }
 
 
-limitName(name: string): string {
-  return name.length > 20
-    ? name.slice(0, 18) + "..."
-    : name;
-}
+  /**
+   * Truncates a contact name to a maximum of 20 characters.
+   *
+   * @param name - The full contact name to truncate.
+   * @returns The original name if 20 characters or fewer, otherwise the first 18 characters followed by '...'.
+   */
+  limitName(name: string): string {
+    return name.length > 20
+      ? name.slice(0, 18) + "..."
+      : name;
+  }
 }
