@@ -243,6 +243,7 @@ export class TaskStore {
       assignees: (row['assignees'] as Task['assignees']) ?? [],
       subtasks: (row['subtasks'] as Task['subtasks']) ?? [],
       createdAt: row['created_at'] as string,
+      dueDate: row['due_at'] as string | undefined,
     };
   }
 

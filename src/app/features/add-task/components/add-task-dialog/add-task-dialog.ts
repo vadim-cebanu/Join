@@ -86,40 +86,90 @@ minDateValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | n
     this.supabaseService.getContacts();
   }
 
-  async formSubmit() {
+  /**
+   * Handles the task form submission.
+   *
+   * Validates the form, assembles the task data and delegates to
+   * {@link saveTaskAndCloseDialog}. Returns early if validation fails.
+   */
+  async formSubmit(): Promise<void> {
+    if (!this.validateFormBeforeSubmit()) return;
+
+    const taskData = this.buildTaskDataFromForm();
+
+    await this.saveTaskAndCloseDialog(taskData);
+  }
+
+  /**
+   * Marks all form controls as touched to trigger validation messages,
+   * and checks that a valid task category has been selected.
+   *
+   * @returns `true` if the form is valid and ready for submission; otherwise `false`.
+   */
+  private validateFormBeforeSubmit(): boolean {
     if (this.taskForm.invalid) {
-      Object.keys(this.taskForm.controls).forEach(key => {
-        this.taskForm.get(key)?.markAsTouched();
-      });
-      return;
+      Object.keys(this.taskForm.controls).forEach((key) =>
+        this.taskForm.get(key)?.markAsTouched(),
+      );
+      return false;
     }
 
-    const typeValue = this.taskForm.value.type;
-    if (typeValue === 'Select task category') {
+    if (this.taskForm.value.type === 'Select task category') {
       console.log('Please select a valid category');
-      return;
+      return false;
     }
 
-    const assignees = this.selectedContacts.map(c => ({
-      id: c.id!,
-      initials: this.getInitials(c.name),
-      name: c.name,
-    }));
+    return true;
+  }
 
-    const taskData = {
+  /**
+   * Maps the currently selected contacts to the assignee format expected by the task model.
+   *
+   * @returns An array of assignee objects containing `id`, `initials` and `name`.
+   */
+  private buildAssigneeList(): { id: string; initials: string; name: string }[] {
+    return this.selectedContacts.map((contact) => ({
+      id: contact.id!,
+      initials: this.getInitials(contact.name),
+      name: contact.name,
+    }));
+  }
+
+  /**
+   * Assembles the task data object from the current form values, selected contacts
+   * and added subtasks.
+   *
+   * @returns A fully populated task data object ready to be passed to {@link TaskStore.addTask}.
+   */
+  private buildTaskDataFromForm() {
+    return {
       title: this.taskForm.value.title!,
       description: this.taskForm.value.description || undefined,
       status: 'todo' as Status,
       type: this.taskForm.value.type as 'Technical Task' | 'User Story',
       priority: this.taskForm.value.priority as 'high' | 'medium' | 'low',
-      assignees,
+      assignees: this.buildAssigneeList(),
       subtasks: this.subtasks,
       dueDate: this.taskForm.value.due_at || undefined,
     };
+  }
 
+  /**
+   * Calls the task store to persist the new task, shows a success message on
+   * completion and emits the `closed` event after a short delay.
+   *
+   * Uses `skipReload = true` to avoid Angular change-detection errors inside dialogs.
+   * Logs an error to the console if the store call fails or throws.
+   *
+   * @param taskData The assembled task data produced by {@link buildTaskDataFromForm}.
+   */
+  private async saveTaskAndCloseDialog(
+    taskData: ReturnType<typeof this.buildTaskDataFromForm>,
+  ): Promise<void> {
     try {
-      const result = await this.taskStore.addTask(taskData, true); // skipReload=true to avoid change detection error
-      if (result) {
+      const createdTask = await this.taskStore.addTask(taskData, true);
+
+      if (createdTask) {
         this.showSuccessMessage.set(true);
         setTimeout(() => {
           this.showSuccessMessage.set(false);
