@@ -22,26 +22,18 @@
 .logo {
   font-weight: 800;
   letter-spacing: 1px;
-  opacity: 0;
-  animation: showImg 0.6s ease forwards;
-  animation-delay: 2.2s;
-}
-
-.logoAnimation {
-  background-image: url(../../../../public/assets/img/Capa-1.png);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
-  width: 273.9997558594px;
-  height: 334.0722961426px;
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%) scale(1);
+  transform: translate(-50%, -50%);
   z-index: 10;
-  animation:
-    moveFade 1s ease forwards 1s,
-    hideLogo 0.4s ease forwards 2s;
+  animation: logoMove 1.9s ease forwards;
+
+  img {
+    width: 274px;
+    height: 334px;
+    animation: logoResize 1.9s ease forwards;
+  }
 }
 
 .top-right {
@@ -170,37 +162,74 @@ img {
   }
 }
 
-@keyframes moveFade {
-  from {
-    opacity: 1;
+@keyframes logoMove {
+  0% {
+    position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) scale(1);
-  }
-
-  to {
+    transform: translate(-50%, -50%);
     opacity: 1;
-    top: 0px;
+  }
+  52.6% {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 1;
+  }
+  99.9% {
+    position: fixed;
+    top: 15px;
     left: 48px;
-    transform: translate(0, 0) scale(0.3);
-  }
-}
-
-@keyframes hideLogo {
-  from {
+    transform: translate(0, 0);
     opacity: 1;
   }
-  to {
-    opacity: 0;
+  100% {
+    position: static;
+    top: auto;
+    left: auto;
+    transform: none;
+    opacity: 1;
   }
 }
 
-@media (max-width: 428px){
-  .auth-shell{
-    animation: bgChangeMobile 2s;
+@keyframes logoResize {
+  0% {
+    width: 274px;
+    height: 334px;
   }
-  .logoAnimation{
-    background-image: url(../../../../public/assets/img/Capa\ 2.png);
+  52.6% {
+    width: 274px;
+    height: 334px;
+  }
+  100% {
+    width: 64px;
+    height: 80px;
+  }
+}
+
+@keyframes logoImageChange {
+  0% {
+    content: url(../../../../public/assets/img/Capa\ 2.png);
+  }
+  99.9% {
+    content: url(../../../../public/assets/img/Capa\ 2.png);
+  }
+  100% {
+    content: url(../../../../public/assets/img/Capa-1.png);
+  }
+}
+
+@media (max-width: 768px){
+  .auth-shell{
+    animation: bgChangeMobile 1.9s;
+  }
+
+  .logo img {
+    content: url(../../../../public/assets/img/Capa\ 2.png);
+    animation:
+      logoResize 1.9s ease forwards,
+      logoImageChange 1.9s step-end forwards;
   }
 }
 
