@@ -53,10 +53,12 @@ export class SignupPage {
     this.isFocused = true;
   }
 
+
   onBlur(): void {
     this.isFocused = false;
     this.isAlternateImage = false;
   }
+
 
   togglePasswordVisibility(): void {
     this.isAlternateImage = !this.isAlternateImage;
@@ -69,12 +71,14 @@ export class SignupPage {
     this.showPrivacyModal.set(true);
   }
 
+
   /**
    * Closes the privacy policy modal.
    */
   closePrivacyModal() {
     this.showPrivacyModal.set(false);
   }
+
 
   /**
    * Handles scroll event on privacy policy content to detect if user has read to the end.
@@ -90,6 +94,7 @@ export class SignupPage {
       this.hasReadPrivacy.set(true);
     }
   }
+
 
   /**
    * Validates the password confirmation and registers a new user.
@@ -119,6 +124,7 @@ export class SignupPage {
 
     }
   }
+
 
   goBack() {
     window.history.back();

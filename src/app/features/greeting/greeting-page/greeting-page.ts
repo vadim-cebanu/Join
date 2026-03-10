@@ -28,6 +28,7 @@ export class GreetingPage implements OnInit {
     }, 3000);
   }
 
+
   /**
    * Loads the current user's name from profiles table.
    */
@@ -45,6 +46,7 @@ export class GreetingPage implements OnInit {
     }
   }
 
+
   /**
    * Capitalizes the first letter of each word.
    */
@@ -54,6 +56,7 @@ export class GreetingPage implements OnInit {
       .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
       .join(' ');
   }
+
 
   /**
    * Returns greeting based on current time of day.
@@ -65,6 +68,7 @@ export class GreetingPage implements OnInit {
     if (hour < 18) return `Good afternoon${suffix}`;
     return `Good evening${suffix}`;
   }
+
 
   /**
    * Check if current user is a guest.

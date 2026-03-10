@@ -76,6 +76,7 @@ export class BoardPage implements OnInit, AfterViewInit {
     });
   }
 
+
   /**
    * Angular lifecycle hook.
    * Initializes the component.
@@ -86,6 +87,7 @@ export class BoardPage implements OnInit, AfterViewInit {
     // Initialization happens here
   }
 
+
   /**
    * Angular lifecycle hook.
    * Loads tasks after the view is initialized to avoid change detection errors.
@@ -95,6 +97,7 @@ export class BoardPage implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.loadTasks();
   }
+
 
   /**
    * Loads tasks from the TaskStore and updates UI state.
@@ -124,6 +127,7 @@ export class BoardPage implements OnInit, AfterViewInit {
     }
   }
 
+
   /**
    * Filters a list of tasks by the current searchQuery and distributes them into columns.
    *
@@ -151,6 +155,7 @@ export class BoardPage implements OnInit, AfterViewInit {
     });
   }
 
+
   /**
    * Called when the search input changes.
    * Re-applies the filtering using the current searchQuery.
@@ -161,6 +166,7 @@ export class BoardPage implements OnInit, AfterViewInit {
     this.filterTasks(this.allTasks);
   }
 
+
   /**
    * Checks if there are any tasks available after filtering.
    * Used to show "no results" message.
@@ -170,6 +176,7 @@ export class BoardPage implements OnInit, AfterViewInit {
   get hasFilteredTasks(): boolean {
     return this.columns.some(col => col.tasks.length > 0);
   }
+
 
   /**
    * Toggles the context menu for the given task id.
@@ -182,6 +189,7 @@ export class BoardPage implements OnInit, AfterViewInit {
     this.openMenuTaskId = this.openMenuTaskId === taskId ? null : taskId;
   }
 
+
   /**
    * Closes any open task context menu when clicking outside.
    *
@@ -192,6 +200,7 @@ export class BoardPage implements OnInit, AfterViewInit {
     this.openMenuTaskId = null;
   }
 
+
   /**
    * Opens the "Add Task" dialog with a default status of 'todo'.
    *
@@ -201,6 +210,7 @@ export class BoardPage implements OnInit, AfterViewInit {
     this.selectedStatus = 'todo';
     this.showAddTask = true;
   }
+
 
   /**
    * Selects a task and opens the task detail dialog.
@@ -213,6 +223,7 @@ export class BoardPage implements OnInit, AfterViewInit {
     this.showTaskDetail = true;
   }
 
+
   /**
    * Closes the task detail dialog and clears the selected task.
    *
@@ -223,6 +234,7 @@ export class BoardPage implements OnInit, AfterViewInit {
     this.selectedTask = null;
   }
 
+
   /**
    * Called after a task was updated in the detail dialog.
    * Closes the dialog and reloads tasks from the store.
@@ -232,6 +244,7 @@ export class BoardPage implements OnInit, AfterViewInit {
   async onTaskUpdated(): Promise<void> {
     this.closeTaskDetail();
   }
+
 
   /**
    * Opens the "Add Task" dialog for a specific status (e.g., when clicking "+" on a column).
@@ -244,6 +257,7 @@ export class BoardPage implements OnInit, AfterViewInit {
     this.showAddTask = true;
     this.cdr.detectChanges();
   }
+
 
   /**
    * Closes the add task dialog and clears the selectedStatus.
@@ -258,6 +272,7 @@ export class BoardPage implements OnInit, AfterViewInit {
     await this.loadTasks();
   }
 
+
   /**
    * Called after a task was created in the add task dialog.
    * Closes the dialog, reloads tasks, and triggers change detection.
@@ -268,6 +283,7 @@ export class BoardPage implements OnInit, AfterViewInit {
     this.closeAddTask();
     this.cdr.detectChanges();
   }
+
 
   /**
    * Handles a task drop event coming from a BoardColumn (drag & drop between columns).
@@ -280,6 +296,7 @@ export class BoardPage implements OnInit, AfterViewInit {
     await this.taskStore.updateTask(event.task.id, { status: event.newStatus });
     await this.taskStore.loadTasks();
   }
+
 
   /**
    * Handles moving a task via a menu action (not drag & drop).

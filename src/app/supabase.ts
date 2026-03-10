@@ -100,6 +100,7 @@ hasAppAccess = computed(() => this.currentUser() !== null || this.isGuest());
     this.initAuth();
   }
 
+
   /**
    * Initializes authentication by checking the current session
    * and subscribing to auth state changes.
@@ -107,24 +108,46 @@ hasAppAccess = computed(() => this.currentUser() !== null || this.isGuest());
    */
   private async initAuth() {
     const { data: { session } } = await this.supabase.auth.getSession();
-
-    // Check if session should be cleared (when "Remember Me" was not checked)
-    if (typeof window !== 'undefined' && window.sessionStorage) {
-      const shouldNotPersist = sessionStorage.getItem('no-persist-session') === 'true';
-      if (shouldNotPersist && session) {
-        // Clear the session without API call to avoid logout on server
-        await this.supabase.auth.signOut({ scope: 'local' });
-        sessionStorage.removeItem('no-persist-session');
-        this.currentUser.set(null);
-        return;
-      }
-    }
+    
+    const shouldClearSession = await this.handleSessionPersistence(session);
+    if (shouldClearSession) return;
 
     this.currentUser.set(session?.user ?? null);
-
     if (session?.user) {
       this.setGuestStatus(false);
     }
+    
+    this.setupAuthStateListener();
+  }
+
+
+  /**
+   * Handles session persistence based on "Remember Me" preference.
+   * 
+   * @param session Current session object.
+   * @returns True if session was cleared, false otherwise.
+   */
+  private async handleSessionPersistence(session: any): Promise<boolean> {
+    if (typeof window === 'undefined' || !window.sessionStorage) {
+      return false;
+    }
+
+    const shouldNotPersist = sessionStorage.getItem('no-persist-session') === 'true';
+    if (shouldNotPersist && session) {
+      await this.supabase.auth.signOut({ scope: 'local' });
+      sessionStorage.removeItem('no-persist-session');
+      this.currentUser.set(null);
+      return true;
+    }
+    
+    return false;
+  }
+
+
+  /**
+   * Sets up auth state change listener.
+   */
+  private setupAuthStateListener(): void {
     this.supabase.auth.onAuthStateChange((event, session) => {
       this.currentUser.set(session?.user ?? null);
       if (session?.user) {
@@ -132,6 +155,7 @@ hasAppAccess = computed(() => this.currentUser() !== null || this.isGuest());
       }
     });
   }
+
 
   /**
    * Signs in a user with email and password.
@@ -144,28 +168,55 @@ hasAppAccess = computed(() => this.currentUser() !== null || this.isGuest());
     this.authLoading.set(true);
     this.authError.set(null);
 
-    // Store remember me preference
-    if (typeof window !== 'undefined' && window.sessionStorage) {
-      if (rememberMe) {
-        sessionStorage.removeItem('no-persist-session');
-      } else {
-        sessionStorage.setItem('no-persist-session', 'true');
-      }
+    this.storeRememberMePreference(rememberMe);
+    const success = await this.performSignIn(email, password);
+    
+    this.authLoading.set(false);
+    return success;
+  }
+
+
+  /**
+   * Stores the remember me preference in session storage.
+   * 
+   * @param rememberMe Whether to remember the session.
+   */
+  private storeRememberMePreference(rememberMe: boolean): void {
+    if (typeof window === 'undefined' || !window.sessionStorage) {
+      return;
     }
 
+    if (rememberMe) {
+      sessionStorage.removeItem('no-persist-session');
+    } else {
+      sessionStorage.setItem('no-persist-session', 'true');
+    }
+  }
+
+
+  /**
+   * Performs the actual sign-in API call.
+   * 
+   * @param email User's email.
+   * @param password User's password.
+   * @returns True if successful, false otherwise.
+   */
+  private async performSignIn(email: string, password: string): Promise<boolean> {
     const { data, error } = await this.supabase.auth.signInWithPassword({
       email,
       password
     });
-    this.authLoading.set(false);
+    
     if (error) {
       this.authError.set('Your email or password is incorrect. Please try again.');
       return false;
     }
+    
     this.currentUser.set(data.user);
     this.setGuestStatus(false);
     return true;
   }
+
 
   /**
    * Registers a new user with email, password, and optional display name.
@@ -192,6 +243,7 @@ hasAppAccess = computed(() => this.currentUser() !== null || this.isGuest());
     return true;
   }
 
+
   /** Signs out the current user and navigates to the login page. */
   async signOut() {
     await this.supabase.auth.signOut({ scope: 'local' });
@@ -199,6 +251,7 @@ hasAppAccess = computed(() => this.currentUser() !== null || this.isGuest());
     this.setGuestStatus(false);
     this.router.navigate(['/login']);
   }
+
 
   /** Enables guest mode without requiring authentication. */
   guestLogin() {
@@ -242,6 +295,7 @@ hasAppAccess = computed(() => this.currentUser() !== null || this.isGuest());
     this.contacts.set(data || []);
   }
 
+
   /**
    * Inserts a new contact into the database and refreshes the contact list.
    * @param contact - The contact data to insert.
@@ -255,6 +309,7 @@ hasAppAccess = computed(() => this.currentUser() !== null || this.isGuest());
 
     await this.getContacts();
   }
+
 
   /**
    * Updates an existing contact in the database and refreshes the contact list.
@@ -281,6 +336,7 @@ hasAppAccess = computed(() => this.currentUser() !== null || this.isGuest());
     }
   }
 
+
   /**
    * Deletes a contact by ID, clears the selection, and refreshes the contact list.
    * @param id - The ID of the contact to delete.
@@ -296,6 +352,7 @@ hasAppAccess = computed(() => this.currentUser() !== null || this.isGuest());
     this.selectedContact.set(null);
     await this.getContacts();
   }
+
 
   async updateTaskStatus(taskId: string, status: string) {
   const { error } = await this.supabase

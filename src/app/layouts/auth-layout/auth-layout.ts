@@ -26,6 +26,7 @@ export class AuthLayout {
       this.updateIsSignupPage());
   }
 
+
   /** Updates the isSignupPage flag based on the current URL. */
   private updateIsSignupPage() {
     this.isSignupPage = this.router.url.startsWith('/signup');

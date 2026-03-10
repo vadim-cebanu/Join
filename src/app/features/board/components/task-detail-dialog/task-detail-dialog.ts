@@ -100,6 +100,7 @@ export class TaskDetailDialog implements OnInit {
     this.selectedContacts.set(preSelected);
   }
 
+
   /**
    * Cancels edit mode without persisting changes.
    *
@@ -109,9 +110,59 @@ export class TaskDetailDialog implements OnInit {
     this.isEditMode.set(false);
   }
 
+
+
   /**
-   * Saves edits to the current task (title, description, dueDate, priority, assignees).
-   * Emits `taskUpdated` after the update completes successfully.
+   * Prepares assignee list from selected contacts.
+   *
+   * @returns Array of assignee objects with id, initials, and name.
+   */
+  private prepareAssignees() {
+    return this.selectedContacts().map(c => ({
+      id: c.id!,
+      initials: this.getInitials(c.name),
+      name: c.name,
+    }));
+  }
+
+
+
+  /**
+   * Builds the updates object for task modification.
+   *
+   * @param title New task title.
+   * @param description New task description.
+   * @param dueDate New task due date.
+   * @param assignees List of assignees.
+   * @returns Partial task object with updates.
+   */
+  private buildTaskUpdates(
+    title: string,
+    description: string,
+    dueDate: string,
+    assignees: any[]
+  ): Partial<Task> {
+    const updates: Partial<Task> = {
+      title,
+      description,
+      priority: this.selectedPriority() ?? this.task!.priority,
+      assignees,
+    };
+
+    if (dueDate && dueDate.trim()) {
+      updates.dueDate = dueDate;
+    } else if (this.task!.dueDate) {
+      updates.dueDate = this.task!.dueDate;
+    }
+
+    return updates;
+  }
+
+
+
+  /**
+   * Saves edits to the current task.
+   * Emits `taskUpdated` after successful update.
    *
    * @param title New task title.
    * @param description New task description.
@@ -122,28 +173,8 @@ export class TaskDetailDialog implements OnInit {
     if (!this.task?.id) return;
 
     this.saving.set(true);
-
-    const assignees = this.selectedContacts().map(c => ({
-      id: c.id!,
-      initials: this.getInitials(c.name),
-      name: c.name,
-    }));
-
-    // Prepare updates object
-    const updates: Partial<Task> = {
-      title,
-      description,
-      priority: this.selectedPriority() ?? this.task.priority,
-      assignees,
-    };
-
-    // Only include dueDate if it has a value (preserve original date if not changed)
-    if (dueDate && dueDate.trim()) {
-      updates.dueDate = dueDate;
-    } else if (this.task.dueDate) {
-      // Keep the original date if input is empty but task had a date
-      updates.dueDate = this.task.dueDate;
-    }
+    const assignees = this.prepareAssignees();
+    const updates = this.buildTaskUpdates(title, description, dueDate, assignees);
 
     await this.taskStore.updateTask(this.task.id, updates);
 
@@ -151,6 +182,7 @@ export class TaskDetailDialog implements OnInit {
     this.isEditMode.set(false);
     this.taskUpdated.emit();
   }
+
 
   /**
    * Angular lifecycle hook.
@@ -161,6 +193,7 @@ export class TaskDetailDialog implements OnInit {
   ngOnInit(): void {
     this.supabase.getContacts();
   }
+
 
   /**
    * Closes the dialog with an animation delay.
@@ -176,6 +209,7 @@ export class TaskDetailDialog implements OnInit {
     }, 400);
   }
 
+
   /**
    * Toggles the assignee dropdown open/closed.
    *
@@ -184,6 +218,7 @@ export class TaskDetailDialog implements OnInit {
   toggleDropdown(): void {
     this.dropdownOpen.set(!this.dropdownOpen());
   }
+
 
   /**
    * Updates the contact search text and ensures the dropdown is open.
@@ -196,6 +231,7 @@ export class TaskDetailDialog implements OnInit {
     this.dropdownOpen.set(true);
   }
 
+
   /**
    * Checks whether a contact is currently selected as an assignee.
    *
@@ -205,6 +241,7 @@ export class TaskDetailDialog implements OnInit {
   isSelected(contact: Contact): boolean {
     return this.selectedContacts().some(c => c.id === contact.id);
   }
+
 
   /**
    * Toggles a contact in/out of the selected assignees list.
@@ -222,6 +259,7 @@ export class TaskDetailDialog implements OnInit {
     }
   }
 
+
   /**
    * Extracts up to two initials from a full name.
    *
@@ -231,6 +269,7 @@ export class TaskDetailDialog implements OnInit {
   getInitials(name: string): string {
     return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
   }
+
 
   /**
    * Returns a consistent avatar color derived from the given name.
@@ -246,12 +285,14 @@ export class TaskDetailDialog implements OnInit {
     return avatarColors[Math.abs(hash) % avatarColors.length];
   }
 
+
   /**
    * Returns today's date as an ISO date string (YYYY-MM-DD).
    */
   get today(): string {
     return new Date().toISOString().split('T')[0];
   }
+
 
   /**
    * Ensures the selected due date is not in the past.
@@ -266,6 +307,7 @@ export class TaskDetailDialog implements OnInit {
     }
     this.editDueDate.set(input.value);
   }
+
 
   /**
    * Stops click propagation inside the card and closes the dropdown if the click
@@ -285,6 +327,7 @@ export class TaskDetailDialog implements OnInit {
     }
   }
 
+
   /**
    * Deletes the current task via the TaskStore and closes the dialog afterwards.
    *
@@ -295,6 +338,7 @@ export class TaskDetailDialog implements OnInit {
     await this.taskStore.deleteTask(this.task.id);
     this.closed.emit();
   }
+
 
   /**
    * Toggles completion state of a subtask and persists the change.
@@ -317,6 +361,7 @@ export class TaskDetailDialog implements OnInit {
     await this.taskStore.updateTask(taskId, { subtasks: updatedSubtasks });
   }
 
+
   /**
    * Event handler for subtask checkbox changes.
    * Reads the checked state and forwards to `toggleSubtask`.
@@ -329,6 +374,7 @@ export class TaskDetailDialog implements OnInit {
     const checked = (event.target as HTMLInputElement).checked;
     this.toggleSubtask(subtaskId, checked);
   }
+
 
   /**
    * Creates a new subtask and persists it to the current task.
@@ -352,6 +398,7 @@ export class TaskDetailDialog implements OnInit {
     await this.taskStore.updateTask(this.task.id, { subtasks: updatedSubtasks });
   }
 
+
   /**
    * Removes a subtask from the current task and persists the change.
    *
@@ -370,6 +417,7 @@ export class TaskDetailDialog implements OnInit {
     await this.taskStore.updateTask(taskId, { subtasks: updatedSubtasks });
   }
 
+
   /**
    * Opens the inline edit form for a specific subtask and pre-fills its title.
    *
@@ -385,6 +433,7 @@ export class TaskDetailDialog implements OnInit {
     this.editingSubtaskId.set(subtaskId);
     this.editingSubtaskTitle = subtask.title;
   }
+
 
   /**
    * Saves the inline subtask title edit and persists the change.
@@ -408,6 +457,7 @@ export class TaskDetailDialog implements OnInit {
     await this.taskStore.updateTask(taskId, { subtasks: updatedSubtasks });
   }
 
+
   /**
    * Cancels inline subtask editing without saving changes.
    *
@@ -416,6 +466,7 @@ export class TaskDetailDialog implements OnInit {
   cancelSubtaskEdit(): void {
     this.editingSubtaskId.set(null);
   }
+
 
   /**
    * Checks if a given date is in the past (before today).
@@ -432,6 +483,7 @@ export class TaskDetailDialog implements OnInit {
     return due < today;
   }
 
+
   /**
    * Toggles between showing 5 assignees or all assignees.
    *
@@ -440,6 +492,7 @@ export class TaskDetailDialog implements OnInit {
   toggleShowAllAssignees(): void {
     this.showAllAssignees.set(!this.showAllAssignees());
   }
+
 
   /**
    * Generates a UUID compatible with all browsers.

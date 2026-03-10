@@ -30,6 +30,7 @@ export class Header {
     return name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2) || 'G';
   }
 
+
   isMenuOpen = false;
 
   /** Toggles the header dropdown menu visibility. */
@@ -40,6 +41,7 @@ export class Header {
       this.isMenuOpen = true;
     }
   }
+
 
   /** Closes the header dropdown menu. */
   closeMenu() {
@@ -53,6 +55,7 @@ export class Header {
       this.isMenuOpen = false;
     }
   }
+
 
   /** Logs out the current user and closes the menu. */
   async logout() {

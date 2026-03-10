@@ -88,6 +88,7 @@ export class AddTaskPage implements OnInit {
   }
 
 
+
   /**
    * Handles the task form submission.
    *
@@ -101,6 +102,7 @@ export class AddTaskPage implements OnInit {
 
     await this.saveTaskAndNavigateToBoard(taskData);
   }
+
 
   /**
    * Marks all form controls as touched to trigger validation messages,
@@ -124,6 +126,7 @@ export class AddTaskPage implements OnInit {
     return true;
   }
 
+
   /**
    * Maps the currently selected contacts to the assignee format expected by the task model.
    *
@@ -136,6 +139,7 @@ export class AddTaskPage implements OnInit {
       name: contact.name,
     }));
   }
+
 
   /**
    * Assembles the task data object from the current form values, selected contacts
@@ -155,6 +159,7 @@ export class AddTaskPage implements OnInit {
       dueDate: this.taskForm.value.due_at || undefined,
     };
   }
+
 
   /**
    * Calls the task store to persist the new task, shows a success message on
@@ -185,6 +190,7 @@ export class AddTaskPage implements OnInit {
     }
   }
 
+
   clearForm() {
     this.taskForm.reset({
       title: '',
@@ -199,23 +205,27 @@ export class AddTaskPage implements OnInit {
     this.newSubtaskTitle = '';
   }
 
+
   actionDropdown() {
     this.dropdownCategory = !this.dropdownCategory;
   }
 
-  TTSelction() {
+
+  selectTechnicalTask() {
     this.taskForm.patchValue({
       type: "Technical Task"
     })
     this.dropdownCategory = false;
   }
 
-  USSelction() {
+
+  selectUserStory() {
     this.taskForm.patchValue({
       type: "User Story"
     })
     this.dropdownCategory = false;
   }
+
 
   toggleDropdown() {
     this.dropdownOpen = !this.dropdownOpen;
@@ -224,14 +234,17 @@ export class AddTaskPage implements OnInit {
     }
   }
 
+
   onSearchInput(event: Event) {
     this.searchText.set((event.target as HTMLInputElement).value);
     this.dropdownOpen = true;
   }
 
+
   isContactSelected(contact: Contact): boolean {
     return this.selectedContacts.some(c => c.id === contact.id);
   }
+
 
   toggleContact(contact: Contact) {
     if (this.isContactSelected(contact)) {
@@ -241,9 +254,11 @@ export class AddTaskPage implements OnInit {
     }
   }
 
+
   getInitials(name: string): string {
     return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
   }
+
 
   getAvatarColor(name: string): string {
     let hash = 0;
@@ -252,6 +267,7 @@ export class AddTaskPage implements OnInit {
     }
     return avatarColors[Math.abs(hash) % avatarColors.length];
   }
+
 
   addSubtask() {
     if (!this.newSubtaskTitle.trim()) return;
@@ -264,9 +280,11 @@ export class AddTaskPage implements OnInit {
     this.newSubtaskTitle = '';
   }
 
+
   removeSubtask(subtaskId: string) {
     this.subtasks = this.subtasks.filter(sub => sub.id !== subtaskId);
   }
+
 
   openEditForm(subtaskId: string) {
     const subtask = this.subtasks.find(sub => sub.id === subtaskId);
@@ -274,6 +292,7 @@ export class AddTaskPage implements OnInit {
     this.editingSubtaskId = subtaskId;
     this.editingSubtaskTitle = subtask.title;
   }
+
 
   saveSubtaskEdit() {
     if (!this.editingSubtaskId || !this.editingSubtaskTitle.trim()) return;
@@ -285,6 +304,7 @@ export class AddTaskPage implements OnInit {
     this.editingSubtaskId = null;
   }
 
+
   onBackdropClick(event: MouseEvent) {
     const target = event.target as HTMLElement;
     if (!target.closest('.assigned-dropdown')) {
@@ -294,6 +314,7 @@ export class AddTaskPage implements OnInit {
       this.dropdownCategory = false;
     }
   }
+
 
   private generateUUID(): string {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {

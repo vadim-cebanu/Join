@@ -49,10 +49,12 @@ export class ContactList implements OnInit {
     return groups;
   });
 
+
   /** Fetches all contacts from the database on component initialization. */
   ngOnInit() {
     this.supabase.getContacts();
   }
+
 
   /**
    * Sets the selected contact and dispatches a custom event on mobile
@@ -67,6 +69,7 @@ export class ContactList implements OnInit {
     }
   }
 
+
   /**
    * Extracts the first two initials from a full name.
    * @param name - The full name of the contact.
@@ -75,6 +78,7 @@ export class ContactList implements OnInit {
   getInitials(name: string): string {
     return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
   }
+
 
   /**
    * Returns a consistent avatar color based on the contact's name.
@@ -90,6 +94,7 @@ export class ContactList implements OnInit {
     const index = Math.abs(hash) % avatarColors.length;
     return avatarColors[index];
   }
+
 
 limitName(name: string): string {
   return name.length > 20

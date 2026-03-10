@@ -97,6 +97,7 @@ export class BoardColumn  {
     this.cdr.markForCheck();
   }
 
+
   /**
    * Persists a task status update to the database via Supabase.
    *
@@ -120,6 +121,7 @@ export class BoardColumn  {
     }
   }
 
+
   /**
    * Marks the column as being hovered by a draggable element.
    * Typically used to show a visual highlight on the drop area.
@@ -131,6 +133,7 @@ export class BoardColumn  {
     this.cdr.markForCheck();
   }
 
+
   /**
    * Clears the column hover state when a draggable element leaves the drop area.
    *
@@ -140,6 +143,7 @@ export class BoardColumn  {
     this.isDragOver = false;
     this.cdr.markForCheck();
   }
+
 
   /**
    * Called when dragging starts.
@@ -153,6 +157,7 @@ export class BoardColumn  {
     this.cdr.markForCheck();
   }
 
+
   /**
    * Called when dragging ends.
    *
@@ -163,6 +168,7 @@ export class BoardColumn  {
     this.isDragging = false;
     this.cdr.markForCheck();
   }
+
 
   /**
    * Emits the selected task when a task card is clicked.
@@ -177,6 +183,7 @@ export class BoardColumn  {
     }
   }
 
+
   /**
    * Emits an event indicating the user wants to add a new task to this column.
    *
@@ -186,6 +193,7 @@ export class BoardColumn  {
     this.addClicked.emit();
   }
 
+
   /**
    * Returns a contextual empty-state message when the column has no tasks.
    *
@@ -194,6 +202,7 @@ export class BoardColumn  {
   getEmptyMessage(): string {
     return this.tasks.length === 0 ? `No tasks in ${this.title}` : '';
   }
+
 
   /**
    * Handles moving a task via the context/FAB menu rather than drag & drop.
@@ -208,6 +217,7 @@ export class BoardColumn  {
     }
     this.moveTask.emit(event);
   }
+
 
   /**
    * Requests a global menu toggle for a given task id.

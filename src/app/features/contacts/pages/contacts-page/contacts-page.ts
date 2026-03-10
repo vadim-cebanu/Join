@@ -22,17 +22,18 @@ export class ContactsPage {
   /**
    * Toggles the toast notification visibility.
    * When enabled, automatically hides after 3 seconds.
-   * @param OnOff - Whether to show or hide the notification.
+   * @param onOff - Whether to show or hide the notification.
    */
-  disappearSwitch(OnOff: boolean) {
-    this.showForm.set(OnOff);
+  disappearSwitch(onOff: boolean) {
+    this.showForm.set(onOff);
 
-    if (OnOff) {
+    if (onOff) {
       setTimeout(() => {
         this.showForm.set(false);
       }, 3000);
     }
   }
+
 
   /**
    * Listens for the 'contact-selected' custom event to show
@@ -47,6 +48,7 @@ export class ContactsPage {
       });
     }
   }
+
 
   /** Hides the mobile detail view by resetting the signal. */
   closeDetail() {

@@ -123,6 +123,7 @@ export class ContactFormDialog {
     return '';
   }
 
+
   private avatarColors = [
     '#FF7A00',
     '#9327FF',
@@ -150,6 +151,7 @@ export class ContactFormDialog {
       .slice(0, 2);
   }
 
+
   /**
    * Returns a consistent avatar color based on the contact's name.
    * @param name - The full name of the contact.
@@ -163,6 +165,7 @@ export class ContactFormDialog {
     const index = Math.abs(hash) % this.avatarColors.length;
     return this.avatarColors[index];
   }
+
 
   /**
    * Initializes the form effect: populates fields in edit mode
@@ -189,6 +192,7 @@ export class ContactFormDialog {
     });
   }
 
+
   /**
    * Closes the form dialog with a closing animation and resets all fields.
    */
@@ -201,6 +205,7 @@ export class ContactFormDialog {
       this.contactForm.reset();
     }, 400);
   }
+
 
   /**
    * Validates the form, then creates or updates the contact.
@@ -220,12 +225,14 @@ export class ContactFormDialog {
     }
   }
 
+
   /** Marks all form controls as touched to trigger validation messages. */
   private markAllFieldsAsTouched() {
     Object.keys(this.contactForm.controls).forEach(key => {
       this.contactForm.get(key)?.markAsTouched();
     });
   }
+
 
   /**
    * Extracts and sanitizes the form values into a Contact object.
@@ -240,6 +247,7 @@ export class ContactFormDialog {
     };
   }
 
+
   /**
    * Creates a new contact or updates an existing one based on the current edit mode.
    */
@@ -253,6 +261,7 @@ export class ContactFormDialog {
       this.contactPage.disappearSwitch(true);
     }
   }
+
 
   /**
    * Formats a phone number string for display with grouped digits.
@@ -273,6 +282,7 @@ export class ContactFormDialog {
     return cleaned.match(/.{1,4}/g)?.join(' ') || cleaned;
   }
 
+
   /**
    * Updates the phone form control with the formatted value.
    * @param value - The raw input value from the phone field.
@@ -281,6 +291,7 @@ export class ContactFormDialog {
     const formatted = this.formatPhoneInput(value);
     this.phoneControl.setValue(formatted, { emitEvent: false });
   }
+
 
   /**
    * Prevents non-numeric characters (except '+') from being typed in the phone field.
@@ -292,6 +303,7 @@ export class ContactFormDialog {
       event.preventDefault();
     }
   }
+
 
   /**
    * Deletes the currently selected contact from the database.

@@ -27,10 +27,12 @@ export class LoginPage {
     this.isFocused = true;
   }
 
+
   onBlur(): void {
     this.isFocused = false;
     this.isAlternateImage = false;
   }
+
 
   togglePasswordVisibility(): void {
     this.isAlternateImage = !this.isAlternateImage;
@@ -50,6 +52,7 @@ export class LoginPage {
     this.supabase.authError.set(null);
   }
 
+
   /**
    * Attempts to sign in the user with the provided email and password.
    * Navigates to the greeting page on success.
@@ -60,6 +63,7 @@ export class LoginPage {
       this.router.navigate(['/greeting']);
     }
   }
+
 
   /** Logs the user in as a guest and navigates to the greeting page. */
   guestLogin() {

@@ -86,6 +86,7 @@ minDateValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | n
     this.supabaseService.getContacts();
   }
 
+
   /**
    * Handles the task form submission.
    *
@@ -99,6 +100,7 @@ minDateValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | n
 
     await this.saveTaskAndCloseDialog(taskData);
   }
+
 
   /**
    * Marks all form controls as touched to trigger validation messages,
@@ -122,6 +124,7 @@ minDateValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | n
     return true;
   }
 
+
   /**
    * Maps the currently selected contacts to the assignee format expected by the task model.
    *
@@ -134,6 +137,7 @@ minDateValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | n
       name: contact.name,
     }));
   }
+
 
   /**
    * Assembles the task data object from the current form values, selected contacts
@@ -153,6 +157,7 @@ minDateValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | n
       dueDate: this.taskForm.value.due_at || undefined,
     };
   }
+
 
   /**
    * Calls the task store to persist the new task, shows a success message on
@@ -183,6 +188,7 @@ minDateValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | n
     }
   }
 
+
   clearForm() {
     this.taskForm.reset({
       title: '',
@@ -197,23 +203,27 @@ minDateValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | n
     this.newSubtaskTitle = '';
   }
 
+
   actionDropdown() {
     this.dropdownCategory = !this.dropdownCategory;
   }
 
-  TTSelction() {
+
+  selectTechnicalTask() {
     this.taskForm.patchValue({
       type: "Technical Task"
     })
     this.dropdownCategory = false;
   }
 
-  USSelction() {
+
+  selectUserStory() {
     this.taskForm.patchValue({
       type: "User Story"
     })
     this.dropdownCategory = false;
   }
+
 
   toggleDropdown() {
     this.dropdownOpen = !this.dropdownOpen;
@@ -222,14 +232,17 @@ minDateValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | n
     }
   }
 
+
   onSearchInput(event: Event) {
     this.searchText.set((event.target as HTMLInputElement).value);
     this.dropdownOpen = true;
   }
 
+
   isContactSelected(contact: Contact): boolean {
     return this.selectedContacts.some(c => c.id === contact.id);
   }
+
 
   toggleContact(contact: Contact) {
     if (this.isContactSelected(contact)) {
@@ -239,9 +252,11 @@ minDateValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | n
     }
   }
 
+
   getInitials(name: string): string {
     return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
   }
+
 
   getAvatarColor(name: string): string {
     let hash = 0;
@@ -250,6 +265,7 @@ minDateValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | n
     }
     return avatarColors[Math.abs(hash) % avatarColors.length];
   }
+
 
   addSubtask() {
     if (!this.newSubtaskTitle.trim()) return;
@@ -262,9 +278,11 @@ minDateValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | n
     this.newSubtaskTitle = '';
   }
 
+
   removeSubtask(subtaskId: string) {
     this.subtasks = this.subtasks.filter(sub => sub.id !== subtaskId);
   }
+
 
   openEditForm(subtaskId: string) {
     const subtask = this.subtasks.find(sub => sub.id === subtaskId);
@@ -272,6 +290,7 @@ minDateValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | n
     this.editingSubtaskId = subtaskId;
     this.editingSubtaskTitle = subtask.title;
   }
+
 
   saveSubtaskEdit() {
     if (!this.editingSubtaskId || !this.editingSubtaskTitle.trim()) return;
@@ -283,6 +302,7 @@ minDateValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | n
     this.editingSubtaskId = null;
   }
 
+
   isClosing = false;
 
   close() {
@@ -292,6 +312,7 @@ minDateValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | n
       this.closed.emit();
     }, 400);
   }
+
 
   onBackdropClick(event: MouseEvent) {
     if ((event.target as HTMLElement).classList.contains('dialog-overlay')) {

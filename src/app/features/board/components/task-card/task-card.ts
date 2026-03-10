@@ -48,6 +48,7 @@ export class TaskCard {
     this.moveTo.emit({ taskId: this.task.id, status });
   }
 
+
   /**
    * Returns the number of completed subtasks.
    * Safely handles missing or non-array `subtasks`.
@@ -60,6 +61,7 @@ export class TaskCard {
     }
     return this.task.subtasks.filter(sub => sub.done).length;
   }
+
 
   /**
    * Returns the total number of subtasks.
@@ -96,6 +98,7 @@ export class TaskCard {
       : '';
   }
 
+
   /**
    * Returns a consistent avatar color based on a contact's name.
    * The same name always maps to the same color.
@@ -114,6 +117,7 @@ export class TaskCard {
     const index = Math.abs(hash) % avatarColors.length;
     return avatarColors[index];
   }
+
 
   /**
    * Toggles the card's context/FAB menu.
