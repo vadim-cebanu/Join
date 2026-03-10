@@ -108,7 +108,7 @@ hasAppAccess = computed(() => this.currentUser() !== null || this.isGuest());
    */
   private async initAuth() {
     const { data: { session } } = await this.supabase.auth.getSession();
-    
+
     const shouldClearSession = await this.handleSessionPersistence(session);
     if (shouldClearSession) return;
 
@@ -116,14 +116,14 @@ hasAppAccess = computed(() => this.currentUser() !== null || this.isGuest());
     if (session?.user) {
       this.setGuestStatus(false);
     }
-    
+
     this.setupAuthStateListener();
   }
 
 
   /**
    * Handles session persistence based on "Remember Me" preference.
-   * 
+   *
    * @param session Current session object.
    * @returns True if session was cleared, false otherwise.
    */
@@ -139,7 +139,7 @@ hasAppAccess = computed(() => this.currentUser() !== null || this.isGuest());
       this.currentUser.set(null);
       return true;
     }
-    
+
     return false;
   }
 
@@ -170,7 +170,7 @@ hasAppAccess = computed(() => this.currentUser() !== null || this.isGuest());
 
     this.storeRememberMePreference(rememberMe);
     const success = await this.performSignIn(email, password);
-    
+
     this.authLoading.set(false);
     return success;
   }
@@ -178,7 +178,7 @@ hasAppAccess = computed(() => this.currentUser() !== null || this.isGuest());
 
   /**
    * Stores the remember me preference in session storage.
-   * 
+   *
    * @param rememberMe Whether to remember the session.
    */
   private storeRememberMePreference(rememberMe: boolean): void {
@@ -196,7 +196,7 @@ hasAppAccess = computed(() => this.currentUser() !== null || this.isGuest());
 
   /**
    * Performs the actual sign-in API call.
-   * 
+   *
    * @param email User's email.
    * @param password User's password.
    * @returns True if successful, false otherwise.
@@ -206,12 +206,12 @@ hasAppAccess = computed(() => this.currentUser() !== null || this.isGuest());
       email,
       password
     });
-    
+
     if (error) {
       this.authError.set('Your email or password is incorrect. Please try again.');
       return false;
     }
-    
+
     this.currentUser.set(data.user);
     this.setGuestStatus(false);
     return true;
