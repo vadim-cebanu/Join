@@ -155,7 +155,7 @@ img {
   }
 }
 
-@media screen and (max-height: 750px) {
+@media screen and (max-height: 750px) and (min-width: 500px) {
   .auth-main {
     padding: 24px;
     justify-content: flex-start;
