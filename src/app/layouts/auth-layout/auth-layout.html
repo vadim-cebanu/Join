@@ -1,33 +1,30 @@
 <div>
-<div class="auth-shell">
+  <div class="auth-shell">
+    <header class="auth-top">
+      <div class="logo">
+        <img src="assets/img/Capa-1.png" alt="Join logo" />
+      </div>
+      @if (!isSignupPage) {
+        <div class="top-right">
+          <span>Not a Join user?</span>
+          <a class="btn btn-dark" routerLink="/signup">Sign up</a>
+        </div>
+      }
+    </header>
 
-  <header class="auth-top">
-    <div class="logo">
-      <img src="assets/img/Capa-1.png" alt="Join logo" />
+    <main class="auth-main">
+      <router-outlet></router-outlet>
+      @if (!isSignupPage) {
+        <div class="top-right top-right-mobil">
+          <span>Not a Join user?</span>
+          <a class="btn btn-dark" routerLink="/signup">Sign up</a>
+        </div>
+      }
+    </main>
 
-    </div>
-    @if(!isSignupPage){
-
-    <div class="top-right">
-      <span>Not a Join user?</span>
-      <a class="btn btn-dark" routerLink="/signup">Sign up</a>
-    </div>
-    }
-  </header>
-
-  <main class="auth-main">
-    <router-outlet></router-outlet>
-    @if(!isSignupPage){
-
-    <div class="top-right top-right-mobil">
-      <span>Not a Join user?</span>
-      <a class="btn btn-dark" routerLink="/signup">Sign up</a>
-    </div>
-    }
-  </main>
-
-  <footer class="auth-footer">
-    <a routerLink="/privacy" data-text="Privacy Policy">Privacy Policy</a>
-    <a routerLink="/legal" data-text="Legal notice">Legal notice</a>
-  </footer>
+    <footer class="auth-footer">
+      <a routerLink="/privacy" data-text="Privacy Policy">Privacy Policy</a>
+      <a routerLink="/legal" data-text="Legal notice">Legal notice</a>
+    </footer>
+  </div>
 </div>

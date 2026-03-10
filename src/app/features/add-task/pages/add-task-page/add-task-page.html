@@ -1,219 +1,288 @@
 <section class="add-task-content" (click)="onBackdropClick($event)">
-  <div  class="add-task-content-container">
-  <h2>Add Task</h2>
+  <div class="add-task-content-container">
+    <h2>Add Task</h2>
 
-  <form [formGroup]="taskForm" class="main-content" (ngSubmit)="formSubmit()">
-
-    <div class="div-content">
-
-      <div class="left-content">
-        <div class="title-in-content">
-          <label for="title">
-            Title<span>*</span>
-          </label>
-          <input formControlName="title" id="title" type="text" required placeholder="Enter a title"
-            [class.invalid]="taskForm.get('title')?.invalid && taskForm.get('title')?.touched">
-          @if (taskForm.get('title')?.invalid && taskForm.get('title')?.touched) {
-          <p class="if">This field is required</p>
-          }
-        </div>
-
-        <div class="description-in-content">
-          <label for="description">Description</label>
-          <textarea formControlName="description" id="description" placeholder="Enter a description">
-          </textarea>
-        </div>
-
-        <div class="due-date-content">
-          <label for="dueDate">
-            Due date<span>*</span>
-          </label>
-          <div class="input-date-wrapper">
-            <input formControlName="due_at" id="dueDate" type="date" [min]="today" required
-              class="input-date"
-              [class.invalid]="taskForm.get('due_at')?.invalid && taskForm.get('due_at')?.touched">
-            <img class="date-icon" src="assets/icons/calender.svg" alt="Calendar" />
-          </div>
-          @if (taskForm.get('due_at')?.hasError('required') && taskForm.get('due_at')?.touched) {
-          <p class="if">This field is required</p>
-          }
-          @if (taskForm.get('due_at')?.hasError('pastDate') && taskForm.get('due_at')?.touched) {
-          <p class="if">Date cannot be in the past</p>
-          }
-        </div>
-
-      </div>
-
-      <span class="line-content"></span>
-
-      <div class="right-content">
-
-
-        <div class="priority-content">
-          <label>Priority</label>
-
-          <div class="priority-content-elements">
-
-            <input class="prio-radio" id="prio-urgent" type="radio" formControlName="priority" value="high">
-            <label for="prio-urgent" class="priority-basic priority-urgent">
-              Urgent
-              <div class="priority-urgent-img priority-basic-img"></div>
-            </label>
-
-            <input class="prio-radio" id="prio-medium" type="radio" formControlName="priority" value="medium">
-            <label for="prio-medium" class="priority-basic priority-medium">
-              Medium
-              <div class="priority-medium-img priority-basic-img"></div>
-            </label>
-
-            <input class="prio-radio" id="prio-low" type="radio" formControlName="priority" value="low">
-            <label for="prio-low" class="priority-basic priority-low">
-              Low
-              <div class="priority-low-img priority-basic-img"></div>
-            </label>
-
-          </div>
-        </div>
-
-           <div class="assigned-to-content">
-          <label>Assigned to</label>
-          <div class="assigned-dropdown" [class.open]="dropdownOpen">
-            <div class="assigned-trigger input" [class.open]="dropdownOpen" (click)="$event.stopPropagation()">
-              <input #searchInput type="text" class="assigned-search" placeholder="Select contacts to assign"
-                [value]="searchText()" (input)="onSearchInput($event)" (click)="toggleDropdown()" />
-              <img src="assets/icons/arrow-drop-down.svg" alt="Dropdown" class="dropdown-arrow"
-                [class.open]="dropdownOpen" (click)="toggleDropdown(); $event.stopPropagation()" />
-            </div>
-            @if (dropdownOpen) {
-            <ul class="assigned-list">
-              @for (contact of filteredContacts(); track contact.id) {
-              <li class="assigned-item" (click)="toggleContact(contact); $event.stopPropagation()"
-                [class.selected]="isContactSelected(contact)">
-                <div class="assigned-avatar" [style.background-color]="getAvatarColor(contact.name)">
-                  {{ getInitials(contact.name) }}
-                </div>
-                <span class="assigned-name">{{ contact.name }}</span>
-                <input type="checkbox" [checked]="isContactSelected(contact)" />
-              </li>
-              }
-            </ul>
+    <form [formGroup]="taskForm" class="main-content" (ngSubmit)="formSubmit()">
+      <div class="div-content">
+        <div class="left-content">
+          <div class="title-in-content">
+            <label for="title"> Title<span>*</span> </label>
+            <input
+              formControlName="title"
+              id="title"
+              type="text"
+              required
+              placeholder="Enter a title"
+              [class.invalid]="taskForm.get('title')?.invalid && taskForm.get('title')?.touched"
+            />
+            @if (taskForm.get('title')?.invalid && taskForm.get('title')?.touched) {
+              <p class="if">This field is required</p>
             }
           </div>
-          @if (selectedContacts.length > 0) {
-          <div class="assigned-avatars">
-            @for (contact of selectedContacts; track contact.id; let i = $index) {
-              @if (i < 5) {
-              <div class="assigned-avatar" [style.background-color]="getAvatarColor(contact.name)" [title]="contact.name">
-                {{ getInitials(contact.name) }}
+
+          <div class="description-in-content">
+            <label for="description">Description</label>
+            <textarea
+              formControlName="description"
+              id="description"
+              placeholder="Enter a description"
+            >
+            </textarea>
+          </div>
+
+          <div class="due-date-content">
+            <label for="dueDate"> Due date<span>*</span> </label>
+            <div class="input-date-wrapper">
+              <input
+                formControlName="due_at"
+                id="dueDate"
+                type="date"
+                [min]="today"
+                required
+                class="input-date"
+                [class.invalid]="taskForm.get('due_at')?.invalid && taskForm.get('due_at')?.touched"
+              />
+              <img class="date-icon" src="assets/icons/calender.svg" alt="Calendar" />
+            </div>
+            @if (taskForm.get('due_at')?.hasError('required') && taskForm.get('due_at')?.touched) {
+              <p class="if">This field is required</p>
+            }
+            @if (taskForm.get('due_at')?.hasError('pastDate') && taskForm.get('due_at')?.touched) {
+              <p class="if">Date cannot be in the past</p>
+            }
+          </div>
+        </div>
+
+        <span class="line-content"></span>
+
+        <div class="right-content">
+          <div class="priority-content">
+            <label>Priority</label>
+
+            <div class="priority-content-elements">
+              <input
+                class="prio-radio"
+                id="prio-urgent"
+                type="radio"
+                formControlName="priority"
+                value="high"
+              />
+              <label for="prio-urgent" class="priority-basic priority-urgent">
+                Urgent
+                <div class="priority-urgent-img priority-basic-img"></div>
+              </label>
+
+              <input
+                class="prio-radio"
+                id="prio-medium"
+                type="radio"
+                formControlName="priority"
+                value="medium"
+              />
+              <label for="prio-medium" class="priority-basic priority-medium">
+                Medium
+                <div class="priority-medium-img priority-basic-img"></div>
+              </label>
+
+              <input
+                class="prio-radio"
+                id="prio-low"
+                type="radio"
+                formControlName="priority"
+                value="low"
+              />
+              <label for="prio-low" class="priority-basic priority-low">
+                Low
+                <div class="priority-low-img priority-basic-img"></div>
+              </label>
+            </div>
+          </div>
+
+          <div class="assigned-to-content">
+            <label>Assigned to</label>
+            <div class="assigned-dropdown" [class.open]="dropdownOpen">
+              <div
+                class="assigned-trigger input"
+                [class.open]="dropdownOpen"
+                (click)="$event.stopPropagation()"
+              >
+                <input
+                  #searchInput
+                  type="text"
+                  class="assigned-search"
+                  placeholder="Select contacts to assign"
+                  [value]="searchText()"
+                  (input)="onSearchInput($event)"
+                  (click)="toggleDropdown()"
+                />
+                <img
+                  src="assets/icons/arrow-drop-down.svg"
+                  alt="Dropdown"
+                  class="dropdown-arrow"
+                  [class.open]="dropdownOpen"
+                  (click)="toggleDropdown(); $event.stopPropagation()"
+                />
               </div>
+              @if (dropdownOpen) {
+                <ul class="assigned-list">
+                  @for (contact of filteredContacts(); track contact.id) {
+                    <li
+                      class="assigned-item"
+                      (click)="toggleContact(contact); $event.stopPropagation()"
+                      [class.selected]="isContactSelected(contact)"
+                    >
+                      <div
+                        class="assigned-avatar"
+                        [style.background-color]="getAvatarColor(contact.name)"
+                      >
+                        {{ getInitials(contact.name) }}
+                      </div>
+                      <span class="assigned-name">{{ contact.name }}</span>
+                      <input type="checkbox" [checked]="isContactSelected(contact)" />
+                    </li>
+                  }
+                </ul>
               }
-            }
-            @if (selectedContacts.length > 5) {
-            <div class="assigned-avatar avatar-overflow">+{{ selectedContacts.length - 5 }}</div>
-            }
-          </div>
-          }
-        </div>
-
-        <div class="category-content">
-          <label for="category">
-            Category<span>*</span>
-          </label>
-
-          <div class="category-dropdown">
-            <div class="category-trigger">
-              <input type="text" class="category-selection" (click)="actionDropdown()" formControlName="type" readonly>
-              <img src="assets/icons/arrow-drop-down.svg" alt="Dropdown" class="dropdown-arrow"
-                [class.open]="dropdownCategory" (click)="actionDropdown()" />
             </div>
-            @if(dropdownCategory){
-            <div class="category-options">
-              <p (click)="TTSelction()">Technical Task</p>
-              <p (click)="USSelction()">User Story</p>
-            </div>
+            @if (selectedContacts.length > 0) {
+              <div class="assigned-avatars">
+                @for (contact of selectedContacts; track contact.id; let i = $index) {
+                  @if (i < 5) {
+                    <div
+                      class="assigned-avatar"
+                      [style.background-color]="getAvatarColor(contact.name)"
+                      [title]="contact.name"
+                    >
+                      {{ getInitials(contact.name) }}
+                    </div>
+                  }
+                }
+                @if (selectedContacts.length > 5) {
+                  <div class="assigned-avatar avatar-overflow">
+                    +{{ selectedContacts.length - 5 }}
+                  </div>
+                }
+              </div>
             }
           </div>
-        </div>
 
-        <div class="subtask-content">
-          <label for="subtasks">Subtasks</label>
-          <div class="edit-input input">
-            <input type="text" [(ngModel)]="newSubtaskTitle" [ngModelOptions]="{ standalone: true }"
-              placeholder="Add new subtask" (keydown.enter)="$event.preventDefault(); addSubtask()" />
-            <button type="button" (click)="newSubtaskTitle = ''">
-              <img src="assets/icons/AddTask/clearIconDarkColor.svg" alt="Clear" />
-            </button>
-            <div class="dividing-line"></div>
-            <button type="button" (click)="addSubtask()">
-              <img src="assets/icons/check-grey.svg" alt="Add" />
-            </button>
+          <div class="category-content">
+            <label for="category"> Category<span>*</span> </label>
+
+            <div class="category-dropdown">
+              <div class="category-trigger">
+                <input
+                  type="text"
+                  class="category-selection"
+                  (click)="actionDropdown()"
+                  formControlName="type"
+                  readonly
+                />
+                <img
+                  src="assets/icons/arrow-drop-down.svg"
+                  alt="Dropdown"
+                  class="dropdown-arrow"
+                  [class.open]="dropdownCategory"
+                  (click)="actionDropdown()"
+                />
+              </div>
+              @if (dropdownCategory) {
+                <div class="category-options">
+                  <p (click)="TTSelction()">Technical Task</p>
+                  <p (click)="USSelction()">User Story</p>
+                </div>
+              }
+            </div>
           </div>
-          @if (subtasks.length > 0) {
-          <aside class="subtask-list">
-            @for (sub of subtasks; track sub.id) {
-            @if (editingSubtaskId === sub.id) {
+
+          <div class="subtask-content">
+            <label for="subtasks">Subtasks</label>
             <div class="edit-input input">
-              <input type="text" name="edit-input" id="edit-input" [(ngModel)]="editingSubtaskTitle"
-                [ngModelOptions]="{ standalone: true }" (keydown.enter)="$event.preventDefault(); saveSubtaskEdit()" />
-              <button type="button" (click)="removeSubtask(sub.id)">
-                <img src="assets/icons/trash.svg" alt="Delete" />
+              <input
+                type="text"
+                [(ngModel)]="newSubtaskTitle"
+                [ngModelOptions]="{ standalone: true }"
+                placeholder="Add new subtask"
+                (keydown.enter)="$event.preventDefault(); addSubtask()"
+              />
+              <button type="button" (click)="newSubtaskTitle = ''">
+                <img src="assets/icons/AddTask/clearIconDarkColor.svg" alt="Clear" />
               </button>
               <div class="dividing-line"></div>
-              <button type="button" (click)="saveSubtaskEdit()">
-                <img src="assets/icons/check-grey.svg" alt="Confirm" />
+              <button type="button" (click)="addSubtask()">
+                <img src="assets/icons/check-grey.svg" alt="Add" />
               </button>
             </div>
-            } @else {
-            <div class="edit-subtask-item" (click)="openEditForm(sub.id)">
-              <span>{{ sub.title }}</span>
-              <div class="edit-subtask-buttons">
-                <button type="button" (click)="openEditForm(sub.id)">
-                  <img src="assets/icons/pen.svg" alt="Edit" />
-                </button>
-                <div class="dividing-line"></div>
-                <button type="button" (click)="removeSubtask(sub.id); $event.stopPropagation()">
-                  <img src="assets/icons/trash.svg" alt="Delete" />
-                </button>
-              </div>
-            </div>
+            @if (subtasks.length > 0) {
+              <aside class="subtask-list">
+                @for (sub of subtasks; track sub.id) {
+                  @if (editingSubtaskId === sub.id) {
+                    <div class="edit-input input">
+                      <input
+                        type="text"
+                        name="edit-input"
+                        id="edit-input"
+                        [(ngModel)]="editingSubtaskTitle"
+                        [ngModelOptions]="{ standalone: true }"
+                        (keydown.enter)="$event.preventDefault(); saveSubtaskEdit()"
+                      />
+                      <button type="button" (click)="removeSubtask(sub.id)">
+                        <img src="assets/icons/trash.svg" alt="Delete" />
+                      </button>
+                      <div class="dividing-line"></div>
+                      <button type="button" (click)="saveSubtaskEdit()">
+                        <img src="assets/icons/check-grey.svg" alt="Confirm" />
+                      </button>
+                    </div>
+                  } @else {
+                    <div class="edit-subtask-item" (click)="openEditForm(sub.id)">
+                      <span>{{ sub.title }}</span>
+                      <div class="edit-subtask-buttons">
+                        <button type="button" (click)="openEditForm(sub.id)">
+                          <img src="assets/icons/pen.svg" alt="Edit" />
+                        </button>
+                        <div class="dividing-line"></div>
+                        <button
+                          type="button"
+                          (click)="removeSubtask(sub.id); $event.stopPropagation()"
+                        >
+                          <img src="assets/icons/trash.svg" alt="Delete" />
+                        </button>
+                      </div>
+                    </div>
+                  }
+                }
+              </aside>
             }
-            }
-          </aside>
-          }
+          </div>
         </div>
-
       </div>
-    </div>
 
-    <footer>
-      <p>
-        <span>*</span>This field is required
-      </p>
+      <footer>
+        <p><span>*</span>This field is required</p>
 
-      <div class="btn-div">
-        <button class="btn-clear btn-basic" type="button" (click)="clearForm()">
-          Clear
-          <div class="btn-clear-icon btn-basic-icon"></div>
+        <div class="btn-div">
+          <button class="btn-clear btn-basic" type="button" (click)="clearForm()">
+            Clear
+            <div class="btn-clear-icon btn-basic-icon"></div>
+          </button>
 
-        </button>
-
-        <button class="btn-create-task btn-basic" type="submit" [disabled]="taskForm.invalid">
+          <button class="btn-create-task btn-basic" type="submit" [disabled]="taskForm.invalid">
             Create Task
-          <div class="btn-create-task-icon btn-basic-icon"></div>
-        </button>
-      </div>
-    </footer>
-
-  </form>
-<!--- <p>{{ taskForm.valid }}</p>-->
-</div>
+            <div class="btn-create-task-icon btn-basic-icon"></div>
+          </button>
+        </div>
+      </footer>
+    </form>
+    <!--- <p>{{ taskForm.valid }}</p>-->
+  </div>
 </section>
 
 @if (showSuccessMessage()) {
-<div class="success-overlay">
-  <div class="success-message">
-    <span>Task added to board</span>
-    <img src="assets/icons/board-active.svg" alt="Success" class="success-icon">
+  <div class="success-overlay">
+    <div class="success-message">
+      <span>Task added to board</span>
+      <img src="assets/icons/board-active.svg" alt="Success" class="success-icon" />
+    </div>
   </div>
-</div>
 }

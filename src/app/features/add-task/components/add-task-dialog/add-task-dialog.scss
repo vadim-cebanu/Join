@@ -9,10 +9,11 @@
   align-items: center;
   justify-content: center;
   z-index: 1000;
+
   .dialog-content {
-  padding: 40px;
-  margin: 20px;
-}
+    padding: 40px;
+    margin: 20px;
+  }
 }
 
 .dialog-content {
@@ -28,6 +29,7 @@
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
   padding: 40px;
   animation: slideInFromRight 400ms ease-out;
+
   &.closing {
     animation: slideOutToRight 400ms ease-in forwards;
   }
@@ -277,7 +279,10 @@ input[type='date'] {
         gap: 8px;
         cursor: pointer;
         box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
-        transition: background-color 125ms, box-shadow 125ms, color 125ms;
+        transition:
+          background-color 125ms,
+          box-shadow 125ms,
+          color 125ms;
 
         &:hover {
           box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
@@ -607,7 +612,8 @@ input[type='date'] {
     &:focus-within {
       border-color: #29abe2;
 
-      button, .dividing-line {
+      button,
+      .dividing-line {
         display: flex;
       }
     }
@@ -769,7 +775,10 @@ input[type='date'] {
         border: 1px #2a3647 solid;
         cursor: pointer;
         box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
-        transition: background-color 125ms, box-shadow 125ms, color 125ms;
+        transition:
+          background-color 125ms,
+          box-shadow 125ms,
+          color 125ms;
       }
 
       .btn-clear {

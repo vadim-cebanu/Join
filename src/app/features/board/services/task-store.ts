@@ -58,7 +58,7 @@ export class TaskStore {
       return;
     }
 
-    const tasks: Task[] = (data || []).map(task => ({
+    const tasks: Task[] = (data || []).map((task) => ({
       id: task.id,
       title: task.title,
       description: task.description,
@@ -72,8 +72,6 @@ export class TaskStore {
       // NOTE: This field is not part of the provided Task interface unless you added it elsewhere.
       position: task.position ?? 999,
     })) as Task[];
-
-
 
     if (defer) {
       setTimeout(() => this.tasksSignal.set(tasks), 0);
@@ -95,46 +93,120 @@ export class TaskStore {
   /**
    * Inserts a new task into Supabase and refreshes local store state.
    *
-   * @param data Data required to create the task.
-   * @param skipReload If true, skip reloading tasks (useful for dialogs to avoid change detection errors)
-   * @returns The created Task mapped to the app model, or null on failure.
+   * Internally delegates to helper methods for auth-validation, payload building,
+   * database insertion and model mapping to keep each step focused and testable.
+   *
+   * @param data         Data required to create the task.
+   * @param skipReload   If true, skips reloading tasks after insertion (useful for
+   *                     dialogs that need to avoid change-detection errors).
+   * @returns The created {@link Task} mapped to the app model, or `null` on failure.
    */
-  async addTask(data: {
-    title: string;
-    description?: string;
-    status: Status;
-    type: TaskType;
-    priority: TaskPriority;
-    assignees?: { id: string; initials: string; name?: string }[];
-    subtasks?: { id: string; title: string; done: boolean }[];
-    dueDate?: string;
-  }, skipReload: boolean = false): Promise<Task | null> {
+  async addTask(
+    data: {
+      title: string;
+      description?: string;
+      status: Status;
+      type: TaskType;
+      priority: TaskPriority;
+      assignees?: { id: string; initials: string; name?: string }[];
+      subtasks?: { id: string; title: string; done: boolean }[];
+      dueDate?: string;
+    },
+    skipReload: boolean = false,
+  ): Promise<Task | null> {
+    const { userId, isGuest } = this.resolveAuthContext();
+
+    if (!this.canCreateTask(userId, isGuest)) return null;
+
+    const newTaskPayload = this.buildNewTaskPayload(userId, data);
+    const insertedRow = await this.insertTaskIntoDatabase(newTaskPayload);
+
+    if (!insertedRow) return null;
+
+    if (!skipReload) await this.loadTasks(true);
+
+    return this.mapRowToTaskModel(insertedRow);
+  }
+
+  /**
+   * Reads the current authentication context from the Supabase service.
+   *
+   * @returns An object containing the authenticated user's id (or `undefined`
+   *          for guests) and a flag indicating whether the session is a guest session.
+   */
+  private resolveAuthContext(): { userId: string | undefined; isGuest: boolean } {
     const userId = this.supabase.currentUser()?.id;
     const isGuest = this.supabase.isGuest();
-
     console.log('addTask called - userId:', userId, 'isGuest:', isGuest);
+    return { userId, isGuest };
+  }
 
+  /**
+   * Determines whether the current session is allowed to create a task.
+   *
+   * A task may be created either by an authenticated user or by a guest.
+   * Logs an error and returns `false` if neither condition is met.
+   *
+   * @param userId  The authenticated user's id, or `undefined` if not logged in.
+   * @param isGuest `true` when the current session is a guest session.
+   * @returns `true` if task creation is permitted; otherwise `false`.
+   */
+  private canCreateTask(userId: string | undefined, isGuest: boolean): boolean {
     if (!userId && !isGuest) {
       console.error('Cannot create task: Not authenticated and not guest');
-      return null;
+      return false;
     }
+    return true;
+  }
 
-    const taskPayload = {
-      created_by: userId, // Will be null for guest users
-      title: data.title,
-      description: data.description,
-      status: data.status,
-      type: data.type,
-      priority: data.priority,
-      assignees: data.assignees || [],
-      subtasks: data.subtasks || [],
-      due_at: data.dueDate,
+  /**
+   * Builds the Supabase insert payload from the task form data.
+   *
+   * Maps camelCase app-model fields to the snake_case DB column names
+   * and applies default values for optional array fields.
+   *
+   * @param userId   The authenticated user's id (may be `undefined` for guests).
+   * @param taskData The raw task form data collected from the UI.
+   * @returns A plain object ready to be passed to a Supabase `insert` call.
+   */
+  private buildNewTaskPayload(
+    userId: string | undefined,
+    taskData: {
+      title: string;
+      description?: string;
+      status: Status;
+      type: TaskType;
+      priority: TaskPriority;
+      assignees?: { id: string; initials: string; name?: string }[];
+      subtasks?: { id: string; title: string; done: boolean }[];
+      dueDate?: string;
+    },
+  ) {
+    return {
+      created_by: userId ?? null,
+      title: taskData.title,
+      description: taskData.description,
+      status: taskData.status,
+      type: taskData.type,
+      priority: taskData.priority,
+      assignees: taskData.assignees ?? [],
+      subtasks: taskData.subtasks ?? [],
+      due_at: taskData.dueDate,
     };
+  }
 
-
-    const { data: result, error } = await this.supabase.supabase
+  /**
+   * Executes the Supabase insert for a single task and returns the persisted row.
+   *
+   * Logs a detailed error (message, code, details, hint) if the operation fails.
+   *
+   * @param payload The DB-ready payload produced by {@link buildNewTaskPayload}.
+   * @returns The raw Supabase row on success, or `null` if an error occurred.
+   */
+  private async insertTaskIntoDatabase(payload: object): Promise<Record<string, unknown> | null> {
+    const { data: insertedRow, error } = await this.supabase.supabase
       .from('tasks')
-      .insert([taskPayload])
+      .insert([payload])
       .select()
       .single();
 
@@ -144,28 +216,35 @@ export class TaskStore {
         message: error.message,
         code: error.code,
         details: error.details,
-        hint: error.hint
+        hint: error.hint,
       });
       return null;
     }
 
-    if (!skipReload) {
-      await this.loadTasks(true);
-    }
+    return insertedRow;
+  }
 
-    return result
-      ? {
-          id: result.id,
-          title: result.title,
-          description: result.description,
-          status: result.status,
-          type: result.type || 'Technical Task',
-          priority: result.priority,
-          assignees: result.assignees || [],
-          subtasks: result.subtasks || [],
-          createdAt: result.created_at,
-        }
-      : null;
+  /**
+   * Maps a raw Supabase task row to the app's {@link Task} model.
+   *
+   * Handles missing fields by applying safe defaults (e.g. empty arrays for
+   * `assignees` / `subtasks`, `'Technical Task'` as fallback task type).
+   *
+   * @param row The raw database row returned by Supabase after an insert or select.
+   * @returns A fully typed {@link Task} object ready for use in the application.
+   */
+  private mapRowToTaskModel(row: Record<string, unknown>): Task {
+    return {
+      id: row['id'] as string,
+      title: row['title'] as string,
+      description: row['description'] as string | undefined,
+      status: row['status'] as Status,
+      type: (row['type'] as TaskType) ?? 'Technical Task',
+      priority: row['priority'] as TaskPriority,
+      assignees: (row['assignees'] as Task['assignees']) ?? [],
+      subtasks: (row['subtasks'] as Task['subtasks']) ?? [],
+      createdAt: row['created_at'] as string,
+    };
   }
 
   /**
@@ -182,9 +261,7 @@ export class TaskStore {
    */
   async updateTask(id: string, updates: Partial<Task>): Promise<Task | null> {
     // Optimistic local update for snappier UI.
-    this.tasksSignal.update(tasks =>
-      tasks.map(t => (t.id === id ? { ...t, ...updates } : t))
-    );
+    this.tasksSignal.update((tasks) => tasks.map((t) => (t.id === id ? { ...t, ...updates } : t)));
 
     const { data, error } = await this.supabase.supabase
       .from('tasks')
@@ -218,10 +295,7 @@ export class TaskStore {
    * @returns True if the delete succeeded; otherwise false.
    */
   async deleteTask(taskId: string): Promise<boolean> {
-    const { error } = await this.supabase.supabase
-      .from('tasks')
-      .delete()
-      .eq('id', taskId);
+    const { error } = await this.supabase.supabase.from('tasks').delete().eq('id', taskId);
 
     if (error) {
       return false;
