@@ -21,7 +21,10 @@
         gap: 8px;
         cursor: pointer;
         box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
-        transition: background-color 125ms, box-shadow 125ms, color 125ms;
+        transition:
+          background-color 125ms,
+          box-shadow 125ms,
+          color 125ms;
 
         &:hover {
           box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
@@ -51,7 +54,7 @@
       }
 
       #prio-urgent:checked + .priority-urgent {
-        background-color: #FF3D00;
+        background-color: #ff3d00;
         color: white;
         box-shadow: none;
 
@@ -61,7 +64,7 @@
       }
 
       #prio-medium:checked + .priority-medium {
-        background-color: #FFA800;
+        background-color: #ffa800;
         color: white;
         box-shadow: none;
 
@@ -71,7 +74,7 @@
       }
 
       #prio-low:checked + .priority-low {
-        background-color: #7AE229;
+        background-color: #7ae229;
         color: white;
         box-shadow: none;
 

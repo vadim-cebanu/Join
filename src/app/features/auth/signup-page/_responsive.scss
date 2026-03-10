@@ -1,10 +1,8 @@
-
 @media screen and (max-width: 548px) {
   .signup-card {
     padding: 32px 20px;
   }
 }
-
 
 @media screen and (max-width: 480px) {
   .signup-card {
@@ -36,28 +34,31 @@
   }
 }
 
-
 @media screen and (max-width: 400px) {
   .modal-header h2 {
     font-size: 28px;
   }
+
   .modal-body h3 {
     font-size: 18px;
   }
-  .signup-card{
+
+  .signup-card {
     padding: 18px 18px;
   }
-  .form-actions{
+
+  .form-actions {
     margin-top: 10px;
-    >button {
+
+    > button {
       margin-bottom: 10px;
     }
   }
+
   .card-header > h1 {
-     font-size: 30px;
+    font-size: 30px;
   }
 }
-
 
 @media screen and (max-width: 360px) {
   .signup-card {

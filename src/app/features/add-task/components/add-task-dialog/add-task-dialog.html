@@ -6,7 +6,6 @@
         <img src="assets/icons/close-button.svg" alt="Close" />
       </button>
     </div>
-
     <form [formGroup]="taskForm" class="main-content" (ngSubmit)="formSubmit()">
       <div class="div-content">
         <div class="left-content">
@@ -24,7 +23,6 @@
               <p class="if">This field is required</p>
             }
           </div>
-
           <div class="description-in-content">
             <label for="description">Description</label>
             <textarea
@@ -34,7 +32,6 @@
             >
             </textarea>
           </div>
-
           <div class="due-date-content">
             <label for="dueDate"> Due date<span>*</span> </label>
             <div class="input-date-wrapper">
@@ -57,13 +54,10 @@
             }
           </div>
         </div>
-
         <span class="line-content"></span>
-
         <div class="right-content">
           <div class="priority-content">
             <label>Priority</label>
-
             <div class="priority-content-elements">
               <input
                 class="prio-radio"
@@ -76,7 +70,6 @@
                 Urgent
                 <div class="priority-urgent-img priority-basic-img"></div>
               </label>
-
               <input
                 class="prio-radio"
                 id="prio-medium"
@@ -88,7 +81,6 @@
                 Medium
                 <div class="priority-medium-img priority-basic-img"></div>
               </label>
-
               <input
                 class="prio-radio"
                 id="prio-low"
@@ -102,7 +94,6 @@
               </label>
             </div>
           </div>
-
           <div class="assigned-to-content">
             <label>Assigned to</label>
             <div class="assigned-dropdown" [class.open]="dropdownOpen">
@@ -170,7 +161,6 @@
               </div>
             }
           </div>
-
           <div class="category-content">
             <label for="category"> Category<span>*</span> </label>
 
@@ -199,7 +189,6 @@
               }
             </div>
           </div>
-
           <div class="subtask-content">
             <label for="subtasks">Subtasks</label>
             <div class="edit-input input">
@@ -262,10 +251,8 @@
           </div>
         </div>
       </div>
-
       <footer>
         <p><span>*</span>This field is required</p>
-
         <div class="btn-div">
           <button class="btn-clear btn-basic" type="button" (click)="clearForm()">
             Clear
@@ -280,7 +267,6 @@
       </footer>
     </form>
   </div>
-
   @if (showSuccessMessage()) {
     <div class="success-overlay">
       <div class="success-message">

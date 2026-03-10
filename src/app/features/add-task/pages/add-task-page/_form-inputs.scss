@@ -2,10 +2,10 @@
   label {
     font-size: 20px;
     font-weight: 400;
-    color: #2A3647;
+    color: #2a3647;
 
     span {
-      color: #E60026;
+      color: #e60026;
     }
   }
 
@@ -13,13 +13,13 @@
   textarea:focus,
   select:focus {
     outline: none;
-    border: 1px solid #29ABE2;
+    border: 1px solid #29abe2;
     box-shadow: none;
   }
 
   ::placeholder {
     font-size: 20px;
-    color: #D1D1D1;
+    color: #d1d1d1;
     font-weight: 400;
   }
 
@@ -34,7 +34,7 @@
       border-radius: 10px;
       padding: 12px 21px;
       height: 48px;
-      border: 1px solid #D1D1D1;
+      border: 1px solid #d1d1d1;
 
       &:hover {
         cursor: pointer;
@@ -47,7 +47,7 @@
       max-height: 120px;
       padding: 12px 21px;
       border-radius: 10px;
-      border: 1px solid #D1D1D1;
+      border: 1px solid #d1d1d1;
       font-weight: 400;
 
       &:hover {
@@ -55,7 +55,7 @@
       }
     }
 
-    input[type="date"] {
+    input[type='date'] {
       font-size: 20px;
       color: black;
     }
@@ -99,12 +99,12 @@
     }
 
     input.invalid {
-      border: 2px solid #E60026;
+      border: 2px solid #e60026;
     }
 
     .if {
       height: 25px;
-      color: #E60026;
+      color: #e60026;
       margin: 0;
     }
   }

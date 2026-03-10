@@ -1,7 +1,15 @@
-import { Component, OnInit, AfterViewInit, inject, ChangeDetectorRef, effect, HostListener } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  AfterViewInit,
+  inject,
+  ChangeDetectorRef,
+  effect,
+  HostListener,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Task , Status} from '../../models/task.model';
+import { Task, Status } from '../../models/task.model';
 import { BoardColumn } from '../../components/board-column/board-column';
 import { TaskDetailDialog } from '../../components/task-detail-dialog/task-detail-dialog';
 import { AddTaskDialog } from '../../../add-task/components/add-task-dialog/add-task-dialog';
@@ -24,6 +32,7 @@ import { TaskStore } from '../../services/task-store';
   templateUrl: './board-page.html',
   styleUrl: './board-page.scss',
 })
+
 export class BoardPage implements OnInit, AfterViewInit {
   private taskStore = inject(TaskStore);
   private cdr = inject(ChangeDetectorRef);
@@ -40,7 +49,7 @@ export class BoardPage implements OnInit, AfterViewInit {
     { title: 'To do', status: 'todo', tasks: [] },
     { title: 'In progress', status: 'inProgress', tasks: [] },
     { title: 'Await feedback', status: 'awaitFeedback', tasks: [] },
-    { title: 'Done', status: 'done', tasks: [] }
+    { title: 'Done', status: 'done', tasks: [] },
   ];
 
   isLoading = true;
@@ -61,13 +70,11 @@ export class BoardPage implements OnInit, AfterViewInit {
   constructor() {
     effect(() => {
       const updatedTasks = this.taskStore.tasks();
-
       if (updatedTasks.length > 0) {
         this.allTasks = updatedTasks;
         this.filterTasks(this.allTasks);
-
         if (this.selectedTask) {
-          const updatedSelectedTask = updatedTasks.find(t => t.id === this.selectedTask!.id);
+          const updatedSelectedTask = updatedTasks.find((t) => t.id === this.selectedTask!.id);
           if (updatedSelectedTask) {
             this.selectedTask = updatedSelectedTask;
           }
@@ -76,7 +83,6 @@ export class BoardPage implements OnInit, AfterViewInit {
     });
   }
 
-
   /**
    * Angular lifecycle hook.
    * Initializes the component.
@@ -84,9 +90,7 @@ export class BoardPage implements OnInit, AfterViewInit {
    * @returns void
    */
   ngOnInit(): void {
-    // Initialization happens here
   }
-
 
   /**
    * Angular lifecycle hook.
@@ -97,7 +101,6 @@ export class BoardPage implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.loadTasks();
   }
-
 
   /**
    * Loads tasks from the TaskStore and updates UI state.
@@ -114,7 +117,6 @@ export class BoardPage implements OnInit, AfterViewInit {
     this.isLoading = true;
     this.cdr.detectChanges();
     this.error = null;
-
     try {
       this.allTasks = await this.taskStore.getTasks();
       this.filterTasks(this.allTasks);
@@ -126,7 +128,6 @@ export class BoardPage implements OnInit, AfterViewInit {
       this.cdr.detectChanges();
     }
   }
-
 
   /**
    * Filters a list of tasks by the current searchQuery and distributes them into columns.
@@ -140,21 +141,18 @@ export class BoardPage implements OnInit, AfterViewInit {
    */
   filterTasks(allTasks: Task[]): void {
     const query = this.searchQuery.toLowerCase().trim();
-
     let filteredTasks = allTasks;
-
     if (query.length >= 1) {
-      filteredTasks = allTasks.filter(task =>
-        task.title.toLowerCase().includes(query) ||
-        (task.description && task.description.toLowerCase().includes(query))
+      filteredTasks = allTasks.filter(
+        (task) =>
+          task.title.toLowerCase().includes(query) ||
+          (task.description && task.description.toLowerCase().includes(query)),
       );
     }
-
-    this.columns.forEach(col => {
-      col.tasks = filteredTasks.filter(t => t.status === col.status);
+    this.columns.forEach((col) => {
+      col.tasks = filteredTasks.filter((t) => t.status === col.status);
     });
   }
-
 
   /**
    * Called when the search input changes.
@@ -166,7 +164,6 @@ export class BoardPage implements OnInit, AfterViewInit {
     this.filterTasks(this.allTasks);
   }
 
-
   /**
    * Checks if there are any tasks available after filtering.
    * Used to show "no results" message.
@@ -174,9 +171,8 @@ export class BoardPage implements OnInit, AfterViewInit {
    * @returns boolean
    */
   get hasFilteredTasks(): boolean {
-    return this.columns.some(col => col.tasks.length > 0);
+    return this.columns.some((col) => col.tasks.length > 0);
   }
-
 
   /**
    * Toggles the context menu for the given task id.
@@ -189,7 +185,6 @@ export class BoardPage implements OnInit, AfterViewInit {
     this.openMenuTaskId = this.openMenuTaskId === taskId ? null : taskId;
   }
 
-
   /**
    * Closes any open task context menu when clicking outside.
    *
@@ -200,7 +195,6 @@ export class BoardPage implements OnInit, AfterViewInit {
     this.openMenuTaskId = null;
   }
 
-
   /**
    * Opens the "Add Task" dialog with a default status of 'todo'.
    *
@@ -210,7 +204,6 @@ export class BoardPage implements OnInit, AfterViewInit {
     this.selectedStatus = 'todo';
     this.showAddTask = true;
   }
-
 
   /**
    * Selects a task and opens the task detail dialog.
@@ -223,7 +216,6 @@ export class BoardPage implements OnInit, AfterViewInit {
     this.showTaskDetail = true;
   }
 
-
   /**
    * Closes the task detail dialog and clears the selected task.
    *
@@ -234,7 +226,6 @@ export class BoardPage implements OnInit, AfterViewInit {
     this.selectedTask = null;
   }
 
-
   /**
    * Called after a task was updated in the detail dialog.
    * Closes the dialog and reloads tasks from the store.
@@ -244,7 +235,6 @@ export class BoardPage implements OnInit, AfterViewInit {
   async onTaskUpdated(): Promise<void> {
     this.closeTaskDetail();
   }
-
 
   /**
    * Opens the "Add Task" dialog for a specific status (e.g., when clicking "+" on a column).
@@ -258,7 +248,6 @@ export class BoardPage implements OnInit, AfterViewInit {
     this.cdr.detectChanges();
   }
 
-
   /**
    * Closes the add task dialog and clears the selectedStatus.
    * Reloads tasks to reflect any newly created task.
@@ -268,10 +257,8 @@ export class BoardPage implements OnInit, AfterViewInit {
   async closeAddTask(): Promise<void> {
     this.showAddTask = false;
     this.selectedStatus = null;
-    // Reload tasks in case a task was created
     await this.loadTasks();
   }
-
 
   /**
    * Called after a task was created in the add task dialog.
@@ -284,7 +271,6 @@ export class BoardPage implements OnInit, AfterViewInit {
     this.cdr.detectChanges();
   }
 
-
   /**
    * Handles a task drop event coming from a BoardColumn (drag & drop between columns).
    * Updates the task's status, then reloads tasks to reflect the latest data.
@@ -296,7 +282,6 @@ export class BoardPage implements OnInit, AfterViewInit {
     await this.taskStore.updateTask(event.task.id, { status: event.newStatus });
     await this.taskStore.loadTasks();
   }
-
 
   /**
    * Handles moving a task via a menu action (not drag & drop).

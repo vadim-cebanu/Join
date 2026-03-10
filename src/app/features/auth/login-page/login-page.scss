@@ -15,7 +15,6 @@
   }
 }
 
-
 .title {
   font-size: 48px;
   margin: 0;
@@ -61,7 +60,7 @@ input:focus {
 }
 
 input.input-error {
-  border-color: #E60026;
+  border-color: #e60026;
 }
 
 .error-wrap {
@@ -75,13 +74,13 @@ input.input-error {
 .error {
   display: block;
   padding-top: 6px;
-  color: #E60026;
+  color: #e60026;
   font-size: 16px;
 }
 
 .error-message {
   margin-bottom: 16px;
-  color: #E60026;
+  color: #e60026;
 }
 
 .actions {
@@ -193,7 +192,7 @@ button:disabled {
         background-color: transparent;
       }
 
-      input[type="checkbox"] {
+      input[type='checkbox'] {
         width: 18px;
         height: 18px;
         padding: 0;
@@ -239,7 +238,6 @@ button:disabled {
       font-size: 30px;
     }
   }
-
 }
 @media screen and (max-width: 360px) {
   .login-card {

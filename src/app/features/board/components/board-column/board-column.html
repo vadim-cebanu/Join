@@ -1,9 +1,8 @@
 <div class="column">
   <div class="column-header">
     <h2 class="column-title">{{ title }}</h2>
-  <button class="btn-card" *ngIf="title !== 'Done'" type="button" (click)="onAddTask()">+</button>
+    <button class="btn-card" *ngIf="title !== 'Done'" type="button" (click)="onAddTask()">+</button>
   </div>
-
   <div
     #dropListRef
     [cdkDropListData]="tasks"
@@ -24,25 +23,23 @@
       (cdkDragStarted)="onDragStarted($event)"
       (cdkDragEnded)="onDragEnded($event)"
       (click)="onTaskSelected(task)"
-      [ngClass]="{ 'dragging': draggedTaskIndex === i }"
+      [ngClass]="{ dragging: draggedTaskIndex === i }"
       class="draggable-task"
       #taskElement
     >
       <app-task-card
-       (moveTo)="onMoveFromMenu($event)"
+        (moveTo)="onMoveFromMenu($event)"
         [menuOpen]="openMenuTaskId === task.id"
-  (menuToggle)="onMenuToggle($event)"
+        (menuToggle)="onMenuToggle($event)"
         [task]="task"
-        >
+      >
       </app-task-card>
     </div>
-
     <div *ngIf="getEmptyMessage()" class="empty-message">
       {{ getEmptyMessage() }}
     </div>
   </div>
 </div>
-
 <ng-template #previewContainer>
   <div class="drag-preview-custom"></div>
 </ng-template>

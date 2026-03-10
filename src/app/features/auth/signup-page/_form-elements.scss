@@ -18,7 +18,7 @@
     }
 
     &.input-error {
-      border-color: #E60026;
+      border-color: #e60026;
     }
 
     &::placeholder {
@@ -33,23 +33,20 @@
   .error {
     display: block;
     padding-top: 6px;
-    color: #E60026;
+    color: #e60026;
     font-size: 13px;
   }
 }
 
-
 .error-message {
   margin-bottom: 16px;
-  color: #E60026;
+  color: #e60026;
   text-align: center;
 }
-
 
 .input-wrap {
   position: relative;
 }
-
 
 .input-icon {
   position: absolute;
@@ -62,11 +59,9 @@
   opacity: 0.6;
 }
 
-
 .input-wrap:focus-within .input-icon {
   opacity: 1;
 }
-
 
 .form-check {
   display: flex;
@@ -141,7 +136,7 @@
     }
 
     .read-required {
-      color: #E60026;
+      color: #e60026;
       font-size: 14px;
       margin-left: 4px;
     }

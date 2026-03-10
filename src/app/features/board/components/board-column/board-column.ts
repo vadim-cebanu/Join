@@ -1,8 +1,27 @@
-import {Component,EventEmitter,Input,Output,ViewChild, ViewChildren,QueryList,ElementRef,TemplateRef,ChangeDetectorRef,ChangeDetectionStrategy} from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+  ViewChildren,
+  QueryList,
+  ElementRef,
+  TemplateRef,
+  ChangeDetectorRef,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { TaskCard } from '../task-card/task-card';
 import { Task, Status } from '../../models/task.model';
 import { CommonModule } from '@angular/common';
-import {CdkDrag,CdkDropList,CdkDragDrop,moveItemInArray,transferArrayItem,DragDropModule} from '@angular/cdk/drag-drop';
+import {
+  CdkDrag,
+  CdkDropList,
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem,
+  DragDropModule,
+} from '@angular/cdk/drag-drop';
 import { inject } from '@angular/core';
 import { Supabase } from '../../../../supabase';
 
@@ -23,7 +42,8 @@ import { Supabase } from '../../../../supabase';
   styleUrl: './board-column.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BoardColumn  {
+
+export class BoardColumn {
   @Input() title = '';
   @Input() tasks: Task[] = [];
   @Input() columnId!: Status;
@@ -32,13 +52,7 @@ export class BoardColumn  {
    * IDs of connected drop lists, enabling cross-column dragging.
    * Defaults to the standard board columns.
    */
-  @Input() connectedDropLists: string[] = [
-    'todo',
-    'inProgress',
-    'awaitFeedback',
-    'done'
-  ];
-
+  @Input() connectedDropLists: string[] = ['todo', 'inProgress', 'awaitFeedback', 'done'];
   @Output() taskSelected = new EventEmitter<Task>();
   @Output() addClicked = new EventEmitter<void>();
   @Output() taskDropped = new EventEmitter<{ task: Task; newStatus: Status }>();
@@ -55,7 +69,6 @@ export class BoardColumn  {
   isDragOver = false;
   isDragging = false;
   draggedTaskIndex = -1;
-
   previewContainer: TemplateRef<any> | string = 'body';
   draggedElement: ElementRef | null = null;
 
@@ -70,18 +83,15 @@ export class BoardColumn  {
    */
   onDrop(event: CdkDragDrop<Task[]>): void {
     const droppedTask = event.previousContainer.data[event.previousIndex];
-
     if (!droppedTask) {
       console.error('Task not found');
       return;
     }
-
     if (event.previousContainer === event.container) {
       this.reorderTaskWithinColumn(event);
     } else {
       this.transferTaskToNewColumn(droppedTask, event);
     }
-
     this.isDragOver = false;
     this.cdr.markForCheck();
   }
@@ -109,18 +119,15 @@ export class BoardColumn  {
    */
   private transferTaskToNewColumn(droppedTask: Task, event: CdkDragDrop<Task[]>): void {
     droppedTask.status = this.columnId;
-
     transferArrayItem(
       event.previousContainer.data,
       event.container.data,
       event.previousIndex,
       event.currentIndex,
     );
-
     this.updateTaskStatus(droppedTask);
     this.taskDropped.emit({ task: droppedTask, newStatus: this.columnId });
   }
-
 
   /**
    * Persists a task status update to the database via Supabase.
@@ -134,7 +141,6 @@ export class BoardColumn  {
         .from('tasks')
         .update({ status: task.status })
         .eq('id', task.id);
-
       if (error) {
         console.error('Database error:', error);
         throw error;
@@ -144,7 +150,6 @@ export class BoardColumn  {
       alert('Failed to update task. Please try again.');
     }
   }
-
 
   /**
    * Marks the column as being hovered by a draggable element.
@@ -157,7 +162,6 @@ export class BoardColumn  {
     this.cdr.markForCheck();
   }
 
-
   /**
    * Clears the column hover state when a draggable element leaves the drop area.
    *
@@ -167,7 +171,6 @@ export class BoardColumn  {
     this.isDragOver = false;
     this.cdr.markForCheck();
   }
-
 
   /**
    * Called when dragging starts.
@@ -181,7 +184,6 @@ export class BoardColumn  {
     this.cdr.markForCheck();
   }
 
-
   /**
    * Called when dragging ends.
    *
@@ -192,7 +194,6 @@ export class BoardColumn  {
     this.isDragging = false;
     this.cdr.markForCheck();
   }
-
 
   /**
    * Emits the selected task when a task card is clicked.
@@ -207,7 +208,6 @@ export class BoardColumn  {
     }
   }
 
-
   /**
    * Emits an event indicating the user wants to add a new task to this column.
    *
@@ -217,7 +217,6 @@ export class BoardColumn  {
     this.addClicked.emit();
   }
 
-
   /**
    * Returns a contextual empty-state message when the column has no tasks.
    *
@@ -226,7 +225,6 @@ export class BoardColumn  {
   getEmptyMessage(): string {
     return this.tasks.length === 0 ? `No tasks in ${this.title}` : '';
   }
-
 
   /**
    * Handles moving a task via the context/FAB menu rather than drag & drop.
@@ -241,7 +239,6 @@ export class BoardColumn  {
     }
     this.moveTask.emit(event);
   }
-
 
   /**
    * Requests a global menu toggle for a given task id.

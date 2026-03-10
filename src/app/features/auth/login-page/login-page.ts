@@ -13,6 +13,7 @@ import { Supabase } from '../../../supabase';
   templateUrl: './login-page.html',
   styleUrl: './login-page.scss',
 })
+
 export class LoginPage {
   supabase = inject(Supabase);
   router = inject(Router);
@@ -21,11 +22,9 @@ export class LoginPage {
 
   /** True when navigating from another page — skips the intro animation. */
   skipIntroAnimation = (history.state?.navigationId ?? 1) > 1;
-
   lockImage = 'assets/icons/lock.png';
   invisibleImage = 'assets/icons/visibility_off.svg';
   visibleImage = 'assets/icons/visibility.svg';
-
 
   /**
    * Handles focus event on password input.
@@ -35,7 +34,6 @@ export class LoginPage {
     this.isFocused = true;
   }
 
-
   /**
    * Handles blur event on password input.
    * Hides password visibility toggle and resets visibility state.
@@ -44,7 +42,6 @@ export class LoginPage {
     this.isFocused = false;
     this.isAlternateImage = false;
   }
-
 
   /**
    * Toggles password visibility between plain text and masked.
@@ -67,7 +64,6 @@ export class LoginPage {
     this.supabase.authError.set(null);
   }
 
-
   /**
    * Attempts to sign in the user with the provided email and password.
    * Navigates to the greeting page on success.
@@ -78,7 +74,6 @@ export class LoginPage {
       this.router.navigate(['/greeting']);
     }
   }
-
 
   /** Logs the user in as a guest and navigates to the greeting page. */
   guestLogin() {

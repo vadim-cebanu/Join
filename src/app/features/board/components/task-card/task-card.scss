@@ -1,18 +1,18 @@
-.task-card{
+.task-card {
   display: flex;
   flex-direction: column;
   gap: 8px;
   width: var(--card-w);
   max-width: 100%;
   background: #fff;
-  border: 1px solid #E6E9F0;
+  border: 1px solid #e6e9f0;
   border-radius: 16px;
   padding: 16px;
   cursor: pointer;
-  box-shadow: 0 6px 20px rgba(0,0,0,.06);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
 }
 
-.badge{
+.badge {
   display: inline-flex;
   align-items: center;
   height: 28px;
@@ -24,8 +24,8 @@
   font-weight: 400;
 }
 
-.title{
-  color:#2A3647;
+.title {
+  color: #2a3647;
   font-size: 16px;
   font-weight: 700;
   margin: 0 0 6px 0;
@@ -36,8 +36,8 @@
   overflow: hidden;
 }
 
-.desc{
-  color:#A8A8A8;
+.desc {
+  color: #a8a8a8;
   font-size: 14px;
   line-height: 1.35;
   margin: 0 0 12px 0;
@@ -47,7 +47,7 @@
   overflow: hidden;
 }
 
-.meta{
+.meta {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -57,38 +57,38 @@
 .progress {
   flex: 1;
   height: 6px;
-  background: #F4F4F4;
+  background: #f4f4f4;
   border-radius: 6px;
   overflow: hidden;
 }
 
 .bar {
   height: 100%;
-  background: #4589FF;
+  background: #4589ff;
   border-radius: 6px;
 }
 
-.subtasks{
+.subtasks {
   font-size: 13px;
-  color: #2A3647;
+  color: #2a3647;
   white-space: nowrap;
 }
 
-.assignees{
+.assignees {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
 }
 
-.assignees__initials{
+.assignees__initials {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   padding-left: 8px;
 }
 
-.avatar{
+.avatar {
   width: 32px;
   height: 32px;
   border-radius: 999px;
@@ -98,7 +98,7 @@
   font-size: 16px;
   font-weight: 400;
   color: #fff;
-  background: #2A3647;
+  background: #2a3647;
   border: 2px solid #fff;
   margin-left: -8px;
 }
@@ -108,14 +108,14 @@
   font-size: 12px;
 }
 
-.prio{
+.prio {
   font-size: 13px;
-  color: #2A3647;
+  color: #2a3647;
   font-weight: 600;
   text-transform: lowercase;
 }
 
-.prio-icon{
+.prio-icon {
   width: 18px;
   height: 18px;
   object-fit: contain;
@@ -123,69 +123,68 @@
   flex-shrink: 0;
 }
 
-.task-card-header{
+.task-card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 12px;
 }
 
-.menu-btn-container{
-   position: relative;
+.menu-btn-container {
+  position: relative;
   display: flex;
   align-items: center;
   cursor: pointer;
-    background:none !important;
-  border:none !important;
+  background: none !important;
+  border: none !important;
 }
 
-.menu-btn{
-  background:none;
-  border:none;
-  font-size:22px;
-  cursor:pointer;
+.menu-btn {
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
   display: none;
 }
 
-  .fab-menu {
+.fab-menu {
   position: absolute;
   top: calc(100% + -30px);
   right: 15px;
   width: 160px;
-  background: #2A3647;
+  background: #2a3647;
   border-radius: 16px;
   padding: 8px;
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
   z-index: 9999;
-    font-size: 14px;
-
-  }
-
-  .fab-item {
-    width: 100%;
-    border: 0;
-    background: #2A3647;
-    cursor: pointer;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    padding: 5px 5px;
-    border-radius: 12px;
-    font-size: 15px;
-    color: white;
-    &:hover {
-      background: #4C6589;
-    }
-  }
-
-@media (max-width: 1215px){
-.task-card{
-  padding: 14px;
-}
+  font-size: 14px;
 }
 
-  @media screen and (max-width:1024px) {
-    .menu-btn{
-      display: block;
-    }
+.fab-item {
+  width: 100%;
+  border: 0;
+  background: #2a3647;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  padding: 5px 5px;
+  border-radius: 12px;
+  font-size: 15px;
+  color: white;
+  &:hover {
+    background: #4c6589;
   }
+}
+
+@media (max-width: 1215px) {
+  .task-card {
+    padding: 14px;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .menu-btn {
+    display: block;
+  }
+}

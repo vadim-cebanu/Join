@@ -2,7 +2,6 @@
   position: relative;
 }
 
-
 .assigned-trigger {
   display: flex;
   justify-content: space-between;
@@ -35,7 +34,9 @@
     padding: 8px;
     border-radius: 50%;
     cursor: pointer;
-    transition: transform 200ms, background-color 100ms;
+    transition:
+      transform 200ms,
+      background-color 100ms;
 
     &.open {
       transform: rotate(180deg);
@@ -50,7 +51,6 @@
     border-color: #29abe2;
   }
 }
-
 
 .assigned-list {
   position: absolute;
@@ -72,7 +72,6 @@
   max-height: 280px;
   overflow-y: auto;
 }
-
 
 .assigned-item {
   display: flex;
@@ -126,7 +125,6 @@
   }
 }
 
-
 .assigned-avatar {
   width: 42px;
   height: 42px;
@@ -140,11 +138,9 @@
   flex-shrink: 0;
 }
 
-
 .assigned-name {
   font-size: 19px;
 }
-
 
 .assigned-avatars {
   display: flex;
@@ -152,7 +148,6 @@
   gap: 8px;
   margin-top: 8px;
 }
-
 
 .avatar-overflow {
   background-color: #2a3647;

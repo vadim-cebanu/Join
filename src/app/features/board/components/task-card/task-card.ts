@@ -17,6 +17,7 @@ import { avatarColors } from '../../../contacts/components/contact-list/contact-
   templateUrl: './task-card.html',
   styleUrl: './task-card.scss',
 })
+
 export class TaskCard {
   @Input({ required: true }) task!: Task;
   @Input() menuOpen = false;
@@ -31,7 +32,7 @@ export class TaskCard {
     { label: 'To Do', value: 'todo' },
     { label: 'In Progress', value: 'inProgress' },
     { label: 'Awaiting Feedback', value: 'awaitFeedback' },
-    { label: 'Done', value: 'done' }
+    { label: 'Done', value: 'done' },
   ];
 
   /**
@@ -40,7 +41,7 @@ export class TaskCard {
    * @returns Array of status options that the task can be moved to.
    */
   get moveTargets() {
-    return this.statusOptions.filter(option => option.value !== this.task.status);
+    return this.statusOptions.filter((option) => option.value !== this.task.status);
   }
 
   /**
@@ -56,7 +57,6 @@ export class TaskCard {
     this.moveTo.emit({ taskId: this.task.id, status });
   }
 
-
   /**
    * Returns the number of completed subtasks.
    * Safely handles missing or non-array `subtasks`.
@@ -67,9 +67,8 @@ export class TaskCard {
     if (!Array.isArray(this.task.subtasks)) {
       return 0;
     }
-    return this.task.subtasks.filter(sub => sub.done).length;
+    return this.task.subtasks.filter((sub) => sub.done).length;
   }
-
 
   /**
    * Returns the total number of subtasks.
@@ -86,7 +85,7 @@ export class TaskCard {
   priorityIcon: Record<TaskPriority, string> = {
     high: 'assets/icons/prio-high.png',
     medium: 'assets/icons/prio-medium.png',
-    low: 'assets/icons/prio-low.png'
+    low: 'assets/icons/prio-low.png',
   };
 
   /**
@@ -99,13 +98,12 @@ export class TaskCard {
     return name
       ? name
           .split(' ')
-          .map(n => n[0])
+          .map((n) => n[0])
           .join('')
           .toUpperCase()
           .slice(0, 2)
       : '';
   }
-
 
   /**
    * Returns a consistent avatar color based on a contact's name.
@@ -125,7 +123,6 @@ export class TaskCard {
     const index = Math.abs(hash) % avatarColors.length;
     return avatarColors[index];
   }
-
 
   /**
    * Toggles the card's context/FAB menu.

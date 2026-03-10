@@ -1,6 +1,25 @@
-import { Component, EventEmitter, Output, inject, OnInit, ViewChild, ElementRef, computed, signal } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Output,
+  inject,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  computed,
+  signal,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {FormControl,FormGroup,ReactiveFormsModule,FormsModule,AbstractControl, ValidationErrors, Validators,ValidatorFn} from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  FormsModule,
+  AbstractControl,
+  ValidationErrors,
+  Validators,
+  ValidatorFn,
+} from '@angular/forms';
 import { Supabase, Contact } from '../../../../supabase';
 import { avatarColors } from '../../../contacts/components/contact-list/contact-list';
 import { TaskStore } from '../../../board/services/task-store';
@@ -28,11 +47,7 @@ interface Subtask {
  */
 @Component({
   selector: 'app-add-task-dialog',
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    FormsModule
-  ],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
   standalone: true,
   templateUrl: './add-task-dialog.html',
   styleUrl: './add-task-dialog.scss',
@@ -83,24 +98,23 @@ export class AddTaskDialog implements OnInit {
 
   taskForm = new FormGroup({
     title: new FormControl('', {
-      validators: [Validators.required, Validators.minLength(3)]
+      validators: [Validators.required, Validators.minLength(3)],
     }),
     description: new FormControl(''),
     due_at: new FormControl('', {
-      validators: [Validators.required, this.minDateValidator]
+      validators: [Validators.required, this.minDateValidator],
     }),
     priority: new FormControl('medium'),
-   type: new FormControl('Select task category', {
-  validators: [this.categoryValidator]
-}),
+    type: new FormControl('Select task category', {
+      validators: [this.categoryValidator],
+    }),
   });
 
   filteredContacts = computed(() => {
     const search = this.searchText().toLowerCase();
     if (!search) return this.supabaseService.contacts();
-    return this.supabaseService.contacts().filter(c => c.name.toLowerCase().includes(search));
+    return this.supabaseService.contacts().filter((c) => c.name.toLowerCase().includes(search));
   });
-
 
   /**
    * Angular lifecycle hook.
@@ -110,7 +124,6 @@ export class AddTaskDialog implements OnInit {
     this.supabaseService.getContacts();
   }
 
-
   /**
    * Handles the task form submission.
    *
@@ -119,12 +132,9 @@ export class AddTaskDialog implements OnInit {
    */
   async formSubmit(): Promise<void> {
     if (!this.validateFormBeforeSubmit()) return;
-
     const taskData = this.buildTaskDataFromForm();
-
     await this.saveTaskAndCloseDialog(taskData);
   }
-
 
   /**
    * Marks all form controls as touched to trigger validation messages,
@@ -134,20 +144,15 @@ export class AddTaskDialog implements OnInit {
    */
   private validateFormBeforeSubmit(): boolean {
     if (this.taskForm.invalid) {
-      Object.keys(this.taskForm.controls).forEach((key) =>
-        this.taskForm.get(key)?.markAsTouched(),
-      );
+      Object.keys(this.taskForm.controls).forEach((key) => this.taskForm.get(key)?.markAsTouched());
       return false;
     }
-
     if (this.taskForm.value.type === 'Select task category') {
       console.log('Please select a valid category');
       return false;
     }
-
     return true;
   }
-
 
   /**
    * Maps the currently selected contacts to the assignee format expected by the task model.
@@ -161,7 +166,6 @@ export class AddTaskDialog implements OnInit {
       name: contact.name,
     }));
   }
-
 
   /**
    * Assembles the task data object from the current form values, selected contacts
@@ -182,7 +186,6 @@ export class AddTaskDialog implements OnInit {
     };
   }
 
-
   /**
    * Calls the task store to persist the new task, shows a success message on
    * completion and emits the `closed` event after a short delay.
@@ -197,7 +200,6 @@ export class AddTaskDialog implements OnInit {
   ): Promise<void> {
     try {
       const createdTask = await this.taskStore.addTask(taskData, true);
-
       if (createdTask) {
         this.showSuccessMessage.set(true);
         setTimeout(() => {
@@ -211,7 +213,6 @@ export class AddTaskDialog implements OnInit {
       console.error('Error creating task:', error);
     }
   }
-
 
   /**
    * Resets the task form to its initial state.
@@ -231,7 +232,6 @@ export class AddTaskDialog implements OnInit {
     this.newSubtaskTitle = '';
   }
 
-
   /**
    * Toggles the task category dropdown visibility.
    */
@@ -239,28 +239,25 @@ export class AddTaskDialog implements OnInit {
     this.dropdownCategory = !this.dropdownCategory;
   }
 
-
   /**
    * Selects 'Technical Task' as the task category and closes the dropdown.
    */
   selectTechnicalTask() {
     this.taskForm.patchValue({
-      type: "Technical Task"
-    })
+      type: 'Technical Task',
+    });
     this.dropdownCategory = false;
   }
-
 
   /**
    * Selects 'User Story' as the task category and closes the dropdown.
    */
   selectUserStory() {
     this.taskForm.patchValue({
-      type: "User Story"
-    })
+      type: 'User Story',
+    });
     this.dropdownCategory = false;
   }
-
 
   /**
    * Toggles the contact assignment dropdown.
@@ -273,7 +270,6 @@ export class AddTaskDialog implements OnInit {
     }
   }
 
-
   /**
    * Handles search input changes for filtering contacts.
    *
@@ -284,7 +280,6 @@ export class AddTaskDialog implements OnInit {
     this.dropdownOpen = true;
   }
 
-
   /**
    * Checks if a contact is currently selected as an assignee.
    *
@@ -292,9 +287,8 @@ export class AddTaskDialog implements OnInit {
    * @returns `true` if the contact is selected; otherwise `false`.
    */
   isContactSelected(contact: Contact): boolean {
-    return this.selectedContacts.some(c => c.id === contact.id);
+    return this.selectedContacts.some((c) => c.id === contact.id);
   }
-
 
   /**
    * Toggles a contact's selection state.
@@ -304,12 +298,11 @@ export class AddTaskDialog implements OnInit {
    */
   toggleContact(contact: Contact) {
     if (this.isContactSelected(contact)) {
-      this.selectedContacts = this.selectedContacts.filter(c => c.id !== contact.id);
+      this.selectedContacts = this.selectedContacts.filter((c) => c.id !== contact.id);
     } else {
       this.selectedContacts = [...this.selectedContacts, contact];
     }
   }
-
 
   /**
    * Extracts initials from a contact's name for avatar display.
@@ -318,9 +311,13 @@ export class AddTaskDialog implements OnInit {
    * @returns Up to 2 uppercase initials.
    */
   getInitials(name: string): string {
-    return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+    return name
+      .split(' ')
+      .map((n) => n[0])
+      .join('')
+      .toUpperCase()
+      .slice(0, 2);
   }
-
 
   /**
    * Generates a consistent avatar background color based on the contact's name.
@@ -336,7 +333,6 @@ export class AddTaskDialog implements OnInit {
     return avatarColors[Math.abs(hash) % avatarColors.length];
   }
 
-
   /**
    * Adds a new subtask to the task.
    * Creates a unique ID and resets the input field.
@@ -346,12 +342,11 @@ export class AddTaskDialog implements OnInit {
     const newSubtask: Subtask = {
       id: this.generateUUID(),
       title: this.newSubtaskTitle.trim(),
-      done: false
+      done: false,
     };
     this.subtasks = [...this.subtasks, newSubtask];
     this.newSubtaskTitle = '';
   }
-
 
   /**
    * Removes a subtask from the task.
@@ -359,9 +354,8 @@ export class AddTaskDialog implements OnInit {
    * @param subtaskId - The unique ID of the subtask to remove.
    */
   removeSubtask(subtaskId: string) {
-    this.subtasks = this.subtasks.filter(sub => sub.id !== subtaskId);
+    this.subtasks = this.subtasks.filter((sub) => sub.id !== subtaskId);
   }
-
 
   /**
    * Opens the inline edit form for a subtask.
@@ -369,12 +363,11 @@ export class AddTaskDialog implements OnInit {
    * @param subtaskId - The ID of the subtask to edit.
    */
   openEditForm(subtaskId: string) {
-    const subtask = this.subtasks.find(sub => sub.id === subtaskId);
+    const subtask = this.subtasks.find((sub) => sub.id === subtaskId);
     if (!subtask) return;
     this.editingSubtaskId = subtaskId;
     this.editingSubtaskTitle = subtask.title;
   }
-
 
   /**
    * Saves changes to a subtask being edited.
@@ -382,17 +375,12 @@ export class AddTaskDialog implements OnInit {
    */
   saveSubtaskEdit() {
     if (!this.editingSubtaskId || !this.editingSubtaskTitle.trim()) return;
-    this.subtasks = this.subtasks.map(sub =>
-      sub.id === this.editingSubtaskId
-        ? { ...sub, title: this.editingSubtaskTitle.trim() }
-        : sub
+    this.subtasks = this.subtasks.map((sub) =>
+      sub.id === this.editingSubtaskId ? { ...sub, title: this.editingSubtaskTitle.trim() } : sub,
     );
     this.editingSubtaskId = null;
   }
-
-
   isClosing = false;
-
 
   /**
    * Initiates the dialog closing animation and emits the closed event.
@@ -405,7 +393,6 @@ export class AddTaskDialog implements OnInit {
       this.closed.emit();
     }, 400);
   }
-
 
   /**
    * Handles clicks on the dialog backdrop or outside dropdowns.
@@ -425,7 +412,6 @@ export class AddTaskDialog implements OnInit {
       this.dropdownCategory = false;
     }
   }
-
 
   /**
    * Generates a universally unique identifier (UUID) for subtasks.

@@ -49,15 +49,13 @@ export class SignupPage {
   invisibleImage = 'assets/icons/visibility_off.svg';
   visibleImage = 'assets/icons/visibility.svg';
 
-
   /**
    * Handles focus event on password input.
    * Shows password visibility toggle icon.
    */
-  onFocus(): void{
+  onFocus(): void {
     this.isFocused = true;
   }
-
 
   /**
    * Handles blur event on password input.
@@ -67,7 +65,6 @@ export class SignupPage {
     this.isFocused = false;
     this.isAlternateImage = false;
   }
-
 
   /**
    * Toggles password visibility between plain text and masked.
@@ -83,14 +80,12 @@ export class SignupPage {
     this.showPrivacyModal.set(true);
   }
 
-
   /**
    * Closes the privacy policy modal.
    */
   closePrivacyModal() {
     this.showPrivacyModal.set(false);
   }
-
 
   /**
    * Handles scroll event on privacy policy content to detect if user has read to the end.
@@ -100,13 +95,10 @@ export class SignupPage {
     const scrollTop = element.scrollTop;
     const scrollHeight = element.scrollHeight;
     const clientHeight = element.clientHeight;
-
-    // Check if scrolled to bottom (with 10px tolerance)
     if (scrollTop + clientHeight >= scrollHeight - 10) {
       this.hasReadPrivacy.set(true);
     }
   }
-
 
   /**
    * Validates the password confirmation and registers a new user.
@@ -116,27 +108,18 @@ export class SignupPage {
     if (this.password() !== this.confirmPassword()) {
       return;
     }
-
     if (!this.privacyAccepted()) {
       this.supabase.authError.set('You must accept the Privacy Policy');
       return;
     }
-
-    const success = await this.supabase.signUp(
-      this.email(),
-      this.password(),
-      this.displayName()
-    );
-
+    const success = await this.supabase.signUp(this.email(), this.password(), this.displayName());
     if (success) {
       this.successMessage.set('You Signed Up successfully');
-
-       setTimeout(() => {
-         this.router.navigate(['/login'])}, 800);
-
+      setTimeout(() => {
+        this.router.navigate(['/login']);
+      }, 800);
     }
   }
-
 
   /**
    * Navigates back to the previous page using browser history.

@@ -3,19 +3,17 @@
   height: 100%;
 }
 
-
 .add-task-content-container {
   max-width: 1440px;
   width: 100%;
 }
-
 
 .add-task-content {
   padding: 80px;
   display: flex;
   flex-direction: column;
   gap: 50px;
-  background-color: #F6F7F8;
+  background-color: #f6f7f8;
   height: 100%;
   width: 100%;
   overflow-y: auto;
@@ -26,7 +24,7 @@
     margin: 0;
     font-size: 48px;
     font-weight: 700;
-    color: #2A3647;
+    color: #2a3647;
   }
 
   .main-content {
@@ -58,7 +56,7 @@
 
     .line-content {
       width: 1px;
-      background-color: #D1D1D1;
+      background-color: #d1d1d1;
       border-radius: 1px;
       align-self: stretch;
       justify-self: center;

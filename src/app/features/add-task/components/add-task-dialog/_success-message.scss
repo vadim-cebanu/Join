@@ -12,7 +12,6 @@
   animation: fadeIn 0.3s ease-in;
 }
 
-
 .success-message {
   background-color: #2a3647;
   color: white;
@@ -43,7 +42,6 @@
   }
 }
 
-
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -52,7 +50,6 @@
     opacity: 1;
   }
 }
-
 
 @keyframes slideUp {
   from {

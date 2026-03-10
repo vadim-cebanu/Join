@@ -1,7 +1,6 @@
 <div class="login-card" [class.skip-animation]="skipIntroAnimation">
   <h1 class="title">Log in</h1>
   <div class="underline"></div>
-
   <form novalidate #loginForm="ngForm" (ngSubmit)="loginForm.valid && login()">
     <div class="form-group">
       <div class="input-wrap">
@@ -25,7 +24,6 @@
         }
       </div>
     </div>
-
     <div class="form-group">
       <div class="input-wrap">
         <input
@@ -38,7 +36,9 @@
           name="password"
           required
           minlength="6"
-          [class.input-error]="(passwordInput.invalid && passwordInput.touched) || supabase.authError()"
+          [class.input-error]="
+            (passwordInput.invalid && passwordInput.touched) || supabase.authError()
+          "
           #passwordInput="ngModel"
         />
         @if (!isFocused) {
@@ -62,7 +62,6 @@
         }
       </div>
     </div>
-
     <div class="remember-me">
       <label>
         <span class="checkbox-wrap">
@@ -76,7 +75,6 @@
       </label>
       <span>Remember me</span>
     </div>
-
     <div class="actions">
       <button
         class="btn btn-primary"
@@ -85,7 +83,6 @@
       >
         {{ supabase.authLoading() ? 'Loading...' : 'Log in' }}
       </button>
-
       <button class="btn btn-secondary" type="button" (click)="guestLogin()">Guest Log in</button>
     </div>
   </form>
