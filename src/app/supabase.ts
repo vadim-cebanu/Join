@@ -33,7 +33,8 @@ export interface Contact {
 export class Supabase {
 
   /** Supabase project URL. */
-  private supabaseUrl = 'https://rtunkmriznurqroovzij.supabase.co';
+ // private supabaseUrl = 'https://rtunkmriznurqroovzij.supabase.co';
+  private supabaseUrl = 'https://clkmynxuhgcsxzmwuebm.supabase.co';
 
   /** Currently authenticated user. */
   currentUser = signal<User | null>(null);
@@ -88,7 +89,8 @@ hasAppAccess = computed(() => this.currentUser() !== null || this.isGuest());
   authLoading = signal<boolean>(false);
 
   /** Public anon key for Supabase API access. */
-  private supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ0dW5rbXJpem51cnFyb292emlqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEyMTI4MjAsImV4cCI6MjA4Njc4ODgyMH0.J4bDrpH72a81aHGBdHvT5Vrl30NgoZTOB8wvAHwmIoE';
+  // private supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ0dW5rbXJpem51cnFyb292emlqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEyMTI4MjAsImV4cCI6MjA4Njc4ODgyMH0.J4bDrpH72a81aHGBdHvT5Vrl30NgoZTOB8wvAHwmIoE';
+  private supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNsa215bnh1aGdjc3h6bXd1ZWJtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMyMTY0NzAsImV4cCI6MjA4ODc5MjQ3MH0.o48MMVrEgY1cGtgGZiABQAT5ImRksbAauUfxdKbnS1A';
 
   /** Initialized Supabase client instance. */
   supabase: SupabaseClient = createClient(
