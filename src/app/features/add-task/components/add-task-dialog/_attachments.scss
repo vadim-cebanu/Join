@@ -1,4 +1,16 @@
 .attachments-to-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-sizing: border-box;
+
+  label {
+    font-size: 18px;
+    font-weight: 400;
+    color: #2a3647;
+  }
+
   .subtitle-attachments {
     display: flex;
     justify-content: space-between;
@@ -169,5 +181,228 @@
       border-color: #29abe2;
       color: #29abe2;
     }
+  }
+}
+
+.image-viewer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.95);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s ease;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.viewer-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  max-width: 1400px;
+  max-height: 100vh;
+}
+
+.viewer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background: rgba(42, 42, 42, 0.95);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  gap: 24px;
+}
+
+.viewer-filename {
+  font-size: 15px;
+  font-weight: 500;
+  color: #fff;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.viewer-zoom-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.viewer-zoom-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+
+  img {
+    width: 18px;
+    height: 18px;
+    filter: brightness(0) invert(1);
+  }
+
+  &:hover:not(:disabled) {
+    background: rgba(41, 171, 226, 0.8);
+    border-color: #29abe2;
+    transform: scale(1.05);
+  }
+
+  &:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+}
+
+.zoom-level {
+  font-size: 13px;
+  color: #aaa;
+  min-width: 50px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.viewer-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.viewer-download-btn {
+  background: rgba(41, 171, 226, 0.2);
+  border: 1px solid rgba(41, 171, 226, 0.4);
+  color: #fff;
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+
+  img {
+    width: 18px;
+    height: 18px;
+    filter: brightness(0) invert(1);
+  }
+
+  &:hover {
+    background: #29abe2;
+    border-color: #29abe2;
+    transform: scale(1.05);
+  }
+}
+
+.viewer-close-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-size: 24px;
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  line-height: 1;
+
+  &:hover {
+    background: rgba(255, 61, 0, 0.8);
+    border-color: #ff3d00;
+    transform: rotate(90deg) scale(1.05);
+  }
+}
+
+.viewer-gallery {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 40px;
+  min-height: 0;
+}
+
+.viewer-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  user-select: none;
+  border-radius: 8px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease;
+  cursor: grab;
+
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+.viewer-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(42, 42, 42, 0.9);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-size: 36px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 300;
+  line-height: 1;
+
+  &:hover:not(:disabled) {
+    background: #2a3647;
+    border-color: #2a3647;
+    transform: translateY(-50%) scale(1.15);
+    box-shadow: 0 4px 20px rgba(41, 171, 226, 0.4);
+  }
+
+  &:disabled {
+    opacity: 0.2;
+    cursor: not-allowed;
+  }
+}
+
+.viewer-prev-btn {
+  left: 30px;
+}
+
+.viewer-next-btn {
+  right: 30px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
