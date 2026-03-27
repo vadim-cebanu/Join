@@ -48,10 +48,6 @@
               <p class="if">Date cannot be in the past</p>
             }
           </div>
-        </div>
-        <span class="line-content"></span>
-
-        <div class="right-content">
           <div class="priority-content">
             <label>Priority</label>
             <div class="priority-content-elements">
@@ -89,6 +85,60 @@
                 <div class="priority-low-img priority-basic-img"></div>
               </label>
             </div>
+          </div>
+        </div>
+        <span class="line-content"></span>
+
+        <div class="right-content">
+          <div class="attachments-to-content">
+            <label>Attachments</label>
+            <div class="subtitle-attachments">
+              <p>Allowed file types are JPEG and PNG</p>
+              @if (attachments.length > 0) {
+                <button type="button" class="delete-all-btn" (click)="clearAllAttachments()">
+                  <img src="assets/icons/trash.svg" alt="Delete" /> Delete all
+                </button>
+              }
+            </div>
+
+            <input
+              #fileInput
+              type="file"
+              accept="image/jpeg,image/png"
+              multiple
+              (change)="onFileSelected($event)"
+              style="display: none"
+            />
+
+            @if (attachments.length === 0) {
+              <button type="button" class="upload-btn" (click)="triggerFileInput()">
+                <img src="assets/icons/cloud.svg" alt="Upload" />
+                <span>Drag a file or browse</span>
+              </button>
+            }
+
+            @if (attachments.length > 0) {
+              <div class="attachments-grid">
+                @for (attachment of attachments; track attachment.id) {
+                  <div class="attachment-item">
+                    <img [src]="attachment.preview" [alt]="attachment.name" class="attachment-preview" />
+                    <button
+                      type="button"
+                      class="remove-attachment-btn"
+                      (click)="removeAttachment(attachment.id)"
+                      [title]="'Remove ' + attachment.name"
+                    >
+                      <img src="assets/icons/close-button.svg" alt="Remove" />
+                    </button>
+                    <div class="attachment-name">{{ attachment.name }}</div>
+                  </div>
+                }
+                <button type="button" class="add-more-btn" (click)="triggerFileInput()">
+                  <img src="assets/icons/add.svg" alt="Add more" />
+                  <span>Add more</span>
+                </button>
+              </div>
+            }
           </div>
           <div class="assigned-to-content">
             <label>Assigned to</label>
