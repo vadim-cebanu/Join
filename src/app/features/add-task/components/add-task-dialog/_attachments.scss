@@ -1,16 +1,4 @@
 .attachments-to-content {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  box-sizing: border-box;
-
-  label {
-    font-size: 20px;
-    font-weight: 400;
-    color: #2a3647;
-  }
-
   .subtitle-attachments {
     display: flex;
     justify-content: space-between;
@@ -44,7 +32,8 @@
 
       &:hover {
         background-color: #f6f7f8;
-      color: #2a3647;
+        border-color: #29abe2;
+        color: #29abe2;
       }
     }
   }
@@ -70,8 +59,9 @@
     }
 
     &:hover {
-      background-color:#2a3647;
+      background-color: #2a3647;
       color: white;
+
     }
   }
 
@@ -92,7 +82,8 @@
     transition: all 0.2s ease;
 
     &:hover {
-background-color: #2a3647;
+      border-color:#2a3647;
+      box-shadow: 0 2px 8px rgba(41, 171, 226, 0.2);
 
       .remove-attachment-btn {
         opacity: 1;
@@ -128,7 +119,7 @@ background-color: #2a3647;
       }
 
       &:hover {
-        background-color:#2a3647;
+        background-color: #ff3d00;
         transform: scale(1.1);
 
         img {
@@ -174,7 +165,9 @@ background-color: #2a3647;
     }
 
     &:hover {
-      background-color: #2a3647;
+      background-color: #f6f7f8;
+      border-color: #29abe2;
+      color: #29abe2;
     }
   }
 }

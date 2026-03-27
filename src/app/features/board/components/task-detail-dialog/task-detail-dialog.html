@@ -64,6 +64,19 @@
               }
             </div>
           }
+          @if (task?.attachments?.length) {
+            <div class="view-section">
+              <span class="view-label">Attachments</span>
+              <div class="attachments-view-grid" id="attachments-gallery">
+                @for (attachment of task!.attachments; track attachment.id) {
+                  <div class="attachment-view-item" (click)="viewAttachment(attachment)">
+                    <img [src]="attachment.base64" [alt]="attachment.name" class="attachment-preview" />
+                    <div class="attachment-name">{{ attachment.name }}</div>
+                  </div>
+                }
+              </div>
+            </div>
+          }
           @if (task?.subtasks?.length) {
             <div class="view-section">
               <span class="view-label">Subtasks</span>
@@ -167,6 +180,56 @@
               </button>
             </div>
           </div>
+          <div class="dialog-fields attachments-to-content">
+            <label class="input-label">Attachments</label>
+            <div class="subtitle-attachments">
+              <p>Allowed file types are JPEG and PNG</p>
+              @if (attachments().length > 0) {
+                <button type="button" class="delete-all-btn" (click)="clearAllAttachments()">
+                  <img src="assets/icons/trash.svg" alt="Delete" /> Delete all
+                </button>
+              }
+            </div>
+
+            <input
+              #fileInput
+              type="file"
+              accept="image/jpeg,image/png"
+              multiple
+              (change)="onFileSelected($event)"
+              style="display: none"
+            />
+
+            @if (attachments().length === 0) {
+              <button type="button" class="upload-btn" (click)="triggerFileInput()">
+                <img src="assets/icons/cloud.svg" alt="Upload" />
+                <span>Drag a file or browse</span>
+              </button>
+            }
+
+            @if (attachments().length > 0) {
+              <div class="attachments-grid">
+                @for (attachment of attachments(); track attachment.id) {
+                  <div class="attachment-item">
+                    <img [src]="attachment.preview" [alt]="attachment.name" class="attachment-preview" />
+                    <button
+                      type="button"
+                      class="remove-attachment-btn"
+                      (click)="removeAttachment(attachment.id)"
+                      [title]="'Remove ' + attachment.name"
+                    >
+                      <img src="assets/icons/close-button.svg" alt="Remove" />
+                    </button>
+                    <div class="attachment-name">{{ attachment.name }}</div>
+                  </div>
+                }
+                <button type="button" class="add-more-btn" (click)="triggerFileInput()">
+                  <img src="assets/icons/add.svg" alt="Add more" />
+                  <span>Add more</span>
+                </button>
+              </div>
+            }
+          </div>
           <div class="dialog-fields">
             <label class="input-label">Assigned to</label>
             <div class="assigned-dropdown" [class.open]="dropdownOpen()">
@@ -249,6 +312,7 @@
               </div>
             }
           </div>
+
           <div class="dialog-fields">
             <label class="input-label" for="subtasks">Subtasks</label>
             <div class="edit-input input">
@@ -320,4 +384,60 @@
       </section>
     }
   </div>
+
+  @if (showViewer() && getCurrentImage()) {
+    <div class="image-viewer-overlay" (click)="closeViewer()">
+      <div class="viewer-container" (click)="$event.stopPropagation()">
+        <div class="viewer-header">
+          <div class="viewer-filename">
+            {{ getCurrentImage()!.name }} / {{ getImageSize() }} KB
+          </div>
+
+          <div class="viewer-zoom-controls">
+            <button class="viewer-zoom-btn" (click)="zoomOut()" [disabled]="zoomLevel() <= 50" title="Zoom Out (-)">
+              <img src="assets/icons/zoom_out.svg" alt="Zoom Out" />
+            </button>
+            <span class="zoom-level">{{ zoomLevel() }}%</span>
+            <button class="viewer-zoom-btn" (click)="zoomIn()" [disabled]="zoomLevel() >= 300" title="Zoom In (+)">
+              <img src="assets/icons/zoom_in.svg" alt="Zoom In" />
+            </button>
+          </div>
+
+          <div class="viewer-actions">
+            <button class="viewer-download-btn" (click)="downloadImage()" title="Download">
+              <img src="assets/icons/cloud.svg" alt="Download" />
+            </button>
+            <button class="viewer-close-btn" (click)="closeViewer()" title="Close (ESC)">✕</button>
+          </div>
+        </div>
+
+        <div class="viewer-gallery">
+          <button
+            class="viewer-nav-btn viewer-prev-btn"
+            [disabled]="currentImageIndex() === 0"
+            (click)="previousImage()"
+            title="Previous (←)"
+          >
+            ‹
+          </button>
+
+          <img
+            class="viewer-image"
+            [src]="getCurrentImage()!.base64"
+            [alt]="getCurrentImage()!.name"
+            [style.transform]="'scale(' + zoomLevel() / 100 + ')'"
+          />
+
+          <button
+            class="viewer-nav-btn viewer-next-btn"
+            [disabled]="currentImageIndex() === (task?.attachments?.length || 1) - 1"
+            (click)="nextImage()"
+            title="Next (→)"
+          >
+            ›
+          </button>
+        </div>
+      </div>
+    </div>
+  }
 </div>
