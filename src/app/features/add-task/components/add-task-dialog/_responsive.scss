@@ -331,3 +331,87 @@
     font-size: 16px;
   }
 }
+
+@media (max-width: 768px) {
+  .attachments-to-content {
+    label { font-size: 16px; }
+    .subtitle-attachments {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+      .delete-all-btn {
+        align-self: flex-end;
+        font-size: 12px;
+        padding: 4px 10px;
+        img { width: 14px; height: 14px; }
+      }
+    }
+    .upload-btn {
+      padding: 12px 16px; font-size: 13px;
+      img { width: 18px; height: 18px; }
+    }
+    .attachments-grid { grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 8px; }
+    .attachment-item {
+      border-radius: 8px;
+      .remove-attachment-btn {
+        width: 24px; height: 24px; top: 4px; right: 4px;
+        img { width: 14px; height: 14px; }
+      }
+      .attachment-name { font-size: 10px; padding: 4px 6px; }
+    }
+    .add-more-btn {
+      font-size: 11px;
+      img { width: 24px; height: 24px; }
+    }
+  }
+  .viewer-container { max-width: 100%; }
+  .viewer-header { padding: 12px 16px; gap: 12px; flex-wrap: wrap; }
+  .viewer-filename { font-size: 13px; flex-basis: 100%; order: -1; }
+  .viewer-zoom-controls { gap: 8px; order: 1; }
+  .viewer-zoom-btn {
+    width: 32px; height: 32px;
+    img { width: 16px; height: 16px; }
+  }
+  .zoom-level { font-size: 12px; min-width: 45px; }
+  .viewer-actions { gap: 8px; order: 2; }
+  .viewer-download-btn,
+  .viewer-close-btn {
+    width: 32px; height: 32px;
+    img { width: 16px; height: 16px; }
+  }
+  .viewer-close-btn { font-size: 20px; }
+  .viewer-gallery { padding: 20px 10px; }
+  .viewer-nav-btn { width: 44px; height: 44px; font-size: 28px; }
+  .viewer-prev-btn { left: 10px; }
+  .viewer-next-btn { right: 10px; }
+}
+
+@media (max-width: 480px) {
+  .attachments-to-content {
+    label { font-size: 14px; }
+    .upload-btn {
+      padding: 10px 14px; font-size: 12px; gap: 8px;
+      img { width: 16px; height: 16px; }
+    }
+    .attachments-grid { grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 6px; }
+    .attachment-item .attachment-name { font-size: 9px; padding: 3px 4px; }
+  }
+  .viewer-header { padding: 10px 12px; gap: 10px; }
+  .viewer-filename { font-size: 12px; }
+  .viewer-zoom-controls { gap: 6px; }
+  .viewer-zoom-btn {
+    width: 28px; height: 28px;
+    img { width: 14px; height: 14px; }
+  }
+  .zoom-level { font-size: 11px; min-width: 40px; }
+  .viewer-actions { gap: 6px; }
+  .viewer-download-btn,
+  .viewer-close-btn {
+    width: 28px; height: 28px;
+    img { width: 14px; height: 14px; }
+  }
+  .viewer-close-btn { font-size: 18px; }
+  .viewer-nav-btn { width: 36px; height: 36px; font-size: 24px; }
+  .viewer-prev-btn { left: 5px; }
+  .viewer-next-btn { right: 5px; }
+}
