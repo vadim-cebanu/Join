@@ -209,8 +209,8 @@
               (dragleave)="onDragLeave($event)"
               (drop)="onDrop($event)"
             >
-              <img src="assets/icons/cloud.svg" alt="Upload" />
               <span>Drag a file or browse</span>
+              <img src="assets/icons/add.svg" class="upload-icon" alt="Upload" />
             </button>
 
             @if (task?.attachments?.length || attachments().length > 0) {
@@ -223,9 +223,9 @@
                         type="button"
                         class="remove-attachment-btn"
                         (click)="removeExistingAttachment(attachment.id)"
-                        [title]="'Remove ' + attachment.name"
+                        [title]="'Delete ' + attachment.name"
                       >
-                        <img src="assets/icons/close-button.svg" alt="Remove" />
+                        <img src="assets/icons/trash.svg" alt="Delete" />
                       </button>
                       <div class="attachment-name">{{ attachment.name }}</div>
                     </div>
@@ -239,9 +239,9 @@
                         type="button"
                         class="remove-attachment-btn"
                         (click)="removeAttachment(attachment.id)"
-                        [title]="'Remove ' + attachment.name"
+                        [title]="'Delete ' + attachment.name"
                       >
-                        <img src="assets/icons/close-button.svg" alt="Remove" />
+                        <img src="assets/icons/trash.svg" alt="Delete" />
                       </button>
                       <div class="attachment-name">{{ attachment.name }}</div>
                     </div>
