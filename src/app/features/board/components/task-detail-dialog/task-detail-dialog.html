@@ -184,7 +184,7 @@
             <label class="input-label">Attachments</label>
             <div class="subtitle-attachments">
               <p>Allowed file types are JPEG and PNG</p>
-              @if (attachments().length > 0) {
+              @if (attachments().length > 0 || task?.attachments?.length) {
                 <button type="button" class="delete-all-btn" (click)="clearAllAttachments()">
                   <img src="assets/icons/trash.svg" alt="Delete" /> Delete all
                 </button>
@@ -200,33 +200,53 @@
               style="display: none"
             />
 
-            @if (attachments().length === 0) {
-              <button type="button" class="upload-btn" (click)="triggerFileInput()">
-                <img src="assets/icons/cloud.svg" alt="Upload" />
-                <span>Drag a file or browse</span>
-              </button>
-            }
+            <button
+              type="button"
+              class="upload-btn"
+              [class.drag-over]="isDragging()"
+              (click)="triggerFileInput()"
+              (dragover)="onDragOver($event)"
+              (dragleave)="onDragLeave($event)"
+              (drop)="onDrop($event)"
+            >
+              <img src="assets/icons/cloud.svg" alt="Upload" />
+              <span>Drag a file or browse</span>
+            </button>
 
-            @if (attachments().length > 0) {
+            @if (task?.attachments?.length || attachments().length > 0) {
               <div class="attachments-grid">
-                @for (attachment of attachments(); track attachment.id) {
-                  <div class="attachment-item">
-                    <img [src]="attachment.preview" [alt]="attachment.name" class="attachment-preview" />
-                    <button
-                      type="button"
-                      class="remove-attachment-btn"
-                      (click)="removeAttachment(attachment.id)"
-                      [title]="'Remove ' + attachment.name"
-                    >
-                      <img src="assets/icons/close-button.svg" alt="Remove" />
-                    </button>
-                    <div class="attachment-name">{{ attachment.name }}</div>
-                  </div>
+                @if (task?.attachments?.length) {
+                  @for (attachment of task!.attachments; track attachment.id) {
+                    <div class="attachment-item">
+                      <img [src]="attachment.base64" [alt]="attachment.name" class="attachment-preview" />
+                      <button
+                        type="button"
+                        class="remove-attachment-btn"
+                        (click)="removeExistingAttachment(attachment.id)"
+                        [title]="'Remove ' + attachment.name"
+                      >
+                        <img src="assets/icons/close-button.svg" alt="Remove" />
+                      </button>
+                      <div class="attachment-name">{{ attachment.name }}</div>
+                    </div>
+                  }
                 }
-                <button type="button" class="add-more-btn" (click)="triggerFileInput()">
-                  <img src="assets/icons/add.svg" alt="Add more" />
-                  <span>Add more</span>
-                </button>
+                @if (attachments().length > 0) {
+                  @for (attachment of attachments(); track attachment.id) {
+                    <div class="attachment-item">
+                      <img [src]="attachment.preview" [alt]="attachment.name" class="attachment-preview" />
+                      <button
+                        type="button"
+                        class="remove-attachment-btn"
+                        (click)="removeAttachment(attachment.id)"
+                        [title]="'Remove ' + attachment.name"
+                      >
+                        <img src="assets/icons/close-button.svg" alt="Remove" />
+                      </button>
+                      <div class="attachment-name">{{ attachment.name }}</div>
+                    </div>
+                  }
+                }
               </div>
             }
           </div>
@@ -385,6 +405,14 @@
     }
   </div>
 
+  @if (errorMessage()) {
+    <div class="error-overlay">
+      <div class="error-message">
+        <span>{{ errorMessage() }}</span>
+      </div>
+    </div>
+  }
+
   @if (showViewer() && getCurrentImage()) {
     <div class="image-viewer-overlay" (click)="closeViewer()">
       <div class="viewer-container" (click)="$event.stopPropagation()">
@@ -395,11 +423,11 @@
 
           <div class="viewer-zoom-controls">
             <button class="viewer-zoom-btn" (click)="zoomOut()" [disabled]="zoomLevel() <= 50" title="Zoom Out (-)">
-              <img src="assets/icons/zoom_out.svg" alt="Zoom Out" />
+              <img src="assets/icons/zoom-out.svg" alt="Zoom Out" />
             </button>
             <span class="zoom-level">{{ zoomLevel() }}%</span>
             <button class="viewer-zoom-btn" (click)="zoomIn()" [disabled]="zoomLevel() >= 300" title="Zoom In (+)">
-              <img src="assets/icons/zoom_in.svg" alt="Zoom In" />
+              <img src="assets/icons/zoom-in.svg" alt="Zoom In" />
             </button>
           </div>
 

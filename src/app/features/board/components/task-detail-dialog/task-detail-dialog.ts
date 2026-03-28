@@ -1,22 +1,20 @@
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  ViewChild,
-  computed,
-  effect,
-  inject,
-  signal,
-} from '@angular/core';
+import {Component,ElementRef,EventEmitter,HostListener, Input,OnInit,Output, ViewChild,computed,effect, inject,signal,} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Task, TaskPriority } from '../../models/task.model';
 import { Supabase, Contact } from '../../../../supabase';
 import { avatarColors } from '../../../contacts/components/contact-list/contact-list';
 import { TaskStore } from '../../services/task-store';
+
+/**
+ * Represents an attachment file.
+ */
+interface Attachment {
+  id: string;
+  file: File;
+  preview: string;
+  name: string;
+}
 
 /**
  * Funktionen sind nach JSDoc Standard dokumentiert:
@@ -37,6 +35,7 @@ import { TaskStore } from '../../services/task-store';
     './task-detail-dialog.scss',
     './task-detail-dialog-view.scss',
     './task-detail-dialog-edit.scss',
+    './_attachments.scss',
   ],
 })
 export class TaskDetailDialog implements OnInit {
@@ -44,6 +43,7 @@ export class TaskDetailDialog implements OnInit {
   @Output() closed = new EventEmitter<void>();
   @Output() taskUpdated = new EventEmitter<void>();
   @ViewChild('searchInput') searchInputRef!: ElementRef<HTMLInputElement>;
+  @ViewChild('fileInput') fileInputRef!: ElementRef<HTMLInputElement>;
   supabase = inject(Supabase);
   taskStore = inject(TaskStore);
 
@@ -68,9 +68,15 @@ export class TaskDetailDialog implements OnInit {
   searchText = signal('');
   editDueDate = signal('');
   newSubtaskTitle = '';
+  attachments = signal<Attachment[]>([]);
   editingSubtaskId = signal<string | null>(null);
   editingSubtaskTitle = '';
   showAllAssignees = signal(false);
+  showViewer = signal(false);
+  currentImageIndex = signal(0);
+  zoomLevel = signal(100);
+  errorMessage = signal<string>('');
+  isDragging = signal(false);
 
   /**
    * Computed list of contacts filtered by the current search text.
@@ -152,7 +158,7 @@ export class TaskDetailDialog implements OnInit {
   }
 
   /**
-   * Saves edits to the current task.
+   * Saves edits to the current task, including any new attachments.
    * Emits `taskUpdated` after successful update.
    *
    * @param title New task title.
@@ -165,7 +171,19 @@ export class TaskDetailDialog implements OnInit {
     this.saving.set(true);
     const assignees = this.prepareAssignees();
     const updates = this.buildTaskUpdates(title, description, dueDate, assignees);
+
+    // Combine existing attachments (possibly modified by deletions) with new ones
+    const existingAttachments = this.task.attachments || [];
+    const newAttachments = this.attachments().map((att) => ({
+      id: att.id,
+      name: att.name,
+      base64: att.preview,
+      type: att.file.type,
+    }));
+    updates.attachments = [...existingAttachments, ...newAttachments];
+
     await this.taskStore.updateTask(this.task.id, updates);
+    this.attachments.set([]);
     this.saving.set(false);
     this.isEditMode.set(false);
     this.taskUpdated.emit();
@@ -473,5 +491,322 @@ export class TaskDetailDialog implements OnInit {
       const v = c === 'x' ? r : (r & 0x3) | 0x8;
       return v.toString(16);
     });
+  }
+
+  /**
+   * Triggers the hidden file input to open the file picker.
+   */
+  triggerFileInput() {
+    this.fileInputRef?.nativeElement?.click();
+  }
+
+  /**
+   * Handles the dragover event to enable file drop.
+   * Prevents default behavior to allow dropping.
+   *
+   * @param event - The drag event.
+   */
+  onDragOver(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragging.set(true);
+  }
+
+  /**
+   * Handles the dragleave event when dragged item leaves the drop zone.
+   *
+   * @param event - The drag event.
+   */
+  onDragLeave(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragging.set(false);
+  }
+
+  /**
+   * Handles the drop event when files are dropped.
+   * Extracts files and processes them through validation.
+   *
+   * @param event - The drop event containing the files.
+   */
+  async onDrop(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragging.set(false);
+
+    const files = event.dataTransfer?.files;
+    if (files && files.length > 0) {
+      await this.processFiles(Array.from(files));
+    }
+  }
+
+  /**
+   * Processes and validates uploaded files.
+   * Checks file format (JPEG, PNG) and size (max 1 MB).
+   *
+   * @param files - Array of files to process.
+   */
+  private async processFiles(files: File[]) {
+    const allowedTypes = ['image/jpeg', 'image/png'];
+    const maxSizeBytes = 1048576;
+
+    for (const file of files) {
+      if (!allowedTypes.includes(file.type)) {
+        this.showError(`File format not allowed!\nYou can only upload JPEG or PNG`);
+        continue;
+      }
+
+      if (file.size > maxSizeBytes) {
+        this.showError(`File too large!\nMaximum size is 1 MB`);
+        continue;
+      }
+
+      try {
+        const compressedBase64 = await this.compressImage(file, 800, 800, 0.7);
+        const attachment: Attachment = {
+          id: this.generateUUID(),
+          file: file,
+          preview: compressedBase64,
+          name: file.name,
+        };
+        this.attachments.update((current) => [...current, attachment]);
+      } catch (error) {
+        console.error('Error compressing image:', error);
+        this.showError(`Error processing image!`);
+      }
+    }
+  }
+
+  /**
+   * Compresses an image to a target size and quality.
+   *
+   * @param file - The image file to compress.
+   * @param maxWidth - Maximum width of the image (default: 800px).
+   * @param maxHeight - Maximum height of the image (default: 800px).
+   * @param quality - Quality of the compressed image (0-1, default: 0.7).
+   * @returns Promise resolving to the compressed image as base64 string.
+   */
+  private compressImage(
+    file: File,
+    maxWidth: number = 800,
+    maxHeight: number = 800,
+    quality: number = 0.7,
+  ): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+
+      reader.onload = (event) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          if (!ctx) {
+            reject('Failed to get canvas context');
+            return;
+          }
+
+          let width = img.width;
+          let height = img.height;
+
+          if (width > maxWidth || height > maxHeight) {
+            if (width > height) {
+              height = (height * maxWidth) / width;
+              width = maxWidth;
+            } else {
+              width = (width * maxHeight) / height;
+              height = maxHeight;
+            }
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+
+          ctx.drawImage(img, 0, 0, width, height);
+
+          const compressedBase64 = canvas.toDataURL('image/jpeg', quality);
+          resolve(compressedBase64);
+        };
+
+        img.onerror = () => reject('Error loading image');
+        img.src = event.target?.result as string;
+      };
+
+      reader.onerror = () => reject('Error reading file');
+      reader.readAsDataURL(file);
+    });
+  }
+
+  /**
+   * Handles file selection from the file input.
+   * Validates file format (JPEG, PNG) and size (max 1 MB).
+   * Displays error messages if validation fails.
+   */
+  async onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (!input.files) return;
+
+    await this.processFiles(Array.from(input.files));
+    input.value = '';
+  }
+
+  /**
+   * Displays an error message to the user.
+   * The message automatically disappears after 5 seconds.
+   *
+   * @param message - The error message to display.
+   */
+  private showError(message: string) {
+    this.errorMessage.set(message);
+    setTimeout(() => this.errorMessage.set(''), 5000);
+  }
+
+  /**
+   * Removes a specific attachment from the list.
+   */
+  removeAttachment(attachmentId: string) {
+    this.attachments.set(this.attachments().filter((att) => att.id !== attachmentId));
+  }
+
+  /**
+   * Removes a specific existing attachment from the task.
+   */
+  removeExistingAttachment(attachmentId: string) {
+    if (!this.task) return;
+    const updatedAttachments = (this.task.attachments || []).filter((att) => att.id !== attachmentId);
+    this.task = { ...this.task, attachments: updatedAttachments };
+  }
+
+  /**
+   * Removes all attachments (both new and existing).
+   */
+  clearAllAttachments() {
+    this.attachments.set([]);
+    if (this.task) {
+      this.task = { ...this.task, attachments: [] };
+    }
+  }
+
+  /**
+   * Opens an attachment image in the inline gallery viewer.
+   *
+   * @param attachment - The attachment to view.
+   */
+  viewAttachment(attachment: { id: string; name: string; base64: string; type: string }) {
+    if (!this.task?.attachments) return;
+
+    const index = this.task.attachments.findIndex((a) => a.id === attachment.id);
+    if (index === -1) return;
+
+    this.currentImageIndex.set(index);
+    this.showViewer.set(true);
+  }
+
+  /**
+   * Closes the image viewer and resets zoom.
+   */
+  closeViewer() {
+    this.showViewer.set(false);
+    this.zoomLevel.set(100);
+  }
+
+  /**
+   * Navigates to the previous image in the gallery and resets zoom.
+   */
+  previousImage() {
+    if (this.currentImageIndex() > 0) {
+      this.currentImageIndex.set(this.currentImageIndex() - 1);
+      this.zoomLevel.set(100);
+    }
+  }
+
+  /**
+   * Navigates to the next image in the gallery and resets zoom.
+   */
+  nextImage() {
+    if (this.task?.attachments && this.currentImageIndex() < this.task.attachments.length - 1) {
+      this.currentImageIndex.set(this.currentImageIndex() + 1);
+      this.zoomLevel.set(100);
+    }
+  }
+
+  /**
+   * Zooms in the current image.
+   */
+  zoomIn() {
+    const current = this.zoomLevel();
+    if (current < 300) {
+      this.zoomLevel.set(current + 25);
+    }
+  }
+
+  /**
+   * Zooms out the current image.
+   */
+  zoomOut() {
+    const current = this.zoomLevel();
+    if (current > 50) {
+      this.zoomLevel.set(current - 25);
+    }
+  }
+
+  /**
+   * Gets the file size in KB from base64 string.
+   */
+  getImageSize(): string {
+    const img = this.getCurrentImage();
+    if (!img) return '0';
+
+    const base64Length = img.base64.length;
+    const sizeInBytes = (base64Length * 3) / 4;
+    const sizeInKB = Math.round(sizeInBytes / 1024);
+
+    return sizeInKB.toString();
+  }
+
+  /**
+   * Downloads the current image.
+   */
+  downloadImage() {
+    const img = this.getCurrentImage();
+    if (!img) return;
+
+    const link = document.createElement('a');
+    link.href = img.base64;
+    link.download = img.name;
+    link.click();
+  }
+
+  /**
+   * Handles keyboard navigation in the viewer.
+   * Listens for arrow keys, escape, and zoom keys when viewer is open.
+   */
+  @HostListener('document:keydown', ['$event'])
+  onViewerKeydown(event: KeyboardEvent) {
+    if (!this.showViewer()) return;
+
+    if (event.key === 'ArrowLeft') {
+      event.preventDefault();
+      this.previousImage();
+    } else if (event.key === 'ArrowRight') {
+      event.preventDefault();
+      this.nextImage();
+    } else if (event.key === 'Escape') {
+      event.preventDefault();
+      this.closeViewer();
+    } else if (event.key === '+' || event.key === '=') {
+      event.preventDefault();
+      this.zoomIn();
+    } else if (event.key === '-') {
+      event.preventDefault();
+      this.zoomOut();
+    }
+  }
+
+  /**
+   * Gets the current image being viewed.
+   */
+  getCurrentImage() {
+    if (!this.task?.attachments) return null;
+    return this.task.attachments[this.currentImageIndex()] || null;
   }
 }
