@@ -1,16 +1,7 @@
-import { Component, inject, OnInit, ViewChild, ElementRef, computed, signal } from '@angular/core';
+import { Component, inject, OnInit, ViewChild, ElementRef, computed, signal, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import {
-  FormControl,
-  FormGroup,
-  FormsModule,
-  AbstractControl,
-  ValidationErrors,
-  ReactiveFormsModule,
-  Validators,
-  ValidatorFn,
-} from '@angular/forms';
+import {FormControl,FormGroup,FormsModule,AbstractControl,ValidationErrors,ReactiveFormsModule,Validators,ValidatorFn,} from '@angular/forms';
 import { Supabase, Contact } from '../../../../supabase';
 import { avatarColors } from '../../../contacts/components/contact-list/contact-list';
 import { TaskStore } from '../../../board/services/task-store';
@@ -30,6 +21,21 @@ interface Subtask {
 }
 
 /**
+ * Represents an attachment file.
+ *
+ * @property id - Unique identifier for the attachment.
+ * @property file - The actual File object.
+ * @property preview - Data URL for image preview.
+ * @property name - Name of the file.
+ */
+interface Attachment {
+  id: string;
+  file: File;
+  preview: string;
+  name: string;
+}
+
+/**
  * Add Task Page component.
  *
  * Provides a standalone page for creating new tasks with full form handling,
@@ -46,6 +52,7 @@ interface Subtask {
 
 export class AddTaskPage implements OnInit {
   @ViewChild('searchInput') searchInputRef!: ElementRef<HTMLInputElement>;
+  @ViewChild('fileInput') fileInputRef!: ElementRef<HTMLInputElement>;
 
   dropdownCategory = false;
   dropdownOpen = false;
@@ -53,9 +60,15 @@ export class AddTaskPage implements OnInit {
   selectedContacts: Contact[] = [];
   newSubtaskTitle = '';
   subtasks: Subtask[] = [];
+  attachments = signal<Attachment[]>([]);
   editingSubtaskId: string | null = null;
   editingSubtaskTitle = '';
   showSuccessMessage = signal(false);
+  showViewer = signal(false);
+  currentImageIndex = signal(0);
+  zoomLevel = signal(100);
+  errorMessage = signal<string>('');
+  isDragging = signal(false);
   supabaseService = inject(Supabase);
   taskStore = inject(TaskStore);
   router = inject(Router);
@@ -158,6 +171,21 @@ export class AddTaskPage implements OnInit {
   }
 
   /**
+   * Maps the currently selected attachments to the format expected by the task model.
+   * Converts File objects to base64 encoded strings.
+   *
+   * @returns An array of attachment objects containing `id`, `name`, `base64` and `type`.
+   */
+  private buildAttachmentList(): { id: string; name: string; base64: string; type: string }[] {
+    return this.attachments().map((attachment) => ({
+      id: attachment.id,
+      name: attachment.name,
+      base64: attachment.preview,
+      type: attachment.file.type,
+    }));
+  }
+
+  /**
    * Assembles the task data object from the current form values, selected contacts
    * and added subtasks.
    *
@@ -172,6 +200,7 @@ export class AddTaskPage implements OnInit {
       priority: this.taskForm.value.priority as 'high' | 'medium' | 'low',
       assignees: this.buildAssigneeList(),
       subtasks: this.subtasks,
+      attachments: this.buildAttachmentList(),
       dueDate: this.taskForm.value.due_at || undefined,
     };
   }
@@ -219,6 +248,7 @@ export class AddTaskPage implements OnInit {
     this.dropdownCategory = false;
     this.selectedContacts = [];
     this.subtasks = [];
+    this.attachments.set([]);
     this.newSubtaskTitle = '';
   }
 
@@ -398,5 +428,309 @@ export class AddTaskPage implements OnInit {
       const v = c === 'x' ? r : (r & 0x3) | 0x8;
       return v.toString(16);
     });
+  }
+
+  /**
+   * Triggers the hidden file input to open the file picker.
+   */
+  triggerFileInput() {
+    this.fileInputRef?.nativeElement?.click();
+  }
+
+  /**
+   * Handles the dragover event to enable file drop.
+   * Prevents default behavior to allow dropping.
+   *
+   * @param event - The drag event.
+   */
+  onDragOver(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragging.set(true);
+  }
+
+  /**
+   * Handles the dragleave event when dragged item leaves the drop zone.
+   *
+   * @param event - The drag event.
+   */
+  onDragLeave(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragging.set(false);
+  }
+
+  /**
+   * Handles the drop event when files are dropped.
+   * Extracts files and processes them through validation.
+   *
+   * @param event - The drop event containing the files.
+   */
+  async onDrop(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragging.set(false);
+
+    const files = event.dataTransfer?.files;
+    if (files && files.length > 0) {
+      await this.processFiles(Array.from(files));
+    }
+  }
+
+  /**
+   * Processes and validates uploaded files.
+   * Checks file format (JPEG, PNG) and size (max 1 MB).
+   *
+   * @param files - Array of files to process.
+   */
+  private async processFiles(files: File[]) {
+    const allowedTypes = ['image/jpeg', 'image/png'];
+    const maxSizeBytes = 1048576;
+
+    for (const file of files) {
+      if (!allowedTypes.includes(file.type)) {
+        this.showError(`File format not allowed!\nYou can only upload JPEG or PNG`);
+        continue;
+      }
+
+      if (file.size > maxSizeBytes) {
+        this.showError(`File too large!\nMaximum size is 1 MB`);
+        continue;
+      }
+
+      try {
+        const compressedBase64 = await this.compressImage(file, 800, 800, 0.7);
+        const attachment: Attachment = {
+          id: this.generateUUID(),
+          file: file,
+          preview: compressedBase64,
+          name: file.name,
+        };
+        this.attachments.set([...this.attachments(), attachment]);
+      } catch (error) {
+        console.error('Error compressing image:', error);
+        this.showError(`Error processing image!`);
+      }
+    }
+  }
+
+  /**
+   * Compresses an image to a target size and quality.
+   *
+   * @param file - The image file to compress.
+   * @param maxWidth - Maximum width of the image (default: 800px).
+   * @param maxHeight - Maximum height of the image (default: 800px).
+   * @param quality - Quality of the compressed image (0-1, default: 0.7).
+   * @returns Promise resolving to the compressed image as base64 string.
+   */
+  private compressImage(
+    file: File,
+    maxWidth: number = 800,
+    maxHeight: number = 800,
+    quality: number = 0.7,
+  ): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+
+      reader.onload = (event) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          if (!ctx) {
+            reject('Failed to get canvas context');
+            return;
+          }
+
+          let width = img.width;
+          let height = img.height;
+
+          if (width > maxWidth || height > maxHeight) {
+            if (width > height) {
+              height = (height * maxWidth) / width;
+              width = maxWidth;
+            } else {
+              width = (width * maxHeight) / height;
+              height = maxHeight;
+            }
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+
+          ctx.drawImage(img, 0, 0, width, height);
+
+          const compressedBase64 = canvas.toDataURL('image/jpeg', quality);
+          resolve(compressedBase64);
+        };
+
+        img.onerror = () => reject('Error loading image');
+        img.src = event.target?.result as string;
+      };
+
+      reader.onerror = () => reject('Error reading file');
+      reader.readAsDataURL(file);
+    });
+  }
+
+  /**
+   * Handles file selection from the file input.
+   * Validates file format (JPEG, PNG) and size (max 1 MB).
+   * Displays error messages if validation fails.
+   *
+   * @param event - The file input change event.
+   */
+  async onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (!input.files) return;
+
+    await this.processFiles(Array.from(input.files));
+    input.value = '';
+  }
+
+  /**
+   * Displays an error message to the user.
+   * The message automatically disappears after 5 seconds.
+   *
+   * @param message - The error message to display.
+   */
+  private showError(message: string) {
+    this.errorMessage.set(message);
+    setTimeout(() => this.errorMessage.set(''), 5000);
+  }
+
+  /**
+   * Removes a specific attachment from the list.
+   *
+   * @param attachmentId - The unique ID of the attachment to remove.
+   */
+  removeAttachment(attachmentId: string) {
+    this.attachments.set(this.attachments().filter((att) => att.id !== attachmentId));
+  }
+
+  /**
+   * Removes all attachments.
+   */
+  clearAllAttachments() {
+    this.attachments.set([]);
+  }
+
+  /**
+   * Opens an attachment image in the inline gallery viewer.
+   */
+  viewAttachment(attachment: Attachment) {
+    const index = this.attachments().findIndex((a) => a.id === attachment.id);
+    if (index === -1) return;
+
+    this.currentImageIndex.set(index);
+    this.showViewer.set(true);
+
+  }
+
+  /**
+   * Closes the image viewer and resets zoom.
+   */
+  closeViewer() {
+    this.showViewer.set(false);
+    this.zoomLevel.set(100);
+  }
+
+  /**
+   * Navigates to the previous image in the gallery and resets zoom.
+   */
+  previousImage() {
+    if (this.currentImageIndex() > 0) {
+      this.currentImageIndex.set(this.currentImageIndex() - 1);
+      this.zoomLevel.set(100);
+    }
+  }
+
+  /**
+   * Navigates to the next image in the gallery and resets zoom.
+   */
+  nextImage() {
+    if (this.currentImageIndex() < this.attachments().length - 1) {
+      this.currentImageIndex.set(this.currentImageIndex() + 1);
+      this.zoomLevel.set(100);
+    }
+  }
+
+  /**
+   * Zooms in the current image.
+   */
+  zoomIn() {
+    const current = this.zoomLevel();
+    if (current < 300) {
+      this.zoomLevel.set(current + 25);
+    }
+  }
+
+  /**
+   * Zooms out the current image.
+   */
+  zoomOut() {
+    const current = this.zoomLevel();
+    if (current > 50) {
+      this.zoomLevel.set(current - 25);
+    }
+  }
+
+  /**
+   * Gets the file size in KB from base64 string.
+   */
+  getImageSize(): string {
+    const img = this.getCurrentImage();
+    if (!img) return '0';
+
+    const base64Length = img.preview.length;
+    const sizeInBytes = (base64Length * 3) / 4;
+    const sizeInKB = Math.round(sizeInBytes / 1024);
+
+    return sizeInKB.toString();
+  }
+
+  /**
+   * Downloads the current image.
+   */
+  downloadImage() {
+    const img = this.getCurrentImage();
+    if (!img) return;
+
+    const link = document.createElement('a');
+    link.href = img.preview;
+    link.download = img.name;
+    link.click();
+  }
+
+  /**
+   * Gets the current image being viewed.
+   */
+  getCurrentImage(): Attachment | null {
+    return this.attachments()[this.currentImageIndex()] || null;
+  }
+
+  /**
+   * Handles keyboard navigation in the viewer.
+   */
+  @HostListener('document:keydown', ['$event'])
+  onViewerKeydown(event: KeyboardEvent) {
+    if (!this.showViewer()) return;
+
+    if (event.key === 'ArrowLeft') {
+      event.preventDefault();
+      this.previousImage();
+    } else if (event.key === 'ArrowRight') {
+      event.preventDefault();
+      this.nextImage();
+    } else if (event.key === 'Escape') {
+      event.preventDefault();
+      this.closeViewer();
+    } else if (event.key === '+' || event.key === '=') {
+      event.preventDefault();
+      this.zoomIn();
+    } else if (event.key === '-') {
+      event.preventDefault();
+      this.zoomOut();
+    }
   }
 }

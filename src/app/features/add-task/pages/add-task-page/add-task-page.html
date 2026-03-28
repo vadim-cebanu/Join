@@ -94,7 +94,7 @@
             <label>Attachments</label>
             <div class="subtitle-attachments">
               <p>Allowed file types are JPEG and PNG</p>
-              @if (attachments.length > 0) {
+              @if (attachments().length > 0) {
                 <button type="button" class="delete-all-btn" (click)="clearAllAttachments()">
                   <img src="assets/icons/trash.svg" alt="Delete" /> Delete all
                 </button>
@@ -110,16 +110,22 @@
               style="display: none"
             />
 
-            @if (attachments.length === 0) {
-              <button type="button" class="upload-btn" (click)="triggerFileInput()">
-                <img src="assets/icons/cloud.svg" alt="Upload" />
-                <span>Drag a file or browse</span>
-              </button>
-            }
+            <button
+              type="button"
+              class="upload-btn"
+              [class.drag-over]="isDragging()"
+              (click)="triggerFileInput()"
+              (dragover)="onDragOver($event)"
+              (dragleave)="onDragLeave($event)"
+              (drop)="onDrop($event)"
+            >
+              <img src="assets/icons/cloud.svg" alt="Upload" />
+              <span>Drag a file or browse</span>
+            </button>
 
-            @if (attachments.length > 0) {
+            @if (attachments().length > 0) {
               <div class="attachments-grid">
-                @for (attachment of attachments; track attachment.id) {
+                @for (attachment of attachments(); track attachment.id) {
                   <div class="attachment-item" (click)="viewAttachment(attachment)" style="cursor: pointer;">
                     <img [src]="attachment.preview" [alt]="attachment.name" class="attachment-preview" />
                     <button
@@ -133,10 +139,6 @@
                     <div class="attachment-name">{{ attachment.name }}</div>
                   </div>
                 }
-                <button type="button" class="add-more-btn" (click)="triggerFileInput()">
-                  <img src="assets/icons/add.svg" alt="Add more" />
-                  <span>Add more</span>
-                </button>
               </div>
             }
           </div>
@@ -324,6 +326,14 @@
   </div>
 }
 
+@if (errorMessage()) {
+  <div class="error-overlay">
+    <div class="error-message">
+      <span>{{ errorMessage() }}</span>
+    </div>
+  </div>
+}
+
 @if (showViewer() && getCurrentImage()) {
   <div class="image-viewer-overlay" (click)="closeViewer()">
     <div class="viewer-container" (click)="$event.stopPropagation()">
@@ -369,7 +379,7 @@
 
         <button
           class="viewer-nav-btn viewer-next-btn"
-          [disabled]="currentImageIndex() === attachments.length - 1"
+          [disabled]="currentImageIndex() === attachments().length - 1"
           (click)="nextImage()"
           title="Next (→)"
         >
