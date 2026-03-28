@@ -2,14 +2,16 @@
   .category-content {
     display: flex;
     flex-direction: column;
-    width: 440px;
+    width: 100%;
     position: relative;
     gap: 8px;
+    box-sizing: border-box;
   }
 
   .category-dropdown {
     position: relative;
     width: 100%;
+    box-sizing: border-box;
   }
 
   .category-trigger {
@@ -17,6 +19,7 @@
     display: flex;
     align-items: center;
     width: 100%;
+    box-sizing: border-box;
   }
 
   .category-selection {
@@ -27,6 +30,7 @@
     padding: 12px 40px 12px 16px;
     background-color: white;
     cursor: pointer;
+    box-sizing: border-box;
 
     &:focus {
       outline: none;
@@ -79,7 +83,8 @@
 
   .assigned-dropdown {
     position: relative;
-    width: 440px;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .assigned-trigger {
@@ -93,6 +98,7 @@
     border: 1px solid #d1d1d1;
     border-radius: 10px;
     padding: 0px 8px 0px 16px;
+    box-sizing: border-box;
 
     .assigned-search {
       flex: 1;
