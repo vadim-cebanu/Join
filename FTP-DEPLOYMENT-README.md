@@ -3,10 +3,11 @@
 ## Build Completed Successfully! ✓
 
 **Build Date:** March 28, 2026  
-**Base Href:** `/join/` (deployed in subfolder - lowercase)  
+**Base Href:** `/` (root - for subdomain deployment)  
+**Subdomain:** `join.vadimcebanu.dev`  
 **Routing Strategy:** Hash Location (works without .htaccess)
 
-Your Angular application has been built for production with **Hash Location Strategy** and is ready for FTP deployment.
+Your Angular application has been built for production with **Hash Location Strategy** and is ready for FTP deployment to subdomain.
 
 ### 🆕 Latest Updates Included:
 - ✅ **Attachment System** - File upload, compression, preview, and viewer
@@ -23,15 +24,15 @@ Your Angular application has been built for production with **Hash Location Stra
 - ✅ Phone field limited to 20 characters
 - ✅ Improved form validation with maxLength constraints
 
-### 🔗 URL Format with Hash Location:
+### 🔗 URL Format with Subdomain:
 
 Your URLs will look like:
-- Home: `https://join.vadimcebanu.dev/join/#/`
-- Login: `https://join.vadimcebanu.dev/join/#/login`
-- Signup: `https://join.vadimcebanu.dev/join/#/signup`
-- Summary: `https://join.vadimcebanu.dev/join/#/summary`
-- Board: `https://join.vadimcebanu.dev/join/#/board`
-- Contacts: `https://join.vadimcebanu.dev/join/#/contacts`
+- Home: `https://join.vadimcebanu.dev/#/`
+- Login: `https://join.vadimcebanu.dev/#/login`
+- Signup: `https://join.vadimcebanu.dev/#/signup`
+- Summary: `https://join.vadimcebanu.dev/#/summary`
+- Board: `https://join.vadimcebanu.dev/#/board`
+- Contacts: `https://join.vadimcebanu.dev/#/contacts`
 
 **Why Hash?** The `#` makes routing work without server configuration. Perfect for servers that don't support `.htaccess` or URL rewriting!
 
@@ -42,73 +43,80 @@ All deployment files are located in:
 dist/join-project/browser/
 ```
 
-### 📤 FTP Upload Instructions - IMPORTANT!
+### 📤 FTP Upload Instructions for Subdomain
 
-⚠️ **CRITICAL: The app MUST be uploaded to a `join` subfolder on your server!**
+⚠️ **Your server subdomain configuration:** `join` → `/join`
+
+This means the subdomain `join.vadimcebanu.dev` points to the `/join` folder on your server.
 
 1. **Connect to your FTP server** using your preferred FTP client (FileZilla, WinSCP, etc.)
 
-2. **Create a folder named `join`** (lowercase!) in your web server's public directory:
-   - Usually named: `public_html`, `www`, `htdocs`, or `web`
-   - Create folder: `public_html/join/`
+2. **Navigate to the `/join` folder** on your server:
+   - This is typically: `public_html/join/` or `www/join/`
 
-3. **Upload ALL files from `dist/join-project/browser/`** INTO the `join` folder:
+3. **Delete old files** from the `/join` folder (if any exist):
+   - Old `index.html`
+   - Old `.js` and `.css` files
+   - Keep `assets/` and `media/` folders (or replace them)
+
+4. **Upload ALL files from `dist/join-project/browser/`** INTO the `/join` folder:
    ```
    public_html/
-     └── join/                    <-- Create this folder (lowercase!)
-         ├── index.html           <-- Upload here
-         ├── main-5Z4VQY7V.js    <-- Upload here
-         ├── styles-J5L2ZLGQ.css <-- Upload here
-         ├── assets/             <-- Upload entire folder
-         └── media/              <-- Upload entire folder
-   ```
-
-4. **Final structure on server:**
-   ```
-   public_html/
-     └── join/
-         ├── index.html
-         ├── main-5Z4VQY7V.js
-         ├── styles-J5L2ZLGQ.css
-         ├── assets/
+     └── join/                    <-- Upload files HERE
+         ├── index.html           <-- New file (base href="/")
+         ├── main-5Z4VQY7V.js    <-- Angular app bundle
+         ├── styles-J5L2ZLGQ.css <-- Styles
+         ├── assets/             <-- All assets
          │   ├── fonts/
          │   ├── icons/
          │   └── images/
-         └── media/
+         └── media/              <-- Font files
              ├── inter-v20-latin-regular-55WT6UWF.woff2
              ├── inter-v20-latin-500-W62DVTXI.woff2
              └── inter-v20-latin-700-SU5XVJMF.woff2
    ```
 
-5. **Access your app at:**
+5. **Server configuration is already set:**
+   - Subdomain: `join` → Path: `/join` ✓
+   - No additional server configuration needed!
+
+6. **Access your app at:**
    ```
-   https://join.vadimcebanu.dev/join/
+   https://join.vadimcebanu.dev/
    ```
-   or
+   or with hash routing:
    ```
-   https://join.vadimcebanu.dev/join/#/
+   https://join.vadimcebanu.dev/#/
+   https://join.vadimcebanu.dev/#/login
+   https://join.vadimcebanu.dev/#/summary
    ```
 
 ### ⚠️ Common Issues & Solutions
 
 **404 Errors for JS/CSS files?**
-- ✅ Make sure the `join` folder exists on the server (lowercase!)
-- ✅ Verify all files are INSIDE the `join` folder, not in `public_html` root
-- ✅ Check folder name is `join` (lowercase j) not `Join`
+- ✅ Clear the `/join` folder completely before uploading
+- ✅ Make sure `index.html` has `<base href="/">`
+- ✅ Verify subdomain configuration: `join` → `/join`
 - ✅ Clear browser cache (Ctrl+Shift+Delete)
 
 **Fonts not loading?**
-- ✅ Ensure `media/` folder with .woff2 files is uploaded
-- ✅ Check that fonts are in: `public_html/join/media/`
+- ✅ Ensure `media/` folder with .woff2 files is in `/join/media/`
+- ✅ Check font URLs in browser DevTools
 
 **Images not showing?**
-- ✅ Verify `assets/` folder structure is preserved
-- ✅ Check that icons are in: `public_html/join/assets/icons/`
+- ✅ Verify `assets/` folder structure is preserved in `/join/assets/`
+- ✅ Check that icons are in: `/join/assets/icons/`
+
+**Subdomain not resolving?**
+- ✅ DNS propagation can take up to 48 hours
+- ✅ Verify subdomain configuration in hosting panel
+- ✅ Try accessing with `www` removed: `join.vadimcebanu.dev`
 
 ### ⚙️ Important Notes
 
-- **Base Href**: Built with `--base-href /join/` - app expects to be in `/join/` subfolder
-- **Lowercase**: The folder MUST be named `join` (lowercase j) to match the build
+- **Base Href**: Built with `<base href="/">` - works at subdomain root
+- **Subdomain Setup**: Server maps `join.vadimcebanu.dev` → `/join` folder
+- **No subfolder path**: App expects files at root of subdomain (not `/join/join/`)
 - **Apache Web Server**: The included `.htaccess` file is for Apache servers
 - **HTTPS**: Your site uses HTTPS - ensure all resources load over HTTPS
 
@@ -124,6 +132,15 @@ Make sure your Supabase project settings allow requests from your domain:
 - **Bundle size**: 902.45 kB raw / ~176 kB compressed
 - **Component styles**: Optimized within 35kB budget
 - **All files minified**: Production-ready with compression
+
+### 🧪 Testing After Deployment
+
+1. Visit `https://join.vadimcebanu.dev/`
+2. Check browser DevTools Console for errors
+3. Verify all assets load (JS, CSS, fonts, images)
+4. Test all routes with hash navigation
+5. Test login/signup functionality
+6. Verify Supabase connection works
 
 ### 🧪 Testing After Deployment
 
