@@ -14,9 +14,13 @@
         [class.selected]="supabase.selectedContact()?.id === contact.id"
         (click)="selectContact(contact)"
       >
-        <div class="avatar" [style.background]="getAvatarColor(contact.name)">
-          {{ getInitials(contact.name) }}
-        </div>
+        @if (contact.avatar_url) {
+          <img class="avatar avatar-image" [src]="contact.avatar_url" [alt]="contact.name" />
+        } @else {
+          <div class="avatar" [style.background]="getAvatarColor(contact.name)">
+            {{ getInitials(contact.name) }}
+          </div>
+        }
         <div class="info">
           <span class="name">{{ contact.name }}</span>
           <span class="email">{{ limitName(contact.email) }}</span>
@@ -25,3 +29,4 @@
     }
   }
 </div>
+

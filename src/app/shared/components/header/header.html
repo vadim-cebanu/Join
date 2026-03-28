@@ -10,7 +10,13 @@
         <button routerLink="/help" class="help-button">
           <img src="assets/icons/help.svg" alt="Help Button" />
         </button>
-        <button (click)="toggleMenu()" class="nav-button">{{ getInitials() }}</button>
+        @if (avatarUrl()) {
+          <button (click)="toggleMenu()" class="nav-button avatar-button">
+            <img [src]="avatarUrl()" alt="User Avatar" class="avatar-image" />
+          </button>
+        } @else {
+          <button (click)="toggleMenu()" class="nav-button">{{ getInitials() }}</button>
+        }
       </div>
     }
   </div>
@@ -18,6 +24,8 @@
 @if (isMenuOpen) {
   <div class="backdrop" (click)="closeMenu()" [class.closing]="isClosing()"></div>
   <div class="header-menu" [class.closing]="isClosing()" (click)="$event.stopPropagation()">
+        <a class="header-links account" routerLink="/account" (click)="closeMenu()">Account</a>
+
     <a class="header-links help-link" routerLink="/help" (click)="closeMenu()">Help</a>
     <a class="header-links" routerLink="/legal" (click)="closeMenu()">Legal Notice</a>
     <a class="header-links" routerLink="/privacy" (click)="closeMenu()">Privacy Policy</a>

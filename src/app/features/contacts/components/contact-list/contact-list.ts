@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, computed } from '@angular/core';
+import { Component, inject, OnInit, computed, effect } from '@angular/core';
 import { Supabase, Contact } from '../../../../supabase';
 
 /** Predefined color palette used for contact avatar backgrounds. */
@@ -27,6 +27,14 @@ export const avatarColors = [
 })
 export class ContactList implements OnInit {
   supabase = inject(Supabase);
+
+  constructor() {
+    // Reload contacts when avatar changes
+    effect(() => {
+      this.supabase.avatarReloadTrigger();
+      this.supabase.getContacts();
+    });
+  }
 
   /**
    * Groups contacts alphabetically by their first letter.

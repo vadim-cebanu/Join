@@ -82,6 +82,19 @@
       background-color: #0c2e621f;
       cursor: pointer;
     }
+
+    &.avatar-button {
+      padding: 0;
+      overflow: hidden;
+      background-color: transparent;
+    }
+
+    .avatar-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
   }
 }
 

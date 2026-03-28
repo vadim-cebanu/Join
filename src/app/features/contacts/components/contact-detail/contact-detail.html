@@ -13,9 +13,13 @@
 @if (supabase.selectedContact(); as contact) {
   <div class="contact-detail">
     <div class="header">
-      <div class="avatar" [style.background-color]="getAvatarColor(contact.name)">
-        {{ getInitials(contact.name) }}
-      </div>
+      @if (contact.avatar_url) {
+        <img class="avatar avatar-image" [src]="contact.avatar_url" [alt]="contact.name" />
+      } @else {
+        <div class="avatar" [style.background-color]="getAvatarColor(contact.name)">
+          {{ getInitials(contact.name) }}
+        </div>
+      }
       <div class="info">
         <h2>{{ contact.name }}</h2>
         <div class="actions">

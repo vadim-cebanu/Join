@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, effect } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Supabase } from '../../../supabase';
 
@@ -17,6 +17,52 @@ import { Supabase } from '../../../supabase';
 export class Header {
   supabase = inject(Supabase);
   isClosing = signal(false);
+  avatarUrl = signal<string | null>(null);
+
+  constructor() {
+    effect(() => {
+      const user = this.supabase.currentUser();
+      if (user) {
+        this.loadAvatar();
+      }
+    }, { allowSignalWrites: true });
+
+    // Reload avatar when triggered from account page
+    effect(() => {
+      this.supabase.avatarReloadTrigger();
+      const user = this.supabase.currentUser();
+      if (user) {
+        this.loadAvatar();
+      }
+    }, { allowSignalWrites: true });
+  }
+
+  /**
+   * Loads the user's avatar from the profiles table.
+   */
+  async loadAvatar() {
+    const user = this.supabase.currentUser();
+    if (!user) {
+      this.avatarUrl.set(null);
+      return;
+    }
+
+    try {
+      const { data: profile } = await this.supabase.supabase
+        .from('profiles')
+        .select('avatar_url')
+        .eq('id', user.id)
+        .single();
+
+      if (profile?.avatar_url) {
+        this.avatarUrl.set(profile.avatar_url);
+      } else {
+        this.avatarUrl.set(null);
+      }
+    } catch (err) {
+      this.avatarUrl.set(null);
+    }
+  }
 
   /**
    * Returns the initials of the currently logged-in user.

@@ -93,7 +93,11 @@
     place-items: center;
     font-size: 30px;
     border: none;
+  
+  &.avatar-image {
+    object-fit: cover;
   }
+}
 
   .info {
     h2 {
@@ -390,3 +394,4 @@
     opacity: 0;
   }
 }
+

@@ -17,6 +17,7 @@ export interface Contact {
   name: string;
   email: string;
   phone?: string;
+  avatar_url?: string;
 }
 
 /**
@@ -77,6 +78,9 @@ hasAppAccess = computed(() => this.currentUser() !== null || this.isGuest());
       display_name: user.user_metadata?.['display_name'] || null
     };
   });
+
+  /** Signal to trigger avatar reload across components */
+  avatarReloadTrigger = signal<number>(0);
 
   /** Whether any user (authenticated or guest) is logged in. */
   isLoggedIn = computed(() => !!this.currentUser() || this.isGuest());

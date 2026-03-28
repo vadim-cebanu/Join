@@ -12,6 +12,7 @@ import { authGuard } from './auth.guard';
 import { PrivacyPolicyPage } from './features/privacy/privacy-policy-page/privacy-policy-page';
 import { LegalNoticePage } from './features/legal/legal-notice-page/legal-notice-page';
 import { HelpPage } from './features/help/help-page/help-page';
+import { AccountPageComponent } from './features/account/pages/account-page/account-page';
 
 /**
  * Application routing configuration split into two main areas:
@@ -46,6 +47,7 @@ export const routes: Routes = [
       { path: 'add-task', component: AddTaskPage },
       { path: 'board', component: BoardPage },
       { path: 'help', component: HelpPage },
+      {path: 'account', component: AccountPageComponent}
     ],
   },
   {

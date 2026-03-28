@@ -14,35 +14,47 @@
         </p>
         <div class="blue-line"></div>
       </aside>
-      @if (supabase.editMode() && supabase.selectedContact()) {
-        <div
-          class="contact-icon avatar-circle mobile-avatar"
-          [style.background]="getAvatarColor(supabase.selectedContact()!.name)"
-        >
-          {{ getInitials(supabase.selectedContact()!.name) }}
+      @if (supabase.showForm()) {
+        <div class="avatar-wrapper mobile-avatar" (click)="onAvatarClick()">
+          @if (avatarUrl()) {
+            <img class="avatar-image" [src]="avatarUrl()" alt="Contact Avatar" />
+          } @else if (supabase.editMode() && supabase.selectedContact()?.name) {
+            <div class="avatar-circle" [style.background]="getAvatarColor(supabase.selectedContact()!.name)">
+              {{ getInitials(supabase.selectedContact()!.name) }}
+            </div>
+          } @else if (!supabase.editMode() && nameControl.value) {
+            <div class="avatar-circle" [style.background]="getAvatarColor(nameControl.value)">
+              {{ getInitials(nameControl.value) }}
+            </div>
+          } @else {
+            <div class="avatar-default"></div>
+          }
+          <div class="camera-overlay">
+            <img src="assets/icons/camera.svg" alt="Upload Avatar" class="camera-icon" />
+          </div>
         </div>
-      } @else {
-        <img
-          class="contact-icon mobile-avatar"
-          src="assets/images/contact.png"
-          alt="Contact Icon"
-        />
       }
       <article class="form-area">
         <div class="inner-form">
-          @if (supabase.editMode() && supabase.selectedContact()) {
-            <div
-              class="contact-icon avatar-circle desktop-avatar"
-              [style.background]="getAvatarColor(supabase.selectedContact()!.name)"
-            >
-              {{ getInitials(supabase.selectedContact()!.name) }}
+          @if (supabase.showForm()) {
+            <div class="avatar-wrapper desktop-avatar" (click)="onAvatarClick()">
+              @if (avatarUrl()) {
+                <img class="avatar-image" [src]="avatarUrl()" alt="Contact Avatar" />
+              } @else if (supabase.editMode() && supabase.selectedContact()?.name) {
+                <div class="avatar-circle" [style.background]="getAvatarColor(supabase.selectedContact()!.name)">
+                  {{ getInitials(supabase.selectedContact()!.name) }}
+                </div>
+              } @else if (!supabase.editMode() && nameControl.value) {
+                <div class="avatar-circle" [style.background]="getAvatarColor(nameControl.value)">
+                  {{ getInitials(nameControl.value) }}
+                </div>
+              } @else {
+                <div class="avatar-default"></div>
+              }
+              <div class="camera-overlay">
+                <img src="assets/icons/camera.svg" alt="Upload Avatar" class="camera-icon" />
+              </div>
             </div>
-          } @else {
-            <img
-              class="contact-icon desktop-avatar"
-              src="assets/images/contact.png"
-              alt="Contact Icon"
-            />
           }
           <form class="form" [formGroup]="contactForm" (ngSubmit)="saveContact()" novalidate>
             <div class="form-group">

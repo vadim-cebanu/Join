@@ -1,7 +1,10 @@
 import { Component, inject, signal, effect } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Supabase, Contact } from '../../../../supabase';
 import { ContactsPage } from '../../pages/contacts-page/contacts-page';
+import { compressImage } from '../../../../shared/utils/image-compression.utils';
+import { avatarColors } from '../contact-list/contact-list';
 
 /**
  * Validates that the name field does not contain any digits.
@@ -76,7 +79,7 @@ function strictEmailValidator(control: AbstractControl): ValidationErrors | null
  */
 @Component({
   selector: 'app-contact-form-dialog',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './contact-form-dialog.html',
   styleUrl: './contact-form-dialog.scss',
 })
@@ -87,6 +90,8 @@ export class ContactFormDialog {
 
   isClosing = signal(false);
   saving = signal(false);
+  editMode = signal(false);
+  avatarUrl = signal<string | null>(null);
 
   /** Reactive form group with validated name, email, and phone controls. */
   contactForm = this.fb.group({
@@ -98,6 +103,32 @@ export class ContactFormDialog {
   get nameControl() { return this.contactForm.get('name')!; }
   get emailControl() { return this.contactForm.get('email')!; }
   get phoneControl() { return this.contactForm.get('phone')!; }
+
+  /**
+   * Extracts the first two initials from a full name.
+   */
+  getInitials(name: string): string {
+    if (!name) return '';
+    return name
+      .split(' ')
+      .map((n) => n[0])
+      .join('')
+      .toUpperCase()
+      .slice(0, 2);
+  }
+
+  /**
+   * Returns a consistent avatar color based on the contact's name.
+   */
+  getAvatarColor(name: string): string {
+    if (!name) return avatarColors[0];
+    let hash = 0;
+    for (let i = 0; i < name.length; i++) {
+      hash = name.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    const index = Math.abs(hash) % avatarColors.length;
+    return avatarColors[index];
+  }
 
   /**
    * Returns the appropriate validation error message for a given form control.
@@ -124,48 +155,6 @@ export class ContactFormDialog {
   }
 
 
-  private avatarColors = [
-    '#FF7A00',
-    '#9327FF',
-    '#6E52FF',
-    '#FC71FF',
-    '#FFBB2B',
-    '#1FD7C1',
-    '#462F8A',
-    '#FF4646',
-    '#00BEE8',
-    '#FF745E',
-  ];
-
-  /**
-   * Extracts the first two initials from a full name.
-   * @param name - The full name of the contact.
-   * @returns Up to two uppercase initials (e.g. "JD" for "John Doe").
-   */
-  getInitials(name: string): string {
-    return name
-      .split(' ')
-      .map((n) => n[0])
-      .join('')
-      .toUpperCase()
-      .slice(0, 2);
-  }
-
-
-  /**
-   * Returns a consistent avatar color based on the contact's name.
-   * @param name - The full name of the contact.
-   * @returns A hex color string from the predefined avatar color palette.
-   */
-  getAvatarColor(name: string): string {
-    let hash = 0;
-    for (let i = 0; i < name.length; i++) {
-      hash = name.charCodeAt(i) + ((hash << 5) - hash);
-    }
-    const index = Math.abs(hash) % this.avatarColors.length;
-    return this.avatarColors[index];
-  }
-
 
   /**
    * Initializes the form effect: populates fields in edit mode
@@ -178,12 +167,16 @@ export class ContactFormDialog {
 
         if (this.supabase.editMode() && this.supabase.selectedContact()) {
           const contact = this.supabase.selectedContact()!;
+          this.editMode.set(true);
+          this.avatarUrl.set(contact.avatar_url || null);
           this.contactForm.patchValue({
             name: contact.name,
             email: contact.email,
             phone: this.formatPhoneInput(contact.phone || '')
           });
         } else {
+          this.editMode.set(false);
+          this.avatarUrl.set(null);
           this.contactForm.reset();
         }
       } else {
@@ -201,9 +194,39 @@ export class ContactFormDialog {
     setTimeout(() => {
       this.supabase.showForm.set(false);
       this.supabase.editMode.set(false);
+      this.editMode.set(false);
+      this.avatarUrl.set(null);
       this.isClosing.set(false);
       this.contactForm.reset();
     }, 400);
+  }
+
+  /**
+   * Opens file picker to upload avatar image.
+   */
+  async onAvatarClick() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.onchange = async (e: any) => {
+      const file = e.target.files[0];
+      if (file) {
+        await this.uploadAvatar(file);
+      }
+    };
+    input.click();
+  }
+
+  /**
+   * Compresses and sets the avatar image.
+   */
+  async uploadAvatar(file: File) {
+    try {
+      const compressedBase64 = await compressImage(file, 400, 400, 0.8);
+      this.avatarUrl.set(compressedBase64);
+    } catch (err) {
+      console.error('Error compressing image:', err);
+    }
   }
 
 
@@ -244,6 +267,7 @@ export class ContactFormDialog {
       name: formValue.name?.trim() || '',
       email: formValue.email?.trim() || '',
       phone: formValue.phone?.replace(/\s/g, '') || '',
+      avatar_url: this.avatarUrl() || undefined
     };
   }
 
@@ -260,6 +284,9 @@ export class ContactFormDialog {
       await this.supabase.addContact(contact);
       this.contactPage.disappearSwitch(true);
     }
+
+    // Trigger avatar reload in header
+    this.supabase.avatarReloadTrigger.set(Date.now());
   }
 
 
@@ -315,3 +342,5 @@ export class ContactFormDialog {
     }
   }
 }
+
+
