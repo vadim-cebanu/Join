@@ -2,18 +2,20 @@
 
 ## Build Completed Successfully! ✓
 
-**Build Date:** March 3, 2026  
+**Build Date:** March 28, 2026  
+**Base Href:** `/join/` (deployed in subfolder - lowercase)  
 **Routing Strategy:** Hash Location (works without .htaccess)
 
 Your Angular application has been built for production with **Hash Location Strategy** and is ready for FTP deployment.
 
 ### 🆕 Latest Updates Included:
-- ✅ **Hash Location Strategy enabled** - URLs use `#` (works on ANY server, no .htaccess needed!)
-- ✅ **Add Task Page** - Full task creation functionality with form validation
-- ✅ **Success Messages** - Visual feedback when tasks are created (2-second display with animation)
-- ✅ **Search Functionality** - Search tasks on board with "No results" message
-- ✅ **Overflow & Scroll** - Proper scrolling in add-task forms
-- ✅ **Responsive Design** - Optimized for all screen sizes (1200px, 1050px, 480px, 360px)
+- ✅ **Attachment System** - File upload, compression, preview, and viewer
+- ✅ **Image Compression** - Automatic image optimization with base64 utilities
+- ✅ **Drag & Drop** - Upload files by dragging them to the upload area
+- ✅ **File Validation** - JPEG/PNG only, 1MB max size with error messages
+- ✅ **Dark Theme Upload Button** - Icon after text, consistent styling
+- ✅ **16px Attachment Names** - Readable white background with black text
+- ✅ **32px Max Arrow Icons** - Consistent dropdown arrow sizing
 - ✅ **Task Store Integration** - Centralized task management with signals
 - ✅ Contact detail view updates in real-time after editing
 - ✅ Strict email validation (max 30 chars, domain extension 2-4 chars)
@@ -24,10 +26,12 @@ Your Angular application has been built for production with **Hash Location Stra
 ### 🔗 URL Format with Hash Location:
 
 Your URLs will look like:
-- Home: `http://join-4-1226.developerakademie.net/#/`
-- Login: `http://join-4-1226.developerakademie.net/#/login`
-- Signup: `http://join-4-1226.developerakademie.net/#/signup`
-- Contacts: `http://join-4-1226.developerakademie.net/#/contacts`
+- Home: `https://join.vadimcebanu.dev/join/#/`
+- Login: `https://join.vadimcebanu.dev/join/#/login`
+- Signup: `https://join.vadimcebanu.dev/join/#/signup`
+- Summary: `https://join.vadimcebanu.dev/join/#/summary`
+- Board: `https://join.vadimcebanu.dev/join/#/board`
+- Contacts: `https://join.vadimcebanu.dev/join/#/contacts`
 
 **Why Hash?** The `#` makes routing work without server configuration. Perfect for servers that don't support `.htaccess` or URL rewriting!
 
@@ -38,50 +42,88 @@ All deployment files are located in:
 dist/join-project/browser/
 ```
 
-### 📤 FTP Upload Instructions
+### 📤 FTP Upload Instructions - IMPORTANT!
+
+⚠️ **CRITICAL: The app MUST be uploaded to a `join` subfolder on your server!**
 
 1. **Connect to your FTP server** using your preferred FTP client (FileZilla, WinSCP, etc.)
 
-2. **Upload ALL files from the `browser` folder** to your web server's public directory:
+2. **Create a folder named `join`** (lowercase!) in your web server's public directory:
    - Usually named: `public_html`, `www`, `htdocs`, or `web`
-   - Upload these files:
-     - `index.html` (1.22 KB)
-     - `main-RCYXK5PC.js` (724.63 KB) - main application bundle
-     - `styles-J5L2ZLGQ.css` (0.66 KB)
-     - `assets/` folder (entire folder with all contents)
-     - `media/` folder (entire folder with all contents)
+   - Create folder: `public_html/join/`
 
-3. **Verify `.htaccess` was uploaded**
-   - This file is hidden by default
-   - Make sure your FTP client is set to show hidden files
-   - The .htaccess file ensures Angular routing works correctly
+3. **Upload ALL files from `dist/join-project/browser/`** INTO the `join` folder:
+   ```
+   public_html/
+     └── join/                    <-- Create this folder (lowercase!)
+         ├── index.html           <-- Upload here
+         ├── main-5Z4VQY7V.js    <-- Upload here
+         ├── styles-J5L2ZLGQ.css <-- Upload here
+         ├── assets/             <-- Upload entire folder
+         └── media/              <-- Upload entire folder
+   ```
+
+4. **Final structure on server:**
+   ```
+   public_html/
+     └── join/
+         ├── index.html
+         ├── main-5Z4VQY7V.js
+         ├── styles-J5L2ZLGQ.css
+         ├── assets/
+         │   ├── fonts/
+         │   ├── icons/
+         │   └── images/
+         └── media/
+             ├── inter-v20-latin-regular-55WT6UWF.woff2
+             ├── inter-v20-latin-500-W62DVTXI.woff2
+             └── inter-v20-latin-700-SU5XVJMF.woff2
+   ```
+
+5. **Access your app at:**
+   ```
+   https://join.vadimcebanu.dev/join/
+   ```
+   or
+   ```
+   https://join.vadimcebanu.dev/join/#/
+   ```
+
+### ⚠️ Common Issues & Solutions
+
+**404 Errors for JS/CSS files?**
+- ✅ Make sure the `join` folder exists on the server (lowercase!)
+- ✅ Verify all files are INSIDE the `join` folder, not in `public_html` root
+- ✅ Check folder name is `join` (lowercase j) not `Join`
+- ✅ Clear browser cache (Ctrl+Shift+Delete)
+
+**Fonts not loading?**
+- ✅ Ensure `media/` folder with .woff2 files is uploaded
+- ✅ Check that fonts are in: `public_html/join/media/`
+
+**Images not showing?**
+- ✅ Verify `assets/` folder structure is preserved
+- ✅ Check that icons are in: `public_html/join/assets/icons/`
 
 ### ⚙️ Important Notes
 
-- **Apache Web Server**: The included `.htaccess` file is for Apache servers. If your server uses Nginx, you'll need a different configuration.
-
-- **Base Href**: If your app is NOT in the root directory (e.g., `example.com/subfolder/`), rebuild with:
-  ```bash
-  ng build --base-href /subfolder/
-  ```
-
-- **HTTPS**: Uncomment the HTTPS redirect in `.htaccess` if you have an SSL certificate installed
+- **Base Href**: Built with `--base-href /join/` - app expects to be in `/join/` subfolder
+- **Lowercase**: The folder MUST be named `join` (lowercase j) to match the build
+- **Apache Web Server**: The included `.htaccess` file is for Apache servers
+- **HTTPS**: Your site uses HTTPS - ensure all resources load over HTTPS
 
 ### 🔒 Supabase Configuration
 
 Make sure your Supabase project settings allow requests from your domain:
 1. Go to Supabase Dashboard → Settings → API
-2. Add your domain to the allowed URLs
+2. Add `https://join.vadimcebanu.dev` to the allowed URLs
 3. Update CORS settings if needed
 
-### ⚠️ Build Warnings (Non-Critical)
+### 🎨 Build Information
 
-The following warnings were generated but won't affect functionality:
-- Initial bundle: 742.70 kB (within budget - optimized with compression)
-- add-task-page.scss: 17.43 kB (2.43 kB over budget)
-- add-task-dialog.scss: 16.62 kB (1.62 kB over budget)
-
-These are size warnings for component styles. The app will work perfectly. The files are already minified and compressed for production (estimated transfer size: ~159 kB).
+- **Bundle size**: 902.45 kB raw / ~176 kB compressed
+- **Component styles**: Optimized within 35kB budget
+- **All files minified**: Production-ready with compression
 
 ### 🧪 Testing After Deployment
 
