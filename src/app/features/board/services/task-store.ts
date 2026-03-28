@@ -12,6 +12,7 @@ import { Supabase } from '../../../supabase';
  * @property priority    - Task priority level.
  * @property assignees   - Optional list of assigned contacts.
  * @property subtasks    - Optional list of subtasks.
+ * @property attachments - Optional list of file attachments.
  * @property dueDate     - Optional due date string.
  */
 interface NewTaskData {
@@ -22,6 +23,7 @@ interface NewTaskData {
   priority: TaskPriority;
   assignees?: { id: string; initials: string; name?: string }[];
   subtasks?: { id: string; title: string; done: boolean }[];
+  attachments?: { id: string; name: string; base64: string; type: string }[];
   dueDate?: string;
 }
 
@@ -197,6 +199,7 @@ export class TaskStore {
       priority: taskData.priority,
       assignees: taskData.assignees ?? [],
       subtasks: taskData.subtasks ?? [],
+      attachments: taskData.attachments ?? [],
       due_at: taskData.dueDate,
     };
   }
@@ -236,7 +239,7 @@ export class TaskStore {
    * Maps a raw Supabase task row to the app's {@link Task} model.
    *
    * Handles missing fields by applying safe defaults (e.g. empty arrays for
-   * `assignees` / `subtasks`, `'Technical Task'` as fallback task type).
+   * `assignees` / `subtasks` / `attachments`, `'Technical Task'` as fallback task type).
    *
    * @param row The raw database row returned by Supabase after an insert or select.
    * @returns A fully typed {@link Task} object ready for use in the application.
@@ -251,6 +254,7 @@ export class TaskStore {
       priority: row['priority'] as TaskPriority,
       assignees: (row['assignees'] as Task['assignees']) ?? [],
       subtasks: (row['subtasks'] as Task['subtasks']) ?? [],
+      attachments: (row['attachments'] as Task['attachments']) ?? [],
       createdAt: row['created_at'] as string,
       dueDate: row['due_at'] as string | undefined,
     };
@@ -297,7 +301,7 @@ export class TaskStore {
   /**
    * Maps partial {@link Task} app-model fields to their Supabase column equivalents.
    *
-   * Optional fields (`assignees`, `subtasks`, `dueDate`) are only included in the
+   * Optional fields (`assignees`, `subtasks`, `attachments`, `dueDate`) are only included in the
    * payload when explicitly provided to avoid overwriting existing DB values with `undefined`.
    *
    * @param updates Partial {@link Task} fields collected from the UI or caller.
@@ -312,6 +316,7 @@ export class TaskStore {
       priority: updates.priority,
       ...(updates.assignees !== undefined && { assignees: updates.assignees }),
       ...(updates.subtasks !== undefined && { subtasks: updates.subtasks }),
+      ...(updates.attachments !== undefined && { attachments: updates.attachments }),
       ...(updates.dueDate !== undefined && { due_at: updates.dueDate }),
     };
   }

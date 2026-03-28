@@ -54,10 +54,20 @@ export interface Subtask {
 }
 
 /**
+ * Represents an attachment file associated with a task.
+ */
+export interface TaskAttachment {
+  id: string;
+  name: string;
+  base64: string;
+  type: string;
+}
+
+/**
  * Central model representing a task in the application.
  *
  * Notes:
- * - `description`, `assignees`, `subtasks`, and `dueDate` are optional.
+ * - `description`, `assignees`, `subtasks`, `attachments`, and `dueDate` are optional.
  * - `createdAt` should be stored as an ISO string.
  */
 export interface Task {
@@ -69,6 +79,7 @@ export interface Task {
   priority: TaskPriority;
   assignees?: Assignee[];
   subtasks?: Subtask[];
+  attachments?: TaskAttachment[];
   createdAt: string;
   dueDate?: string;
 }
