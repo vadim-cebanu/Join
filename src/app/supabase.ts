@@ -327,7 +327,6 @@ hasAppAccess = computed(() => this.currentUser() !== null || this.isGuest());
 
     await this.getContacts();
 
-    // Update selectedContact if it's the one being edited
     if (this.selectedContact()?.id === id) {
       const updatedContact = this.contacts().find(c => c.id === id);
       if (updatedContact) {
@@ -355,11 +354,89 @@ hasAppAccess = computed(() => this.currentUser() !== null || this.isGuest());
 
 
   async updateTaskStatus(taskId: string, status: string) {
-  const { error } = await this.supabase
-    .from('tasks')
-    .update({ status })
-    .eq('id', taskId);
+    const { error } = await this.supabase
+      .from('tasks')
+      .update({ status })
+      .eq('id', taskId);
 
-  if (error) throw error;
-}
+    if (error) throw error;
+  }
+
+  /**
+   * SUPABASE STORAGE METHODS (optional for future use with large files)
+   * These methods provide an alternative to base64 encoding by using Supabase Storage.
+   */
+
+  /**
+   * Uploads a file to Supabase Storage.
+   *
+   * @param bucket - The name of the storage bucket (e.g., 'task-attachments').
+   * @param filePath - The path where the file will be stored in the bucket.
+   * @param file - The File object to upload.
+   * @returns The public URL of the uploaded file, or null if upload failed.
+   */
+  async uploadFile(bucket: string, filePath: string, file: File): Promise<string | null> {
+    try {
+      const { data, error } = await this.supabase.storage
+        .from(bucket)
+        .upload(filePath, file, {
+          cacheControl: '3600',
+          upsert: false
+        });
+
+      if (error) {
+        console.error('Upload error:', error);
+        return null;
+      }
+
+      const { data: urlData } = this.supabase.storage
+        .from(bucket)
+        .getPublicUrl(filePath);
+
+      return urlData.publicUrl;
+    } catch (error) {
+      console.error('Upload failed:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Deletes a file from Supabase Storage.
+   *
+   * @param bucket - The name of the storage bucket.
+   * @param filePath - The path of the file to delete.
+   * @returns True if deletion was successful, false otherwise.
+   */
+  async deleteFile(bucket: string, filePath: string): Promise<boolean> {
+    try {
+      const { error } = await this.supabase.storage
+        .from(bucket)
+        .remove([filePath]);
+
+      if (error) {
+        console.error('Delete error:', error);
+        return false;
+      }
+
+      return true;
+    } catch (error) {
+      console.error('Delete failed:', error);
+      return false;
+    }
+  }
+
+  /**
+   * Gets the public URL for a file in Supabase Storage.
+   *
+   * @param bucket - The name of the storage bucket.
+   * @param filePath - The path of the file.
+   * @returns The public URL of the file.
+   */
+  getFileUrl(bucket: string, filePath: string): string {
+    const { data } = this.supabase.storage
+      .from(bucket)
+      .getPublicUrl(filePath);
+
+    return data.publicUrl;
+  }
 }
