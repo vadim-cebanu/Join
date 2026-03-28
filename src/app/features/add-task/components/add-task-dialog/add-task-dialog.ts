@@ -6,6 +6,7 @@ import { Supabase, Contact } from '../../../../supabase';
 import { avatarColors } from '../../../contacts/components/contact-list/contact-list';
 import { TaskStore } from '../../../board/services/task-store';
 import { Status } from '../../../board/models/task.model';
+import { compressImage, calculateBase64SizeKB } from '../../../../shared/utils/image-compression.utils';
 
 /**
  * Represents a subtask within a task.
@@ -533,7 +534,7 @@ private buildTaskDataFromForm() {
   }
 
   /**
-   * Compresses an image to a target size and quality.
+   * Compresses an image to a target size and quality using utility function.
    *
    * @param file - The image file to compress.
    * @param maxWidth - Maximum width of the image (default: 800px).
@@ -547,48 +548,7 @@ private buildTaskDataFromForm() {
     maxHeight: number = 800,
     quality: number = 0.7,
   ): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-
-      reader.onload = (event) => {
-        const img = new Image();
-        img.onload = () => {
-          const canvas = document.createElement('canvas');
-          const ctx = canvas.getContext('2d');
-          if (!ctx) {
-            reject('Failed to get canvas context');
-            return;
-          }
-
-          let width = img.width;
-          let height = img.height;
-
-          if (width > maxWidth || height > maxHeight) {
-            if (width > height) {
-              height = (height * maxWidth) / width;
-              width = maxWidth;
-            } else {
-              width = (width * maxHeight) / height;
-              height = maxHeight;
-            }
-          }
-
-          canvas.width = width;
-          canvas.height = height;
-
-          ctx.drawImage(img, 0, 0, width, height);
-
-          const compressedBase64 = canvas.toDataURL('image/jpeg', quality);
-          resolve(compressedBase64);
-        };
-
-        img.onerror = () => reject('Error loading image');
-        img.src = event.target?.result as string;
-      };
-
-      reader.onerror = () => reject('Error reading file');
-      reader.readAsDataURL(file);
-    });
+    return compressImage(file, maxWidth, maxHeight, quality);
   }
 
   /**
@@ -693,16 +653,15 @@ private buildTaskDataFromForm() {
   }
 
   /**
-   * Gets the file size in KB from base64 string.
+   * Gets the file size in KB from base64 string using utility function.
+   *
+   * @returns The size in kilobytes as a string, or '0' if no image is selected.
    */
   getImageSize(): string {
     const img = this.getCurrentImage();
     if (!img) return '0';
 
-    const base64Length = img.preview.length;
-    const sizeInBytes = (base64Length * 3) / 4;
-    const sizeInKB = Math.round(sizeInBytes / 1024);
-
+    const sizeInKB = calculateBase64SizeKB(img.preview);
     return sizeInKB.toString();
   }
 
