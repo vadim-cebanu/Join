@@ -44,6 +44,8 @@
     }
 
     .dropdown-arrow {
+      max-width: 32px;
+      max-height: 32px;
       height: auto;
       cursor: pointer;
       transition: transform 200ms;
@@ -191,6 +193,8 @@
   .category-trigger .dropdown-arrow {
     position: absolute;
     right: 16px;
+    max-width: 32px;
+    max-height: 32px;
     height: auto;
     cursor: pointer;
     transition: transform 200ms;
