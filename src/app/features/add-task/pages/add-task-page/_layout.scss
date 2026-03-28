@@ -38,7 +38,7 @@
 
     .div-content {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr);
+      grid-template-columns: 1fr 1px 1fr;
       column-gap: 60px;
       align-items: start;
       min-height: 376px;
@@ -47,6 +47,7 @@
     .left-content,
     .right-content {
       width: 100%;
+      min-width: 0;
       display: flex;
       flex-direction: column;
       align-items: flex-start;

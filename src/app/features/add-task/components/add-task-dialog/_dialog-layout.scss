@@ -103,23 +103,22 @@
     flex: 1;
     display: flex;
     justify-content: space-between;
+    gap: 24px;
   }
 
   .left-content,
   .right-content {
+    flex: 1;
+    min-width: 0;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-  }
-
-  .right-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
     gap: 20px;
     overflow: hidden;
     min-height: 0;
+  }
 
+  .right-content {
     .title-in-content,
     .description-in-content,
     .due-date-content,
@@ -141,5 +140,6 @@
     width: 1px;
     background-color: #d1d1d1;
     border-radius: 1px;
+    flex-shrink: 0;
   }
 }
