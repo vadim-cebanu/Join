@@ -213,13 +213,13 @@
 
 @keyframes logoImageChange {
   0% {
-    content: url(../../../../public/assets/img/Capa\ 2.png);
+    content: url(../../../../public/assets/icons/logow.svg);
   }
   99.9% {
-    content: url(../../../../public/assets/img/Capa\ 2.png);
+    content: url(../../../../public/assets/icons/logod.svg);
   }
   100% {
-    content: url(../../../../public/assets/img/Capa-1.png);
+    content: url(../../../../public/assets/icons/logod.svg);
   }
 }
 
@@ -229,7 +229,7 @@
   }
 
   .logo img {
-    content: url(../../../../public/assets/img/Capa\ 2.png);
+    content: url(../../../../public/assets/icons/logod.svg);
     animation:
       logoResize 1.9s ease forwards,
       logoImageChange 1.9s step-end forwards;
