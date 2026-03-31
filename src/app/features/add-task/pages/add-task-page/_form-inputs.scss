@@ -70,14 +70,11 @@
         &::-webkit-calendar-picker-indicator {
           opacity: 0;
           cursor: pointer;
-
-          @media (any-pointer: fine) {
-            position: absolute;
-            right: 0;
-            top: 0;
-            height: 44px;
-            width: 44px;
-          }
+          position: absolute;
+          right: 0;
+          top: 0;
+          height: 44px;
+          width: 44px;
         }
       }
 
