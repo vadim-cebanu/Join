@@ -549,16 +549,10 @@ export class TaskDetailDialog implements OnInit {
    */
   private async processFiles(files: File[]) {
     const allowedTypes = ['image/jpeg', 'image/png'];
-    const maxSizeBytes = 1048576;
 
     for (const file of files) {
       if (!allowedTypes.includes(file.type)) {
         this.showError(`File format not allowed!\nYou can only upload JPEG or PNG`);
-        continue;
-      }
-
-      if (file.size > maxSizeBytes) {
-        this.showError(`File too large!\nMaximum size is 1 MB`);
         continue;
       }
 
