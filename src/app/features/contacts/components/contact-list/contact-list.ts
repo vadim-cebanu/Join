@@ -28,25 +28,17 @@ export const avatarColors = [
 export class ContactList implements OnInit {
   supabase = inject(Supabase);
 
-  constructor() {
-    // Reload contacts when avatar changes
-    effect(() => {
-      this.supabase.avatarReloadTrigger();
-      this.supabase.getContacts();
-    });
-  }
-
   /**
    * Groups contacts alphabetically by their first letter.
    * @returns An array of objects containing a letter and its associated contacts.
    */
   groupedContacts = computed(() => {
-    const contacts = this.supabase.contacts();
+    const contacts = this.supabase?.contacts() || [];
     const groups: { letter: string; contacts: Contact[] }[] = [];
     let currentLetter = '';
 
     for (const contact of contacts) {
-      const firstLetter = contact.name.charAt(0).toUpperCase();
+      const firstLetter = contact.name?.charAt(0)?.toUpperCase() || '?';
       if (firstLetter !== currentLetter) {
         currentLetter = firstLetter;
         groups.push({ letter: firstLetter, contacts: [] });
@@ -57,6 +49,11 @@ export class ContactList implements OnInit {
     return groups;
   });
 
+  /** Reload contacts when avatar changes - using field initializer for proper injection context */
+  private avatarReloadEffect = effect(() => {
+    this.supabase.avatarReloadTrigger();
+    this.supabase.getContacts();
+  });
 
   /** Fetches all contacts from the database on component initialization. */
   ngOnInit() {
