@@ -12,6 +12,7 @@
           name="email"
           required
           email
+          maxlength="100"
           pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$"
           [class.input-error]="(emailInput.invalid && emailInput.touched) || supabase.authError()"
           #emailInput="ngModel"
@@ -36,6 +37,7 @@
           name="password"
           required
           minlength="6"
+          maxlength="72"
           [class.input-error]="
             (passwordInput.invalid && passwordInput.touched) || supabase.authError()
           "

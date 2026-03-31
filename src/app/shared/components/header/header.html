@@ -5,6 +5,7 @@
       <img class="header-logo header-logo-mobile" src="assets/icons/logo2.png" alt="Join Logo" />
       <span class="header-text">Kanban Project Management Tool</span>
     </div>
+
     @if (supabase.isLoggedIn()) {
       <div class="header-buttons">
         <button routerLink="/help" class="help-button">
@@ -19,16 +20,19 @@
         }
       </div>
     }
+
+    @if (isMenuOpen) {
+      <div class="header-menu" [class.closing]="isClosing()" (click)="$event.stopPropagation()">
+        <a class="header-links account" routerLink="/account" (click)="closeMenu()">Account</a>
+        <a class="header-links help-link" routerLink="/help" (click)="closeMenu()">Help</a>
+        <a class="header-links" routerLink="/legal" (click)="closeMenu()">Legal Notice</a>
+        <a class="header-links" routerLink="/privacy" (click)="closeMenu()">Privacy Policy</a>
+        <button class="header-links" (click)="logout()" type="button">Log out</button>
+      </div>
+    }
   </div>
 </section>
+
 @if (isMenuOpen) {
   <div class="backdrop" (click)="closeMenu()" [class.closing]="isClosing()"></div>
-  <div class="header-menu" [class.closing]="isClosing()" (click)="$event.stopPropagation()">
-        <a class="header-links account" routerLink="/account" (click)="closeMenu()">Account</a>
-
-    <a class="header-links help-link" routerLink="/help" (click)="closeMenu()">Help</a>
-    <a class="header-links" routerLink="/legal" (click)="closeMenu()">Legal Notice</a>
-    <a class="header-links" routerLink="/privacy" (click)="closeMenu()">Privacy Policy</a>
-    <button class="header-links" (click)="logout()" type="button">Log out</button>
-  </div>
 }
