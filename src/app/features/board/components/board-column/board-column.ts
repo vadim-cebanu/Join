@@ -1,26 +1,6 @@
-import {
-  Component,
-  inject,
-  EventEmitter,
-  Input,
-  Output,
-  ViewChild,
-  ViewChildren,
-  QueryList,
-  ElementRef,
-  TemplateRef,
-  ChangeDetectorRef,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import {Component, inject,EventEmitter,Input,Output, ViewChild, ViewChildren,QueryList,ElementRef, TemplateRef, ChangeDetectorRef,ChangeDetectionStrategy,} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  CdkDrag,
-  CdkDropList,
-  CdkDragDrop,
-  moveItemInArray,
-  transferArrayItem,
-  DragDropModule,
-} from '@angular/cdk/drag-drop';
+import {CdkDrag,CdkDropList,CdkDragDrop,moveItemInArray,transferArrayItem,DragDropModule,} from '@angular/cdk/drag-drop';
 import { Supabase } from '../../../../supabase';
 import { Task, Status } from '../../models/task.model';
 import { TaskCard } from '../task-card/task-card';

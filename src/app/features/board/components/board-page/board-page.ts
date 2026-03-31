@@ -1,12 +1,4 @@
-import {
-  Component,
-  OnInit,
-  AfterViewInit,
-  inject,
-  ChangeDetectorRef,
-  effect,
-  HostListener,
-} from '@angular/core';
+import { Component, OnInit,AfterViewInit,inject, ChangeDetectorRef, effect,HostListener,} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Task, Status } from '../../models/task.model';
