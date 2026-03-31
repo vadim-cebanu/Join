@@ -7,6 +7,7 @@ import { avatarColors } from '../../../contacts/components/contact-list/contact-
 import { TaskStore } from '../../../board/services/task-store';
 import { Status } from '../../../board/models/task.model';
 import { compressImage, calculateBase64SizeKB } from '../../../../shared/utils/image-compression.utils';
+import { noWhitespaceValidator } from '../../../../shared/validators/whitespace.validator';
 
 /**
  * Represents a subtask within a task.
@@ -103,7 +104,7 @@ export class AddTaskDialog implements OnInit {
 
   taskForm = new FormGroup({
     title: new FormControl('', {
-      validators: [Validators.required, Validators.minLength(3)],
+      validators: [Validators.required, noWhitespaceValidator, Validators.minLength(3)],
     }),
     description: new FormControl(''),
     due_at: new FormControl('', {
