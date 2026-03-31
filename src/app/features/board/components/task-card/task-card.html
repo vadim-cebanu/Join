@@ -17,42 +17,54 @@
         ⋮
       </button>
       <div class="fab-wrap" (click)="$event.stopPropagation()">
-        <div class="fab-menu" *ngIf="menuOpen">
-          <button
-            type="button"
-            class="fab-item"
-            *ngFor="let target of moveTargets"
-            (click)="onMove(target.value, $event)"
-          >
-            {{ target.label }}
-          </button>
-        </div>
+        @if (menuOpen) {
+          <div class="fab-menu">
+            @for (target of moveTargets; track target.value) {
+              <button
+                type="button"
+                class="fab-item"
+                (click)="onMove(target.value, $event)"
+              >
+                {{ target.label }}
+              </button>
+            }
+          </div>
+        }
       </div>
     </div>
   </div>
   <h4 class="title">{{ task.title }}</h4>
-  <p class="desc" *ngIf="task.description">
-    {{ task.description }}
-  </p>
-  <div class="meta" *ngIf="task.subtasks?.length">
-    <div class="progress">
-      <div class="bar" [style.width.%]="(doneSubtasksCount / totalSubtasksCount) * 100"></div>
+  @if (task.description) {
+    <p class="desc">
+      {{ task.description }}
+    </p>
+  }
+  @if (task.subtasks?.length) {
+    <div class="meta">
+      <div class="progress">
+        <div class="bar" [style.width.%]="(doneSubtasksCount / totalSubtasksCount) * 100"></div>
+      </div>
+      <span class="subtasks"> {{ doneSubtasksCount }}/{{ totalSubtasksCount }} Subtasks </span>
     </div>
-    <span class="subtasks"> {{ doneSubtasksCount }}/{{ totalSubtasksCount }} Subtasks </span>
-  </div>
+  }
   <div class="assignees">
-    <div class="assignees__initials" *ngIf="task.assignees?.length">
-      <span
-        class="avatar"
-        *ngFor="let a of task.assignees!.slice(0, 5)"
-        [style.background-color]="getAvatarColor(a.name || a.initials)"
-      >
-        {{ a.initials || getInitials(a.name) }}
-      </span>
-      <span class="avatar avatar-overflow" *ngIf="task.assignees!.length > 5"
-        >+{{ task.assignees!.length - 5 }}</span
-      >
-    </div>
+    @if (task.assignees?.length) {
+      <div class="assignees__initials">
+        @for (a of task.assignees!.slice(0, 5); track a.name || a.initials) {
+          <span
+            class="avatar"
+            [style.background-color]="getAvatarColor(a.name || a.initials)"
+          >
+            {{ a.initials || getInitials(a.name) }}
+          </span>
+        }
+        @if (task.assignees!.length > 5) {
+          <span class="avatar avatar-overflow"
+            >+{{ task.assignees!.length - 5 }}</span
+          >
+        }
+      </div>
+    }
     <img class="prio-icon" [src]="priorityIcon[task.priority]" alt="'priority ' + task.priority" />
   </div>
 </article>
