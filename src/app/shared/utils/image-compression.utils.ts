@@ -105,23 +105,24 @@ export function createCanvasWithImage(
 }
 
 /**
- * Converts a canvas to a base64 JPEG data URL.
+ * Converts a canvas to a base64 data URL with specified format.
  *
  * @param canvas - The canvas to convert.
- * @param quality - JPEG quality (0-1, default: 0.7).
- * @returns Base64 encoded JPEG data URL.
+ * @param mimeType - The image MIME type (e.g., 'image/jpeg', 'image/png').
+ * @param quality - Image quality (0-1, default: 0.7). Only applies to lossy formats like JPEG.
+ * @returns Base64 encoded data URL.
  */
-export function canvasToBase64(canvas: HTMLCanvasElement, quality: number = 0.7): string {
-  return canvas.toDataURL('image/jpeg', quality);
+export function canvasToBase64(canvas: HTMLCanvasElement, mimeType: string = 'image/jpeg', quality: number = 0.7): string {
+  return canvas.toDataURL(mimeType, quality);
 }
 
 /**
- * Compresses an image file to a specified size and quality.
+ * Compresses an image file to a specified size and quality, preserving the original format.
  *
  * @param file - The image file to compress.
  * @param maxWidth - Maximum width (default: 800px).
  * @param maxHeight - Maximum height (default: 800px).
- * @param quality - JPEG quality 0-1 (default: 0.7).
+ * @param quality - Image quality 0-1 (default: 0.7). Only applies to lossy formats like JPEG.
  * @returns Promise resolving to base64 encoded compressed image.
  */
 export async function compressImage(
@@ -134,7 +135,7 @@ export async function compressImage(
   const img = await loadImage(dataURL);
   const dimensions = calculateImageDimensions(img.width, img.height, maxWidth, maxHeight);
   const canvas = createCanvasWithImage(img, dimensions.width, dimensions.height);
-  return canvasToBase64(canvas, quality);
+  return canvasToBase64(canvas, file.type, quality);
 }
 
 /**
