@@ -5,6 +5,7 @@ import { Supabase } from '../../../../supabase';
 import { Router } from '@angular/router';
 import { compressImage } from '../../../../shared/utils/image-compression.utils';
 import { avatarColors } from '../../../contacts/components/contact-list/contact-list';
+import { noWhitespaceValidator } from '../../../../shared/validators/whitespace.validator';
 
 @Component({
   selector: 'app-account-page',
@@ -24,20 +25,21 @@ export class AccountPageComponent {
   avatarUrl = signal<string | null>(null);
 
   accountForm = this.fb.group({
-    name: ['', [Validators.required, Validators.maxLength(30)]],
-    email: ['', [Validators.required, Validators.email, Validators.maxLength(30)]],
+    name: ['', [Validators.required, noWhitespaceValidator, Validators.maxLength(30)]],
+    email: ['', [Validators.required, noWhitespaceValidator, Validators.email, Validators.maxLength(30)]],
     phone: ['', [Validators.maxLength(20)]]
+  });
+
+  /** Effect to load user data when user changes - using field initializer for proper injection context */
+  private userDataEffect = effect(() => {
+    const user = this.supabase.currentUser();
+    if (user) {
+      this.loadUserData();
+    }
   });
 
   constructor() {
     this.accountForm.disable();
-
-    effect(() => {
-      const user = this.supabase.currentUser();
-      if (user) {
-        this.loadUserData();
-      }
-    }, { allowSignalWrites: true });
   }
 
   get nameControl() { return this.accountForm.get('name')!; }
@@ -76,6 +78,7 @@ export class AccountPageComponent {
 
     const errors = control.errors;
     if (errors['required']) return `${controlName.charAt(0).toUpperCase() + controlName.slice(1)} is required`;
+    if (errors['whitespace']) return errors['whitespace'];
     if (errors['maxlength']) {
       const maxLength = errors['maxlength'].requiredLength;
       return `Maximum ${maxLength} characters allowed`;

@@ -19,23 +19,22 @@ export class Header {
   isClosing = signal(false);
   avatarUrl = signal<string | null>(null);
 
-  constructor() {
-    effect(() => {
-      const user = this.supabase.currentUser();
-      if (user) {
-        this.loadAvatar();
-      }
-    }, { allowSignalWrites: true });
+  /** Effect to load avatar when user changes - using field initializer for proper injection context */
+  private userAvatarEffect = effect(() => {
+    const user = this.supabase.currentUser();
+    if (user) {
+      this.loadAvatar();
+    }
+  });
 
-    // Reload avatar when triggered from account page
-    effect(() => {
-      this.supabase.avatarReloadTrigger();
-      const user = this.supabase.currentUser();
-      if (user) {
-        this.loadAvatar();
-      }
-    }, { allowSignalWrites: true });
-  }
+  /** Effect to reload avatar when triggered from account page - using field initializer for proper injection context */
+  private avatarReloadEffect = effect(() => {
+    this.supabase.avatarReloadTrigger();
+    const user = this.supabase.currentUser();
+    if (user) {
+      this.loadAvatar();
+    }
+  });
 
   /**
    * Loads the user's avatar from the profiles table.
