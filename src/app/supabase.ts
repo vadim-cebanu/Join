@@ -307,40 +307,47 @@ hasAppAccess = computed(() => this.currentUser() !== null || this.isGuest());
   /**
    * Inserts a new contact into the database and refreshes the contact list.
    * @param contact - The contact data to insert.
+   * @returns The created contact with its ID.
    */
-  async addContact(contact: Contact) {
-    const { error } = await this.supabase
+  async addContact(contact: Contact): Promise<Contact> {
+    const { data, error } = await this.supabase
       .from('contacts')
-      .insert([contact]);
+      .insert([contact])
+      .select()
+      .single();
 
     if (error) throw error;
 
     await this.getContacts();
+    return data;
   }
 
 
   /**
    * Updates an existing contact in the database and refreshes the contact list.
-   * Also updates the selectedContact signal if it matches the updated contact.
+   * Also updates the selectedContact signal.
    * @param id - The ID of the contact to update.
    * @param contact - The fields to update.
+   * @returns The updated contact.
    */
-  async updateContact(id: string, contact: Partial<Contact>) {
-    const { error } = await this.supabase
+  async updateContact(id: string, contact: Partial<Contact>): Promise<Contact> {
+    const { data, error } = await this.supabase
       .from('contacts')
       .update(contact)
-      .eq('id', id);
+      .eq('id', id)
+      .select()
+      .single();
 
     if (error) throw error;
 
     await this.getContacts();
 
-    if (this.selectedContact()?.id === id) {
-      const updatedContact = this.contacts().find(c => c.id === id);
-      if (updatedContact) {
-        this.selectedContact.set(updatedContact);
-      }
+    const updatedContact = this.contacts().find(c => c.id === id);
+    if (updatedContact) {
+      this.selectedContact.set(updatedContact);
     }
+
+    return data;
   }
 
 

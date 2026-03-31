@@ -27,11 +27,17 @@
               {{ getInitials(nameControl.value) }}
             </div>
           } @else {
-            <div class="avatar-default"></div>
+            <div class="avatar-default">
+              @if (supabase.editMode()) {
+                <img src="assets/icons/camera.svg" alt="Upload Avatar" class="camera-icon-placeholder" />
+              }
+            </div>
           }
-          <div class="camera-overlay">
-            <img src="assets/icons/camera.svg" alt="Upload Avatar" class="camera-icon" />
-          </div>
+          @if (avatarUrl()) {
+            <div class="camera-overlay">
+              <img src="assets/icons/camera.svg" alt="Upload Avatar" class="camera-icon" />
+            </div>
+          }
         </div>
       }
       <article class="form-area">
@@ -49,11 +55,17 @@
                   {{ getInitials(nameControl.value) }}
                 </div>
               } @else {
-                <div class="avatar-default"></div>
+                <div class="avatar-default">
+                  @if (supabase.editMode()) {
+                    <img src="assets/icons/camera.svg" alt="Upload Avatar" class="camera-icon-placeholder" />
+                  }
+                </div>
               }
-              <div class="camera-overlay">
-                <img src="assets/icons/camera.svg" alt="Upload Avatar" class="camera-icon" />
-              </div>
+              @if (avatarUrl()) {
+                <div class="camera-overlay">
+                  <img src="assets/icons/camera.svg" alt="Upload Avatar" class="camera-icon" />
+                </div>
+              }
             </div>
           }
           <form class="form" [formGroup]="contactForm" (ngSubmit)="saveContact()" novalidate>

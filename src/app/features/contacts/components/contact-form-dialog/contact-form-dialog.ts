@@ -1,10 +1,11 @@
 import { Component, inject, signal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, Validators, AbstractControl, ValidationErrors, AsyncValidatorFn } from '@angular/forms';
 import { Supabase, Contact } from '../../../../supabase';
 import { ContactsPage } from '../../pages/contacts-page/contacts-page';
 import { compressImage } from '../../../../shared/utils/image-compression.utils';
 import { avatarColors } from '../contact-list/contact-list';
+import { noWhitespaceValidator } from '../../../../shared/validators/whitespace.validator';
 
 /**
  * Validates that the name field does not contain any digits.
@@ -74,6 +75,42 @@ function strictEmailValidator(control: AbstractControl): ValidationErrors | null
 }
 
 /**
+ * Creates an async validator that checks if an email is already in use by another contact.
+ * @param supabase - The Supabase service instance.
+ * @param editMode - Signal indicating if we're in edit mode.
+ * @param currentContactId - Function to get the current contact's ID (if editing).
+ * @returns An async validator function.
+ */
+function emailUniqueValidator(supabase: Supabase, editMode: () => boolean, currentContactId: () => string | undefined): AsyncValidatorFn {
+  return async (control: AbstractControl): Promise<ValidationErrors | null> => {
+    const email = control.value?.trim();
+    if (!email) return null;
+
+    const { data, error } = await supabase.supabase
+      .from('contacts')
+      .select('id, email')
+      .eq('email', email)
+      .maybeSingle();
+
+    if (error) {
+      console.error('Error checking email uniqueness:', error);
+      return null;
+    }
+
+    if (data) {
+      // If in edit mode and the email belongs to the current contact, it's valid
+      if (editMode() && currentContactId() === data.id) {
+        return null;
+      }
+      // Email already exists for a different contact
+      return { emailExists: 'This email is already in use' };
+    }
+
+    return null;
+  };
+}
+
+/**
  * Modal dialog for creating and editing contacts.
  * Contains a reactive form with validation for name, email, and phone fields.
  */
@@ -95,9 +132,9 @@ export class ContactFormDialog {
 
   /** Reactive form group with validated name, email, and phone controls. */
   contactForm = this.fb.group({
-    name: ['', [Validators.required, Validators.maxLength(20), noNumbersValidator, twoWordsValidator]],
-    email: ['', [Validators.required, Validators.maxLength(30), Validators.email, strictEmailValidator]],
-    phone: ['', [Validators.required, Validators.maxLength(20), phoneValidator]]
+    name: ['', [Validators.required, noWhitespaceValidator, Validators.maxLength(20), noNumbersValidator, twoWordsValidator]],
+    email: ['', [Validators.required, noWhitespaceValidator, Validators.maxLength(30), Validators.email, strictEmailValidator], [emailUniqueValidator(this.supabase, () => this.editMode(), () => this.supabase.selectedContact()?.id)]],
+    phone: ['', [Validators.required, noWhitespaceValidator, Validators.maxLength(20), phoneValidator]]
   });
 
   get nameControl() { return this.contactForm.get('name')!; }
@@ -141,12 +178,14 @@ export class ContactFormDialog {
 
     const errors = control.errors;
     if (errors['required']) return `${controlName.charAt(0).toUpperCase() + controlName.slice(1)} is required`;
+    if (errors['whitespace']) return errors['whitespace'];
     if (errors['maxlength']) {
       const maxLength = errors['maxlength'].requiredLength;
       return `Maximum ${maxLength} characters allowed`;
     }
     if (errors['email']) return 'Please enter a valid email address';
     if (errors['strictEmail']) return errors['strictEmail'];
+    if (errors['emailExists']) return errors['emailExists'];
     if (errors['noNumbers']) return errors['noNumbers'];
     if (errors['twoWords']) return errors['twoWords'];
     if (errors['phone']) return errors['phone'];
@@ -274,14 +313,18 @@ export class ContactFormDialog {
 
   /**
    * Creates a new contact or updates an existing one based on the current edit mode.
+   * Sets the created/updated contact as selected to highlight it in the list.
    */
   private async createOrUpdateContact() {
     const contact = this.buildContactFromForm();
     const selectedId = this.supabase.selectedContact()?.id;
+
     if (this.supabase.editMode() && selectedId) {
-      await this.supabase.updateContact(selectedId, contact);
+      const updatedContact = await this.supabase.updateContact(selectedId, contact);
+      this.supabase.selectedContact.set(updatedContact);
     } else {
-      await this.supabase.addContact(contact);
+      const newContact = await this.supabase.addContact(contact);
+      this.supabase.selectedContact.set(newContact);
       this.contactPage.disappearSwitch(true);
     }
 
