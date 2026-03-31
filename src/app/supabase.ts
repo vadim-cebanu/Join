@@ -286,16 +286,20 @@ hasAppAccess = computed(() => this.currentUser() !== null || this.isGuest());
    */
   async getContacts() {
     this.loading.set(true);
+
     const { data, error } = await this.supabase
       .from('contacts')
       .select('*')
       .order('name');
+
     this.loading.set(false);
 
     if (error) {
+      console.error('Error fetching contacts:', error);
       this.error.set(error.message);
       return;
     }
+
     this.contacts.set(data || []);
   }
 
