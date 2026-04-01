@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { provideRouter } from '@angular/router';
 import { SummaryPage } from './summary-page';
 
 describe('SummaryPage', () => {
@@ -8,7 +8,8 @@ describe('SummaryPage', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SummaryPage]
+      imports: [SummaryPage],
+      providers: [provideRouter([])]
     })
     .compileComponents();
 
