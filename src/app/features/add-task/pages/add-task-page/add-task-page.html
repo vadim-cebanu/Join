@@ -1,7 +1,7 @@
 <section class="add-task-content" (click)="onBackdropClick($event)">
   <div class="add-task-content-container">
     <h2>Add Task</h2>
-    <form [formGroup]="taskForm" class="main-content" (ngSubmit)="formSubmit()">
+    <form [formGroup]="taskForm" class="main-content" (ngSubmit)="createAndSaveTask()">
       <div class="div-content">
         <div class="left-content">
           <div class="title-in-content">

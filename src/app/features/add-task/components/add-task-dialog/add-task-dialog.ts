@@ -136,9 +136,9 @@ export class AddTaskDialog implements OnInit {
    * Validates the form, assembles the task data and delegates to
    * {@link saveTaskAndCloseDialog}. Returns early if validation fails.
    */
-  async formSubmit(): Promise<void> {
-    if (!this.validateFormBeforeSubmit()) return;
-    const taskData = this.buildTaskDataFromForm();
+  async createAndSaveTask(): Promise<void> {
+    if (!this.ensureTaskFormIsValid()) return;
+    const taskData = this.assembleTaskPayload();
     await this.saveTaskAndCloseDialog(taskData);
   }
 
@@ -148,7 +148,7 @@ export class AddTaskDialog implements OnInit {
    *
    * @returns `true` if the form is valid and ready for submission; otherwise `false`.
    */
-  private validateFormBeforeSubmit(): boolean {
+  private ensureTaskFormIsValid(): boolean {
     if (this.taskForm.invalid) {
       Object.keys(this.taskForm.controls).forEach((key) => this.taskForm.get(key)?.markAsTouched());
       return false;
@@ -180,7 +180,7 @@ private buildAttachmentList(): { id: string; name: string; base64: string; type:
    *
    * @returns A fully populated task data object ready to be passed to {@link TaskStore.addTask}.
    */
-private buildTaskDataFromForm() {
+private assembleTaskPayload() {
   return {
     title: this.taskForm.value.title!,
     description: this.taskForm.value.description || undefined,
@@ -201,10 +201,10 @@ private buildTaskDataFromForm() {
    * Uses `skipReload = true` to avoid Angular change-detection errors inside dialogs.
    * Logs an error to the console if the store call fails or throws.
    *
-   * @param taskData The assembled task data produced by {@link buildTaskDataFromForm}.
+   * @param taskData The assembled task data produced by {@link assembleTaskPayload}.
    */
   private async saveTaskAndCloseDialog(
-    taskData: ReturnType<typeof this.buildTaskDataFromForm>,
+    taskData: ReturnType<typeof this.assembleTaskPayload>,
   ): Promise<void> {
     try {
       const createdTask = await this.taskStore.addTask(taskData, true);
