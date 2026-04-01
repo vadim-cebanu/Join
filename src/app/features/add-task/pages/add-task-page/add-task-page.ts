@@ -153,7 +153,6 @@ export class AddTaskPage implements OnInit {
       return false;
     }
     if (this.taskForm.value.type === 'Select task category') {
-      console.log('Please select a valid category');
       return false;
     }
     return true;

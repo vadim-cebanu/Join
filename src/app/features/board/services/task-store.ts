@@ -155,7 +155,6 @@ export class TaskStore {
   private resolveAuthContext(): { userId: string | undefined; isGuest: boolean } {
     const userId = this.supabase.currentUser()?.id;
     const isGuest = this.supabase.isGuest();
-    console.log('addTask called - userId:', userId, 'isGuest:', isGuest);
     return { userId, isGuest };
   }
 
