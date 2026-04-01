@@ -1,7 +1,9 @@
 <div class="column">
   <div class="column-header">
     <h2 class="column-title">{{ title }}</h2>
-    <button class="btn-card" *ngIf="title !== 'Done'" type="button" (click)="onAddTask()">+</button>
+    @if (title !== 'Done') {
+      <button class="btn-card" type="button" (click)="onAddTask()">+</button>
+    }
   </div>
   <div
     #dropListRef
@@ -16,28 +18,31 @@
     [ngClass]="{ 'drag-over': isDragOver }"
     class="task-list"
   >
-    <div
-      *ngFor="let task of tasks; let i = index"
-      cdkDrag
-      [cdkDragData]="task"
-      (cdkDragStarted)="onDragStarted($event)"
-      (cdkDragEnded)="onDragEnded($event)"
-      (click)="onTaskSelected(task)"
-      [ngClass]="{ dragging: draggedTaskIndex === i }"
-      class="draggable-task"
-      #taskElement
-    >
-      <app-task-card
-        (moveTo)="onMoveFromMenu($event)"
-        [menuOpen]="openMenuTaskId === task.id"
-        (menuToggle)="onMenuToggle($event)"
-        [task]="task"
+    @for (task of tasks; track task.id; let i = $index) {
+      <div
+        cdkDrag
+        [cdkDragData]="task"
+        (cdkDragStarted)="onDragStarted($event)"
+        (cdkDragEnded)="onDragEnded($event)"
+        (click)="onTaskSelected(task)"
+        [ngClass]="{ dragging: draggedTaskIndex === i }"
+        class="draggable-task"
+        #taskElement
       >
-      </app-task-card>
-    </div>
-    <div *ngIf="getEmptyMessage()" class="empty-message">
-      {{ getEmptyMessage() }}
-    </div>
+        <app-task-card
+          (moveTo)="onMoveFromMenu($event)"
+          [menuOpen]="openMenuTaskId === task.id"
+          (menuToggle)="onMenuToggle($event)"
+          [task]="task"
+        >
+        </app-task-card>
+      </div>
+    }
+    @if (getEmptyMessage()) {
+      <div class="empty-message">
+        {{ getEmptyMessage() }}
+      </div>
+    }
   </div>
 </div>
 <ng-template #previewContainer>

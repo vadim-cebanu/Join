@@ -41,10 +41,13 @@
         </div>
         <div class="wide-div"></div>
         <div class="wide-right">
-          <div class="wide-right__date" *ngIf="upcomingDeadline()">
-            {{ upcomingDeadline() | date: 'MMMM dd, yyyy' }}
-          </div>
-          <div class="wide-right__date" *ngIf="!upcomingDeadline()">No upcoming deadline</div>
+          @if (upcomingDeadline()) {
+            <div class="wide-right__date">
+              {{ upcomingDeadline() | date: 'MMMM dd, yyyy' }}
+            </div>
+          } @else {
+            <div class="wide-right__date">No upcoming deadline</div>
+          }
           <div class="wide-right__label">Upcoming Deadline</div>
         </div>
       </a>

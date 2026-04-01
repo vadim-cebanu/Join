@@ -23,24 +23,29 @@
             </button>
           </div>
         </header>
-        <div class="board" *ngIf="!isLoading">
-          <app-board-column
-            *ngFor="let column of columns"
-            [title]="column.title"
-            [tasks]="column.tasks"
-            [columnId]="column.status"
-            [connectedDropLists]="dropListIds"
-            [openMenuTaskId]="openMenuTaskId"
-            (menuToggleGlobal)="onMenuToggle($event)"
-            (taskSelected)="selectTask($event)"
-            (addClicked)="addTask(column.status)"
-            (taskDropped)="onTaskDropped($event)"
-            (moveTask)="onMoveTask($event)"
-          ></app-board-column>
-        </div>
-        <div class="no-results" *ngIf="!isLoading && searchQuery && !hasFilteredTasks">
-          <p>No match found!</p>
-        </div>
+        @if (!isLoading) {
+          <div class="board">
+            @for (column of columns; track column.status) {
+              <app-board-column
+                [title]="column.title"
+                [tasks]="column.tasks"
+                [columnId]="column.status"
+                [connectedDropLists]="dropListIds"
+                [openMenuTaskId]="openMenuTaskId"
+                (menuToggleGlobal)="onMenuToggle($event)"
+                (taskSelected)="selectTask($event)"
+                (addClicked)="addTask(column.status)"
+                (taskDropped)="onTaskDropped($event)"
+                (moveTask)="onMoveTask($event)"
+              ></app-board-column>
+            }
+          </div>
+        }
+        @if (!isLoading && searchQuery && !hasFilteredTasks) {
+          <div class="no-results">
+            <p>No match found!</p>
+          </div>
+        }
         @if (showTaskDetail && selectedTask) {
           <app-task-detail-dialog
             [task]="selectedTask"

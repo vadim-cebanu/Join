@@ -56,13 +56,15 @@
     >
       <img class="fab-img" src="assets/icons/Menu-Contact-options.png" alt="" />
     </button>
-    <div class="fab-menu" *ngIf="fabOpen">
-      <button type="button" class="fab-item" (click)="editContact(); closeFab()">
-        <span>Edit</span>
-      </button>
-      <button type="button" class="fab-item" (click)="deleteContact(); closeFab()">
-        <span>Delete</span>
-      </button>
-    </div>
+    @if (fabOpen) {
+      <div class="fab-menu">
+        <button type="button" class="fab-item" (click)="editContact(); closeFab()">
+          <span>Edit</span>
+        </button>
+        <button type="button" class="fab-item" (click)="deleteContact(); closeFab()">
+          <span>Delete</span>
+        </button>
+      </div>
+    }
   </div>
 }
