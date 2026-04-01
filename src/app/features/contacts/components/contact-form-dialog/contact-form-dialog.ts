@@ -137,9 +137,9 @@ export class ContactFormDialog {
     phone: ['', [Validators.required, noWhitespaceValidator, Validators.maxLength(20), phoneValidator]]
   });
 
-  get nameControl() { return this.contactForm.get('name')!; }
-  get emailControl() { return this.contactForm.get('email')!; }
-  get phoneControl() { return this.contactForm.get('phone')!; }
+  get nameField() { return this.contactForm.get('name')!; }
+  get emailField() { return this.contactForm.get('email')!; }
+  get phoneField() { return this.contactForm.get('phone')!; }
 
   /**
    * Extracts the first two initials from a full name.
@@ -325,7 +325,7 @@ export class ContactFormDialog {
     } else {
       const newContact = await this.supabase.addContact(contact);
       this.supabase.selectedContact.set(newContact);
-      this.contactPage.disappearSwitch(true);
+      this.contactPage.showNotificationBriefly(true);
     }
 
     // Trigger avatar reload in header
@@ -359,7 +359,7 @@ export class ContactFormDialog {
    */
   updatePhone(value: string) {
     const formatted = this.formatPhoneInput(value);
-    this.phoneControl.setValue(formatted, { emitEvent: false });
+    this.phoneField.setValue(formatted, { emitEvent: false });
   }
 
 

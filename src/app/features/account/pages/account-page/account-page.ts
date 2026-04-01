@@ -42,9 +42,9 @@ export class AccountPageComponent {
     this.accountForm.disable();
   }
 
-  get nameControl() { return this.accountForm.get('name')!; }
-  get emailControl() { return this.accountForm.get('email')!; }
-  get phoneControl() { return this.accountForm.get('phone')!; }
+  get nameField() { return this.accountForm.get('name')!; }
+  get emailField() { return this.accountForm.get('email')!; }
+  get phoneField() { return this.accountForm.get('phone')!; }
 
   /**
    * Extracts the first two initials from a full name.
@@ -134,7 +134,7 @@ export class AccountPageComponent {
 
     if (newEditMode) {
       this.accountForm.enable();
-      this.emailControl.disable();
+      this.emailField.disable();
     } else {
       this.accountForm.disable();
       this.loadUserData();

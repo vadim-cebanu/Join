@@ -22,9 +22,9 @@
             <div class="avatar-circle" [style.background]="getAvatarColor(supabase.selectedContact()!.name)">
               {{ getInitials(supabase.selectedContact()!.name) }}
             </div>
-          } @else if (!supabase.editMode() && nameControl.value) {
-            <div class="avatar-circle" [style.background]="getAvatarColor(nameControl.value)">
-              {{ getInitials(nameControl.value) }}
+          } @else if (!supabase.editMode() && nameField.value) {
+            <div class="avatar-circle" [style.background]="getAvatarColor(nameField.value)">
+              {{ getInitials(nameField.value) }}
             </div>
           } @else {
             <div class="avatar-default">
@@ -50,9 +50,9 @@
                 <div class="avatar-circle" [style.background]="getAvatarColor(supabase.selectedContact()!.name)">
                   {{ getInitials(supabase.selectedContact()!.name) }}
                 </div>
-              } @else if (!supabase.editMode() && nameControl.value) {
-                <div class="avatar-circle" [style.background]="getAvatarColor(nameControl.value)">
-                  {{ getInitials(nameControl.value) }}
+              } @else if (!supabase.editMode() && nameField.value) {
+                <div class="avatar-circle" [style.background]="getAvatarColor(nameField.value)">
+                  {{ getInitials(nameField.value) }}
                 </div>
               } @else {
                 <div class="avatar-default">
@@ -75,10 +75,10 @@
                 placeholder="Name"
                 formControlName="name"
                 maxlength="30"
-                [class.invalid]="nameControl.invalid && nameControl.touched"
+                [class.invalid]="nameField.invalid && nameField.touched"
               />
               <img class="form-icon" src="assets/icons/name.svg" alt="Person Icon" />
-              @if (nameControl.invalid && nameControl.touched) {
+              @if (nameField.invalid && nameField.touched) {
                 <span class="error">{{ getErrorMessage('name') }}</span>
               }
             </div>
@@ -88,10 +88,10 @@
                 placeholder="Email"
                 formControlName="email"
                 maxlength="30"
-                [class.invalid]="emailControl.invalid && emailControl.touched"
+                [class.invalid]="emailField.invalid && emailField.touched"
               />
               <img class="form-icon" src="assets/icons/mail.svg" alt="Person Icon" />
-              @if (emailControl.invalid && emailControl.touched) {
+              @if (emailField.invalid && emailField.touched) {
                 <span class="error">{{ getErrorMessage('email') }}</span>
               }
             </div>
@@ -103,10 +103,10 @@
                 maxlength="15"
                 (input)="updatePhone($any($event.target).value)"
                 (keypress)="onPhoneKeyPress($event)"
-                [class.invalid]="phoneControl.invalid && phoneControl.touched"
+                [class.invalid]="phoneField.invalid && phoneField.touched"
               />
               <img class="form-icon" src="assets/icons/phone.svg" alt="Person Icon" />
-              @if (phoneControl.invalid && phoneControl.touched) {
+              @if (phoneField.invalid && phoneField.touched) {
                 <span class="error">{{ getErrorMessage('phone') }}</span>
               }
             </div>
