@@ -146,6 +146,14 @@ button.header-links {
   z-index: 5;
 }
 
+@media (min-width: 1670px) {
+  .content {
+    max-width: 1210px;
+    left: 50%;
+    transform: translateX(calc(-50% + 115px));
+  }
+}
+
 @media (max-width: 1024px) {
   .content {
     left: 0;

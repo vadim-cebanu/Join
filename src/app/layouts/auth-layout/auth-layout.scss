@@ -10,6 +10,8 @@
   background: #f6f7f8;
   overflow-y: auto;
   position: relative;
+  max-width: 1440px;
+  margin: 0 auto;
 }
 
 .auth-top {
@@ -183,7 +185,7 @@
   99.9% {
     position: fixed;
     top: 15px;
-    left: 48px;
+    left: max(48px, calc((100vw - 1440px) / 2 + 48px));
     transform: translate(0, 0);
     opacity: 1;
   }
@@ -225,7 +227,8 @@
 
 @media (max-width: 768px) {
   .auth-shell {
-    animation: bgChangeMobile 1.9s;
+    background-color: #2a3647;
+    animation: bgChangeMobile 1.9s forwards;
   }
 
   .logo img {
