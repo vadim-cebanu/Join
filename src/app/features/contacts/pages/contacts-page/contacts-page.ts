@@ -24,7 +24,7 @@ export class ContactsPage {
    * When enabled, automatically hides after 3 seconds.
    * @param onOff - Whether to show or hide the notification.
    */
-  disappearSwitch(onOff: boolean) {
+  showNotificationBriefly(onOff: boolean) {
     this.showForm.set(onOff);
 
     if (onOff) {
