@@ -11,7 +11,7 @@
   overflow-y: auto;
   position: relative;
   max-width: 1440px;
-  margin: 0;
+  margin: 0 auto;
 }
 
 .auth-top {
@@ -185,7 +185,7 @@
   99.9% {
     position: fixed;
     top: 15px;
-    left:48px;
+    left: max(48px, calc((100vw - 1440px) / 2 + 48px));
     transform: translate(0, 0);
     opacity: 1;
   }
