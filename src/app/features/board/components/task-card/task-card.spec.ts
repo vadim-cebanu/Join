@@ -28,7 +28,7 @@ describe('TaskCard', () => {
 
     fixture = TestBed.createComponent(TaskCard);
     component = fixture.componentInstance;
-    component.task = mockTask;
+    fixture.componentRef.setInput('task', mockTask);
     fixture.detectChanges();
   });
 

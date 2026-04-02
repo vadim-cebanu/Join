@@ -1,4 +1,4 @@
-import {Component,EventEmitter,Output,inject,OnInit,ViewChild,ElementRef,computed,signal,HostListener,} from '@angular/core';
+import {Component, output, inject, OnInit, viewChild, ElementRef, computed, signal, HostListener} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {FormControl,FormGroup,ReactiveFormsModule,FormsModule,AbstractControl, ValidationErrors,Validators,ValidatorFn} from '@angular/forms';
 
@@ -52,9 +52,9 @@ interface Attachment {
   styleUrl: './add-task-dialog.scss',
 })
 export class AddTaskDialog implements OnInit {
-  @Output() closed = new EventEmitter<void>();
-  @ViewChild('searchInput') searchInputRef!: ElementRef<HTMLInputElement>;
-  @ViewChild('fileInput') fileInputRef!: ElementRef<HTMLInputElement>;
+  closed = output<void>();
+  searchInputRef = viewChild<ElementRef<HTMLInputElement>>('searchInput');
+  fileInputRef = viewChild<ElementRef<HTMLInputElement>>('fileInput');
 
   dropdownCategory = false;
   dropdownOpen = false;
@@ -275,7 +275,7 @@ private assembleTaskPayload() {
   toggleDropdown() {
     this.dropdownOpen = !this.dropdownOpen;
     if (this.dropdownOpen) {
-      setTimeout(() => this.searchInputRef?.nativeElement?.focus(), 0);
+      setTimeout(() => this.searchInputRef()?.nativeElement?.focus(), 0);
     }
   }
 
@@ -453,7 +453,7 @@ private assembleTaskPayload() {
    * Triggers the hidden file input to open the file picker.
    */
   triggerFileInput() {
-    this.fileInputRef?.nativeElement?.click();
+    this.fileInputRef()?.nativeElement?.click();
   }
 
   /**

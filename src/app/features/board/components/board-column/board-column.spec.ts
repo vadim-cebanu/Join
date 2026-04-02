@@ -14,6 +14,7 @@ describe('BoardColumn', () => {
 
     fixture = TestBed.createComponent(BoardColumn);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('columnId', 'todo');
     fixture.detectChanges();
   });
 

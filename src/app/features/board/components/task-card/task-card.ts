@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { Status, Task, TaskPriority } from '../../models/task.model';
 import { CommonModule } from '@angular/common';
 import { avatarColors } from '../../../contacts/components/contact-list/contact-list';
@@ -19,10 +19,10 @@ import { avatarColors } from '../../../contacts/components/contact-list/contact-
 })
 
 export class TaskCard {
-  @Input({ required: true }) task!: Task;
-  @Input() menuOpen = false;
-  @Output() menuToggle = new EventEmitter<string>();
-  @Output() moveTo = new EventEmitter<{ taskId: string; status: Status }>();
+  task = input.required<Task>();
+  menuOpen = input(false);
+  menuToggle = output<string>();
+  moveTo = output<{ taskId: string; status: Status }>();
 
   /**
    * Available status options for moving tasks.
@@ -41,7 +41,7 @@ export class TaskCard {
    * @returns Array of status options that the task can be moved to.
    */
   get moveTargets() {
-    return this.statusOptions.filter((option) => option.value !== this.task.status);
+    return this.statusOptions.filter((option) => option.value !== this.task().status);
   }
 
   /**
@@ -54,7 +54,7 @@ export class TaskCard {
    */
   onMove(status: Status, e?: Event): void {
     e?.stopPropagation();
-    this.moveTo.emit({ taskId: this.task.id, status });
+    this.moveTo.emit({ taskId: this.task().id, status });
   }
 
   /**
@@ -64,10 +64,11 @@ export class TaskCard {
    * @returns Count of subtasks where `done === true`.
    */
   get doneSubtasksCount(): number {
-    if (!Array.isArray(this.task.subtasks)) {
+    const task = this.task();
+    if (!Array.isArray(task.subtasks)) {
       return 0;
     }
-    return this.task.subtasks.filter((sub) => sub.done).length;
+    return task.subtasks.filter((sub) => sub.done).length;
   }
 
   /**
@@ -76,7 +77,8 @@ export class TaskCard {
    * @returns Total subtasks count (0 if none exist).
    */
   get totalSubtasksCount(): number {
-    return this.task.subtasks ? this.task.subtasks.length : 0;
+    const task = this.task();
+    return task.subtasks ? task.subtasks.length : 0;
   }
 
   /**
@@ -133,6 +135,6 @@ export class TaskCard {
    */
   toggleFab(e?: Event): void {
     e?.stopPropagation();
-    this.menuToggle.emit(this.task.id);
+    this.menuToggle.emit(this.task().id);
   }
 }

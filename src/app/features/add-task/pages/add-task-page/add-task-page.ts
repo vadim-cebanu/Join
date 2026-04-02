@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, ViewChild, ElementRef, computed, signal, HostListener } from '@angular/core';
+import { Component, inject, OnInit, viewChild, ElementRef, computed, signal, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import {FormControl,FormGroup,FormsModule,AbstractControl,ValidationErrors,ReactiveFormsModule,Validators,ValidatorFn,} from '@angular/forms';
@@ -53,8 +53,8 @@ interface Attachment {
 })
 
 export class AddTaskPage implements OnInit {
-  @ViewChild('searchInput') searchInputRef!: ElementRef<HTMLInputElement>;
-  @ViewChild('fileInput') fileInputRef!: ElementRef<HTMLInputElement>;
+  searchInputRef = viewChild<ElementRef<HTMLInputElement>>('searchInput');
+  fileInputRef = viewChild<ElementRef<HTMLInputElement>>('fileInput');
 
   dropdownCategory = false;
   dropdownOpen = false;
@@ -287,7 +287,7 @@ export class AddTaskPage implements OnInit {
   toggleDropdown() {
     this.dropdownOpen = !this.dropdownOpen;
     if (this.dropdownOpen) {
-      setTimeout(() => this.searchInputRef?.nativeElement?.focus(), 0);
+      setTimeout(() => this.searchInputRef()?.nativeElement?.focus(), 0);
     }
   }
 
@@ -435,7 +435,7 @@ export class AddTaskPage implements OnInit {
    * Triggers the hidden file input to open the file picker.
    */
   triggerFileInput() {
-    this.fileInputRef?.nativeElement?.click();
+    this.fileInputRef()?.nativeElement?.click();
   }
 
   /**

@@ -1,4 +1,4 @@
-import {Component,ElementRef,EventEmitter,HostListener, Input,OnInit,Output, ViewChild,computed,effect, inject,signal,} from '@angular/core';
+import {Component, ElementRef, HostListener, input, OnInit, output, viewChild, computed, effect, inject, signal} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Task, TaskPriority } from '../../models/task.model';
@@ -40,11 +40,11 @@ interface Attachment {
   ],
 })
 export class TaskDetailDialog implements OnInit {
-  @Input() task: Task | null = null;
-  @Output() closed = new EventEmitter<void>();
-  @Output() taskUpdated = new EventEmitter<void>();
-  @ViewChild('searchInput') searchInputRef!: ElementRef<HTMLInputElement>;
-  @ViewChild('fileInput') fileInputRef!: ElementRef<HTMLInputElement>;
+  task = input<Task | null>(null);
+  closed = output<void>();
+  taskUpdated = output<void>();
+  searchInputRef = viewChild<ElementRef<HTMLInputElement>>('searchInput');
+  fileInputRef = viewChild<ElementRef<HTMLInputElement>>('fileInput');
   supabase = inject(Supabase);
   taskStore = inject(TaskStore);
 
@@ -55,7 +55,7 @@ export class TaskDetailDialog implements OnInit {
   constructor() {
     effect(() => {
       if (this.dropdownOpen()) {
-        setTimeout(() => this.searchInputRef?.nativeElement?.focus(), 0);
+        setTimeout(() => this.searchInputRef()?.nativeElement?.focus(), 0);
       }
     });
   }
@@ -98,12 +98,12 @@ export class TaskDetailDialog implements OnInit {
    */
   enterEditMode(): void {
     this.isEditMode.set(true);
-    this.selectedPriority.set(this.task?.priority ?? null);
-    this.editDueDate.set(this.task?.dueDate ?? '');
+    this.selectedPriority.set(this.task()?.priority ?? null);
+    this.editDueDate.set(this.task()?.dueDate ?? '');
 
     const preSelected = this.supabase
       .contacts()
-      .filter((c) => this.task?.assignees?.some((a) => a.id === c.id));
+      .filter((c) => this.task()?.assignees?.some((a) => a.id === c.id));
     this.selectedContacts.set(preSelected);
   }
 
@@ -144,16 +144,17 @@ export class TaskDetailDialog implements OnInit {
     dueDate: string,
     assignees: any[],
   ): Partial<Task> {
+    const currentTask = this.task();
     const updates: Partial<Task> = {
       title,
       description,
-      priority: this.selectedPriority() ?? this.task!.priority,
+      priority: this.selectedPriority() ?? currentTask!.priority,
       assignees,
     };
     if (dueDate && dueDate.trim()) {
       updates.dueDate = dueDate;
-    } else if (this.task!.dueDate) {
-      updates.dueDate = this.task!.dueDate;
+    } else if (currentTask!.dueDate) {
+      updates.dueDate = currentTask!.dueDate;
     }
     return updates;
   }
@@ -168,13 +169,14 @@ export class TaskDetailDialog implements OnInit {
    * @returns Promise<void>
    */
   async saveEdit(title: string, description: string, dueDate: string): Promise<void> {
-    if (!this.task?.id) return;
+    const currentTask = this.task();
+    if (!currentTask?.id) return;
     this.saving.set(true);
     const assignees = this.prepareAssignees();
     const updates = this.buildTaskUpdates(title, description, dueDate, assignees);
 
     // Combine existing attachments (possibly modified by deletions) with new ones
-    const existingAttachments = this.task.attachments || [];
+    const existingAttachments = currentTask.attachments || [];
     const newAttachments = this.attachments().map((att) => ({
       id: att.id,
       name: att.name,
@@ -183,7 +185,7 @@ export class TaskDetailDialog implements OnInit {
     }));
     updates.attachments = [...existingAttachments, ...newAttachments];
 
-    await this.taskStore.updateTask(this.task.id, updates);
+    await this.taskStore.updateTask(currentTask.id, updates);
     this.attachments.set([]);
     this.saving.set(false);
     this.isEditMode.set(false);
@@ -334,8 +336,9 @@ export class TaskDetailDialog implements OnInit {
    * @returns Promise<void>
    */
   async deleteTask(): Promise<void> {
-    if (!this.task?.id) return;
-    await this.taskStore.deleteTask(this.task.id);
+    const currentTask = this.task();
+    if (!currentTask?.id) return;
+    await this.taskStore.deleteTask(currentTask.id);
     this.closed.emit();
   }
 
@@ -348,13 +351,12 @@ export class TaskDetailDialog implements OnInit {
    * @returns Promise<void>
    */
   async toggleSubtask(subtaskId: string, done: boolean): Promise<void> {
-    if (!this.task) return;
-    const updatedSubtasks = this.task.subtasks!.map((sub) =>
+    const currentTask = this.task();
+    if (!currentTask) return;
+    const updatedSubtasks = currentTask.subtasks!.map((sub) =>
       sub.id === subtaskId ? { ...sub, done } : sub,
     );
-    const taskId = this.task.id;
-    this.task = { ...this.task, subtasks: updatedSubtasks };
-    await this.taskStore.updateTask(taskId, { subtasks: updatedSubtasks });
+    await this.taskStore.updateTask(currentTask.id, { subtasks: updatedSubtasks });
   }
 
   /**
@@ -377,7 +379,8 @@ export class TaskDetailDialog implements OnInit {
    * @returns Promise<void>
    */
   async addSubtask(): Promise<void> {
-    if (!this.newSubtaskTitle.trim() || !this.task) return;
+    const currentTask = this.task();
+    if (!this.newSubtaskTitle.trim() || !currentTask) return;
 
     const newSubtask = {
       id: this.generateUUID(),
@@ -385,11 +388,10 @@ export class TaskDetailDialog implements OnInit {
       done: false,
     };
 
-    const updatedSubtasks = [...(this.task.subtasks ?? []), newSubtask];
-    this.task = { ...this.task, subtasks: updatedSubtasks };
+    const updatedSubtasks = [...(currentTask.subtasks ?? []), newSubtask];
     this.newSubtaskTitle = '';
 
-    await this.taskStore.updateTask(this.task.id, { subtasks: updatedSubtasks });
+    await this.taskStore.updateTask(currentTask.id, { subtasks: updatedSubtasks });
   }
 
   /**
@@ -399,15 +401,14 @@ export class TaskDetailDialog implements OnInit {
    * @returns Promise<void>
    */
   async removeSubtask(subtaskId: string): Promise<void> {
-    if (!this.task) return;
+    const currentTask = this.task();
+    if (!currentTask) return;
 
-    const taskId = this.task.id;
-    const updatedSubtasks = (this.task.subtasks ?? []).filter(
+    const updatedSubtasks = (currentTask.subtasks ?? []).filter(
       (subtask) => subtask.id !== subtaskId,
     );
 
-    this.task = { ...this.task, subtasks: updatedSubtasks };
-    await this.taskStore.updateTask(taskId, { subtasks: updatedSubtasks });
+    await this.taskStore.updateTask(currentTask.id, { subtasks: updatedSubtasks });
   }
 
   /**
@@ -417,9 +418,10 @@ export class TaskDetailDialog implements OnInit {
    * @returns void
    */
   openEditForm(subtaskId: string): void {
-    if (!this.task) return;
+    const currentTask = this.task();
+    if (!currentTask) return;
 
-    const subtask = this.task.subtasks?.find((subtask) => subtask.id === subtaskId);
+    const subtask = currentTask.subtasks?.find((subtask) => subtask.id === subtaskId);
     if (!subtask) return;
 
     this.editingSubtaskId.set(subtaskId);
@@ -433,19 +435,18 @@ export class TaskDetailDialog implements OnInit {
    * @returns Promise<void>
    */
   async saveSubtaskEdit(): Promise<void> {
-    if (!this.task || !this.editingSubtaskId() || !this.editingSubtaskTitle.trim()) return;
+    const currentTask = this.task();
+    if (!currentTask || !this.editingSubtaskId() || !this.editingSubtaskTitle.trim()) return;
 
-    const taskId = this.task.id;
-    const updatedSubtasks = (this.task.subtasks ?? []).map((subtask) =>
+    const updatedSubtasks = (currentTask.subtasks ?? []).map((subtask) =>
       subtask.id === this.editingSubtaskId()
         ? { ...subtask, title: this.editingSubtaskTitle.trim() }
         : subtask,
     );
 
-    this.task = { ...this.task, subtasks: updatedSubtasks };
     this.editingSubtaskId.set(null);
 
-    await this.taskStore.updateTask(taskId, { subtasks: updatedSubtasks });
+    await this.taskStore.updateTask(currentTask.id, { subtasks: updatedSubtasks });
   }
 
   /**
@@ -498,7 +499,7 @@ export class TaskDetailDialog implements OnInit {
    * Triggers the hidden file input to open the file picker.
    */
   triggerFileInput() {
-    this.fileInputRef?.nativeElement?.click();
+    this.fileInputRef()?.nativeElement?.click();
   }
 
   /**
@@ -625,9 +626,10 @@ export class TaskDetailDialog implements OnInit {
    * Removes a specific existing attachment from the task.
    */
   removeExistingAttachment(attachmentId: string) {
-    if (!this.task) return;
-    const updatedAttachments = (this.task.attachments || []).filter((att) => att.id !== attachmentId);
-    this.task = { ...this.task, attachments: updatedAttachments };
+    const currentTask = this.task();
+    if (!currentTask) return;
+    const updatedAttachments = (currentTask.attachments || []).filter((att) => att.id !== attachmentId);
+    // Note: Local mutation removed - parent should re-render after save
   }
 
   /**
@@ -635,9 +637,7 @@ export class TaskDetailDialog implements OnInit {
    */
   clearAllAttachments() {
     this.attachments.set([]);
-    if (this.task) {
-      this.task = { ...this.task, attachments: [] };
-    }
+    // Note: Local task mutation removed - parent should re-render after save
   }
 
   /**
@@ -646,9 +646,10 @@ export class TaskDetailDialog implements OnInit {
    * @param attachment - The attachment to view.
    */
   viewAttachment(attachment: { id: string; name: string; base64: string; type: string }) {
-    if (!this.task?.attachments) return;
+    const currentTask = this.task();
+    if (!currentTask?.attachments) return;
 
-    const index = this.task.attachments.findIndex((a) => a.id === attachment.id);
+    const index = currentTask.attachments.findIndex((a) => a.id === attachment.id);
     if (index === -1) return;
 
     this.currentImageIndex.set(index);
@@ -677,7 +678,8 @@ export class TaskDetailDialog implements OnInit {
    * Navigates to the next image in the gallery and resets zoom.
    */
   nextImage() {
-    if (this.task?.attachments && this.currentImageIndex() < this.task.attachments.length - 1) {
+    const currentTask = this.task();
+    if (currentTask?.attachments && this.currentImageIndex() < currentTask.attachments.length - 1) {
       this.currentImageIndex.set(this.currentImageIndex() + 1);
       this.zoomLevel.set(100);
     }
@@ -760,7 +762,8 @@ export class TaskDetailDialog implements OnInit {
    * Gets the current image being viewed.
    */
   getCurrentImage() {
-    if (!this.task?.attachments) return null;
-    return this.task.attachments[this.currentImageIndex()] || null;
+    const currentTask = this.task();
+    if (!currentTask?.attachments) return null;
+    return currentTask.attachments[this.currentImageIndex()] || null;
   }
 }

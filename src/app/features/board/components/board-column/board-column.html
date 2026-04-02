@@ -1,24 +1,24 @@
 <div class="column">
   <div class="column-header">
-    <h2 class="column-title">{{ title }}</h2>
-    @if (title !== 'Done') {
+    <h2 class="column-title">{{ title() }}</h2>
+    @if (title() !== 'Done') {
       <button class="btn-card" type="button" (click)="onAddTask()">+</button>
     }
   </div>
   <div
     #dropListRef
-    [cdkDropListData]="tasks"
+    [cdkDropListData]="tasks()"
     [cdkDropListDisabled]="false"
     cdkDropList
-    [id]="columnId"
-    [cdkDropListConnectedTo]="connectedDropLists"
+    [id]="columnId()"
+    [cdkDropListConnectedTo]="connectedDropLists()"
     (cdkDropListDropped)="onDrop($event)"
     (cdkDropListEntered)="onDropListEntered()"
     (cdkDropListExited)="onDropListExited()"
     [ngClass]="{ 'drag-over': isDragOver }"
     class="task-list"
   >
-    @for (task of tasks; track task.id; let i = $index) {
+    @for (task of tasks(); track task.id; let i = $index) {
       <div
         cdkDrag
         [cdkDragData]="task"
@@ -31,7 +31,7 @@
       >
         <app-task-card
           (moveTo)="onMoveFromMenu($event)"
-          [menuOpen]="openMenuTaskId === task.id"
+          [menuOpen]="openMenuTaskId() === task.id"
           (menuToggle)="onMenuToggle($event)"
           [task]="task"
         >

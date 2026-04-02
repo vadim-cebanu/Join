@@ -1,4 +1,4 @@
-import {Component, inject,EventEmitter,Input,Output, ViewChild, ViewChildren,QueryList,ElementRef, TemplateRef, ChangeDetectorRef,ChangeDetectionStrategy,} from '@angular/core';
+import {Component, inject, input, output, viewChild, viewChildren, QueryList, ElementRef, TemplateRef, ChangeDetectorRef, ChangeDetectionStrategy} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {CdkDrag,CdkDropList,CdkDragDrop,moveItemInArray,transferArrayItem,DragDropModule,} from '@angular/cdk/drag-drop';
 import { Supabase } from '../../../../supabase';
@@ -24,24 +24,24 @@ import { TaskCard } from '../task-card/task-card';
 })
 
 export class BoardColumn {
-  @Input() title = '';
-  @Input() tasks: Task[] = [];
-  @Input() columnId!: Status;
+  title = input('');
+  tasks = input<Task[]>([]);
+  columnId = input.required<Status>();
 
   /**
    * IDs of connected drop lists, enabling cross-column dragging.
    * Defaults to the standard board columns.
    */
-  @Input() connectedDropLists: string[] = ['todo', 'inProgress', 'awaitFeedback', 'done'];
-  @Output() taskSelected = new EventEmitter<Task>();
-  @Output() addClicked = new EventEmitter<void>();
-  @Output() taskDropped = new EventEmitter<{ task: Task; newStatus: Status }>();
-  @Output() moveTask = new EventEmitter<{ taskId: string; status: Status }>();
-  @Input() openMenuTaskId: string | null = null;
-  @Output() menuToggleGlobal = new EventEmitter<string>();
-  @ViewChild(CdkDropList) dropList!: CdkDropList<Task[]>;
-  @ViewChildren('taskElement') taskElements!: QueryList<ElementRef>;
-  @ViewChild('previewContainer', { read: TemplateRef }) previewTemplate!: TemplateRef<any>;
+  connectedDropLists = input<string[]>(['todo', 'inProgress', 'awaitFeedback', 'done']);
+  taskSelected = output<Task>();
+  addClicked = output<void>();
+  taskDropped = output<{ task: Task; newStatus: Status }>();
+  moveTask = output<{ taskId: string; status: Status }>();
+  openMenuTaskId = input<string | null>(null);
+  menuToggleGlobal = output<string>();
+  dropList = viewChild.required(CdkDropList<Task[]>);
+  taskElements = viewChildren<ElementRef>('taskElement');
+  previewTemplate = viewChild.required('previewContainer', { read: TemplateRef });
 
   private supabase = inject(Supabase);
   private cdr = inject(ChangeDetectorRef);
@@ -99,7 +99,7 @@ export class BoardColumn {
    * @param event        The drag & drop event from Angular CDK.
    */
   private transferTaskToNewColumn(droppedTask: Task, event: CdkDragDrop<Task[]>): void {
-    droppedTask.status = this.columnId;
+    droppedTask.status = this.columnId();
     transferArrayItem(
       event.previousContainer.data,
       event.container.data,
@@ -107,7 +107,7 @@ export class BoardColumn {
       event.currentIndex,
     );
     this.updateTaskStatus(droppedTask);
-    this.taskDropped.emit({ task: droppedTask, newStatus: this.columnId });
+    this.taskDropped.emit({ task: droppedTask, newStatus: this.columnId() });
   }
 
   /**
@@ -204,7 +204,7 @@ export class BoardColumn {
    * @returns A string message if empty; otherwise an empty string.
    */
   getEmptyMessage(): string {
-    return this.tasks.length === 0 ? `No tasks in ${this.title}` : '';
+    return this.tasks().length === 0 ? `No tasks in ${this.title()}` : '';
   }
 
   /**
@@ -215,7 +215,7 @@ export class BoardColumn {
    * @returns void
    */
   onMoveFromMenu(event: { taskId: string; status: Status }): void {
-    if (event.status === this.columnId) {
+    if (event.status === this.columnId()) {
       return;
     }
     this.moveTask.emit(event);

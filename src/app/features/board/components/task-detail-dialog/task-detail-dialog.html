@@ -7,23 +7,23 @@
       <section class="content">
         <span
           class="view-badge"
-          [style.background-color]="task?.type === 'Technical Task' ? '#1FD7C1' : '#0038FF'"
-          >{{ task?.type }}</span
+          [style.background-color]="task()?.type === 'Technical Task' ? '#1FD7C1' : '#0038FF'"
+          >{{ task()?.type }}</span
         >
         <div class="view-scroll">
-          <h2 class="view-title">{{ task?.title }}</h2>
-          @if (task?.description) {
-            <p class="view-description">{{ task?.description }}</p>
+          <h2 class="view-title">{{ task()?.title }}</h2>
+          @if (task()?.description) {
+            <p class="view-description">{{ task()?.description }}</p>
           }
           <div class="view-row">
             <span class="view-label">Due date:</span>
-            @if (task?.dueDate) {
-              @if (isOverdue(task!.dueDate)) {
+            @if (task()?.dueDate) {
+              @if (isOverdue(task()!.dueDate)) {
                 <span style="color: #ff3d00; font-weight: 500"
-                  >{{ task!.dueDate | date: 'dd/MM/yyyy' }} (Overdue)</span
+                  >{{ task()!.dueDate | date: 'dd/MM/yyyy' }} (Overdue)</span
                 >
               } @else {
-                <span>{{ task!.dueDate | date: 'dd/MM/yyyy' }}</span>
+                <span>{{ task()!.dueDate | date: 'dd/MM/yyyy' }}</span>
               }
             } @else {
               <span style="color: #999">No due date</span>
@@ -32,7 +32,7 @@
           <div class="view-row">
             <span class="view-label">Priority:</span>
             <span class="view-priority">
-              @switch (task?.priority) {
+              @switch (task()?.priority) {
                 @case ('high') {
                   Urgent
                   <img src="assets/icons/urgent.svg" alt="Urgent" />
@@ -48,10 +48,10 @@
               }
             </span>
           </div>
-          @if (task?.assignees?.length) {
+          @if (task()?.assignees?.length) {
             <div class="view-section">
               <span class="view-label">Assigned To:</span>
-              @for (a of task!.assignees; track a.id) {
+              @for (a of task()!.assignees; track a.id) {
                 <div class="view-assignee">
                   <div
                     class="assigned-avatar"
@@ -64,11 +64,11 @@
               }
             </div>
           }
-          @if (task?.attachments?.length) {
+          @if (task()?.attachments?.length) {
             <div class="view-section">
               <span class="view-label">Attachments</span>
               <div class="attachments-view-grid" id="attachments-gallery">
-                @for (attachment of task!.attachments; track attachment.id) {
+                @for (attachment of task()!.attachments; track attachment.id) {
                   <div class="attachment-view-item" (click)="viewAttachment(attachment)">
                     <img [src]="attachment.base64" [alt]="attachment.name" class="attachment-preview" />
                     <div class="attachment-name">{{ attachment.name }}</div>
@@ -77,10 +77,10 @@
               </div>
             </div>
           }
-          @if (task?.subtasks?.length) {
+          @if (task()?.subtasks?.length) {
             <div class="view-section">
               <span class="view-label">Subtasks</span>
-              @for (sub of task!.subtasks; track sub.id) {
+              @for (sub of task()!.subtasks; track sub.id) {
                 <div class="view-subtask">
                   <input
                     type="checkbox"
@@ -119,7 +119,7 @@
               type="text"
               id="title"
               name="title"
-              [value]="task?.title"
+              [value]="task()?.title"
             />
           </div>
           <div class="dialog-fields">
@@ -129,7 +129,7 @@
               class="input-description input"
               id="description"
               name="description"
-              >{{ task?.description }}</textarea
+              >{{ task()?.description }}</textarea
             >
           </div>
           <div class="dialog-fields">
@@ -184,7 +184,7 @@
             <label class="input-label">Attachments</label>
             <div class="subtitle-attachments">
               <p>Allowed file types are JPEG and PNG</p>
-              @if (attachments().length > 0 || task?.attachments?.length) {
+              @if (attachments().length > 0 || task()?.attachments?.length) {
                 <button type="button" class="delete-all-btn" (click)="clearAllAttachments()">
                   <img src="assets/icons/trash.svg" alt="Delete" /> Delete all
                 </button>
@@ -213,10 +213,10 @@
               <img src="assets/icons/add.svg" class="upload-icon" alt="Upload" />
             </button>
 
-            @if (task?.attachments?.length || attachments().length > 0) {
+            @if (task()?.attachments?.length || attachments().length > 0) {
               <div class="attachments-grid">
-                @if (task?.attachments?.length) {
-                  @for (attachment of task!.attachments; track attachment.id) {
+                @if (task()?.attachments?.length) {
+                  @for (attachment of task()!.attachments; track attachment.id) {
                     <div class="attachment-item">
                       <img [src]="attachment.base64" [alt]="attachment.name" class="attachment-preview" />
                       <button
@@ -352,7 +352,7 @@
               </button>
             </div>
             <aside class="subtask-list">
-              @for (sub of task!.subtasks; track sub.id) {
+              @for (sub of task()!.subtasks; track sub.id) {
                 @if (editingSubtaskId() === sub.id) {
                   <div class="edit-input input">
                     <input
@@ -458,7 +458,7 @@
 
           <button
             class="viewer-nav-btn viewer-next-btn"
-            [disabled]="currentImageIndex() === (task?.attachments?.length || 1) - 1"
+            [disabled]="currentImageIndex() === (task()?.attachments?.length || 1) - 1"
             (click)="nextImage()"
             title="Next (→)"
           >

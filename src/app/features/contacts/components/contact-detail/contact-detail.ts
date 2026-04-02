@@ -1,4 +1,4 @@
-import { Component, inject, Output, EventEmitter } from '@angular/core';
+import { Component, inject, output } from '@angular/core';
 import { Supabase } from '../../../../supabase';
 import { CommonModule } from '@angular/common';
 import { HostListener } from '@angular/core';
@@ -18,7 +18,7 @@ export class ContactDetail {
   supabase = inject(Supabase);
   fabOpen = false;
 
-  @Output() closeDetail = new EventEmitter<void>();
+  closeDetail = output<void>();
 
   /**
    * Extracts the first two initials from a full name.
