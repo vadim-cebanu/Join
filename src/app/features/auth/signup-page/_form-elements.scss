@@ -27,14 +27,16 @@
   }
 
   .error-wrap {
-    min-height: 28px;
+    min-height: auto;
   }
 
   .error {
     display: block;
-    padding-top: 6px;
+    padding-top: 4px;
+    padding-left: 2px;
     color: #e60026;
-    font-size: 16px;
+    font-size: 14px;
+    line-height: 1.3;
   }
 }
 

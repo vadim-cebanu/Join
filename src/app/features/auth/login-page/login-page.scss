@@ -64,11 +64,8 @@ input.input-error {
 }
 
 .error-wrap {
-  min-height: 28px;
+  min-height: 16px;
 
-  &--lg {
-    min-height: 46px;
-  }
 }
 
 .error {
@@ -241,13 +238,16 @@ button:disabled {
 }
 @media screen and (max-width: 360px) {
   .login-card {
-    padding: 35px 20px;
+    padding: 24px 20px;
   }
   input {
     font-size: 16px;
   }
   .error {
     font-size: 16px;
+  }
+  .error-wrap{
+    min-height: 16px;
   }
 }
 

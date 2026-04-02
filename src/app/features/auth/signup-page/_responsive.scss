@@ -58,6 +58,10 @@
   .card-header > h1 {
     font-size: 30px;
   }
+
+  .form-group .error-wrap {
+    min-height: 10px !important;
+  }
 }
 
 @media screen and (max-width: 360px) {
@@ -80,4 +84,9 @@
   .form-check label .read-required {
     font-size: 16px;
   }
+
+  .form-group .error-wrap {
+    min-height: 10px !important;
+  }
 }
+
