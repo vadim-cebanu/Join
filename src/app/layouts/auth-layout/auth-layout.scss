@@ -136,12 +136,20 @@
     width: 64px;
     height: 80px;
   }
+
+  .auth-footer {
+    padding: 10px 12px;
+  }
 }
 
 @media (max-width: 400px) {
   img {
     width: 42px;
     height: 54px;
+  }
+
+  .auth-footer {
+    padding: 10px 12px;
   }
 }
 
