@@ -62,8 +62,14 @@ input[type='date'] {
 
 .main-content {
   .title-in-content,
+  .due-date-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-height: 118px;
+  }
+
   .description-in-content,
-  .due-date-content,
   .assigned-to-content,
   .category-content,
   .subtask-content {
@@ -72,7 +78,6 @@ input[type='date'] {
     gap: 8px;
   }
 
-  .title-in-content,
   .description-in-content {
     padding-bottom: 32px;
   }
@@ -118,6 +123,16 @@ input[type='date'] {
 
   input.invalid {
     border: 2px solid #e60026;
+  }
+
+  .title-in-content,
+  .due-date-content {
+    .if {
+      height: 25px;
+      color: #e60026;
+      margin: 0;
+      display: block;
+    }
   }
 
   .if {
