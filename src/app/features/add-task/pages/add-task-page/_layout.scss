@@ -64,8 +64,16 @@
     }
 
     .title-in-content,
+    .due-date-content {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      box-sizing: border-box;
+      min-height: 115px;
+    }
+
     .description-in-content,
-    .due-date-content,
     .assigned-to-content,
     .attachments-to-content,
     .category-content,
