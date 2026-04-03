@@ -5,8 +5,12 @@
 }
 
 @media screen and (max-width: 480px) {
+ .card-header > h1 {
+    font-size: 32px;
+  }
+
   .signup-card {
-    padding: 28px 18px;
+    padding: 8px 18px;
   }
 
   .form-group input:not([type='checkbox']) {
@@ -14,7 +18,11 @@
   }
 
   .form-group .error {
-    font-size: 16px;
+    font-size: 14px;
+  }
+
+  .form-group .error-wrap {
+    min-height: 24px !important;
   }
 
   .form-check label {
@@ -44,7 +52,7 @@
   }
 
   .signup-card {
-    padding: 18px 18px;
+    padding: 8px 18px;
   }
 
   .form-actions {
@@ -60,13 +68,13 @@
   }
 
   .form-group .error-wrap {
-    min-height: 10px !important;
+    min-height: 24px !important;
   }
 }
 
 @media screen and (max-width: 360px) {
   .signup-card {
-    padding: 24px 14px;
+    padding: 24px 14px 0;
   }
 
   .form-group input:not([type='checkbox']) {
@@ -74,11 +82,11 @@
   }
 
   .form-group .error {
-    font-size: 16px;
+    font-size: 14px;
   }
 
   .form-check label {
-    font-size: 16px;
+    font-size: 14px;
   }
 
   .form-check label .read-required {
@@ -86,7 +94,7 @@
   }
 
   .form-group .error-wrap {
-    min-height: 10px !important;
+    min-height: 16px !important;
   }
 }
 

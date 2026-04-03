@@ -4,7 +4,7 @@
 
   input:not([type='checkbox']) {
     width: 100%;
-    padding: 10px 14px;
+    padding: 8px 14px;
     padding-right: 48px;
     border-radius: 10px;
     border: 1px solid #d1d1d1;
@@ -27,7 +27,7 @@
   }
 
   .error-wrap {
-    min-height: 20px;
+    min-height: 24px;
   }
 
   .error {
